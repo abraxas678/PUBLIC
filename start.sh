@@ -277,39 +277,39 @@ mount_choice() {
     echo "checking mount"
     sleep 1
     done
+
+    
+    mkdir /home/abrax/.config -p
+    [[ ! -f /home/abrax/.config/sync.txt ]] && cp /home/mnt/snas/setup/sync.txt /home/abrax/.config/
+    mkdir -p /home/abrax/.config/rclone/
+    [[ ! -f /home/abrax/.config/rclone/rclone.conf ]] && cp /home/mnt/snas/setup/rclone.conf /home/abrax/.config/rclone/
+    [[ ! -f /home/abrax/bin/sync.sh ]] && cp /home/mnt/snas/setup/sync.sh /home/abrax/bin/
+    [[ ! -f /home/abrax/bin/age ]] && cp /home/mnt/snas/setup/age /home/abrax/bin/
+    echo
+    echo chmod +x bin
+    
+    chmod +x /home/abrax/bin/*
+    if [[ ! -f /home/abrax/.config/rclone/rclone.conf ]]; then
+    header1 'execute   curl -s -T ~/.config/rclone/rclone.conf "pcopy.dmw.zone/rc?t=3m"'
+    echo
+    read -p BUTTON me
+    curl -L pcopy.dmw.zone/rc -o ~/.config/rclone/rclone.conf
+    COUNT=$(rclone listremotes | wc -l)
+    [[ $COUNT > "100" ]] && echo "rclone.conf: OK"
+    fi
+    
+    rclone copy snas:mutagen/.ssh ~/.ssh -P --progress-terminal-title --stats-one-line
+    rclone copy snas:mutagen/bin/sync.sh ~/bin/ -P --progress-terminal-title --stats-one-line
+    rclone copy snas:mutagen/bin/header.sh ~/bin/ -P --progress-terminal-title --stats-one-line
+    rclone copy snas:mutagen/bin/uni.sh ~/bin/ -P --progress-terminal-title --stats-one-line
+    rclone copy snas:mutagen/.config/sync.txt ~/.config/ -P --progress-terminal-title --stats-one-line
+    sudo chmod +x ~/bin/*
+    #sudo apt install -y python3-rich_cli
+    #export RCLONE_PASSWORD_COMMAND="ssh abraxas@snas cat /volume2/mutagen/.ssh/rclonepw.sh | bash"
+    echo
+    header1 sync.sh --skip --force
+    /home/abrax/bin/sync.sh --skip --force
 }
-
-mkdir /home/abrax/.config -p
-[[ ! -f /home/abrax/.config/sync.txt ]] && cp /home/mnt/snas/setup/sync.txt /home/abrax/.config/
-mkdir -p /home/abrax/.config/rclone/
-[[ ! -f /home/abrax/.config/rclone/rclone.conf ]] && cp /home/mnt/snas/setup/rclone.conf /home/abrax/.config/rclone/
-[[ ! -f /home/abrax/bin/sync.sh ]] && cp /home/mnt/snas/setup/sync.sh /home/abrax/bin/
-[[ ! -f /home/abrax/bin/age ]] && cp /home/mnt/snas/setup/age /home/abrax/bin/
-echo
-echo chmod +x bin
-
-chmod +x /home/abrax/bin/*
-if [[ ! -f /home/abrax/.config/rclone/rclone.conf ]]; then
-header1 'execute   curl -s -T ~/.config/rclone/rclone.conf "pcopy.dmw.zone/rc?t=3m"'
-echo
-read -p BUTTON me
-curl -L pcopy.dmw.zone/rc -o ~/.config/rclone/rclone.conf
-COUNT=$(rclone listremotes | wc -l)
-[[ $COUNT > "100" ]] && echo "rclone.conf: OK"
-fi
-
-rclone copy snas:mutagen/.ssh ~/.ssh -P --progress-terminal-title --stats-one-line
-rclone copy snas:mutagen/bin/sync.sh ~/bin/ -P --progress-terminal-title --stats-one-line
-rclone copy snas:mutagen/bin/header.sh ~/bin/ -P --progress-terminal-title --stats-one-line
-rclone copy snas:mutagen/bin/uni.sh ~/bin/ -P --progress-terminal-title --stats-one-line
-rclone copy snas:mutagen/.config/sync.txt ~/.config/ -P --progress-terminal-title --stats-one-line
-sudo chmod +x ~/bin/*
-#sudo apt install -y python3-rich_cli
-#export RCLONE_PASSWORD_COMMAND="ssh abraxas@snas cat /volume2/mutagen/.ssh/rclonepw.sh | bash"
-echo
-header1 sync.sh --skip --force
-/home/abrax/bin/sync.sh --skip --force
-
 # Source start2.sh script
 #echo
 #echo "STARTING START2.SH"
