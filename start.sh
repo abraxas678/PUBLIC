@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 cd $HOME
-echo version: NEWv0.93
+echo version: NEWv0.94
 read -t 2 me
 echo
 check_dns() {
@@ -124,6 +124,7 @@ git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 
 installme curl
+installme unzip
 installme wget
 installme nfs-common
 installme rclone
