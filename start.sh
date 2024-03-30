@@ -29,7 +29,6 @@ if [[ "$(hostname)" -eq "lenovo" ]]; then
   curl -L machine.yyps.de >machine.sh
   chmod +x machine.sh
   ./machine.sh
-  [[ $? = "0" ]] && sudo reboot -f
 fi
 
 read -p "RCLONE_CONFIG_PASS >> " MYPW
