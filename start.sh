@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 cd $HOME
-echo version: NEWv0.91
+echo version: NEWv0.92
 read -t 2 me
 echo
 check_dns() {
@@ -28,7 +28,7 @@ if [[ "$(hostname)" -eq "lenovo" ]]; then
   cd $HOME
   curl -L machine.yyps.de >machine.sh
   chmod +x machine.sh
-  machine.sh
+  ./machine.sh
   [[ $? = "0" ]] && sudo reboot -f
 fi
 
