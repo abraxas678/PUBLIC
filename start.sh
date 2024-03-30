@@ -31,8 +31,6 @@ if [[ "$(hostname)" -eq "lenovo" ]]; then
   ./machine.sh
 fi
 
-read -p "RCLONE_CONFIG_PASS >> " MYPW
-export RCLONE_CONFIG_PASS="$MYPW"
 mkdir ~/tmp -p
 MYPWD=$PWD
 cd $HOME/tmp
@@ -104,6 +102,9 @@ if [[ $USER != *"abrax"* ]]; then
   fi
 fi
 #echo user2
+
+read -p "RCLONE_CONFIG_PASS >> " MYPW
+export RCLONE_CONFIG_PASS="$MYPW"
 
 TASK "check last update time"
 ts=$(date +%s)
