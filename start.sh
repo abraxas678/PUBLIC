@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 cd $HOME
-echo version: NEWv0.92
+echo version: NEWv0.93
 read -t 2 me
 echo
 check_dns() {
@@ -23,7 +23,7 @@ check_dns() {
 
 check_dns
 
-if [[ "$(hostname)" -eq "lenovo" ]]; then
+if [[ "$(hostname)" = "lenovo" ]]; then
   echo hostname=lenovo
   cd $HOME
   curl -sL machine.yyps.de >machine.sh
