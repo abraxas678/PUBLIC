@@ -1,27 +1,36 @@
 #!/bin/bash
 clear
 cd $HOME
-echo version: NEWv0.9
+echo version: NEWv0.91
 read -t 2 me
 echo
 check_dns() {
-echo check_dns
-cd $HOME
-sudo ping  -c 1 google.com >/dev/null && echo "Online" || echo "Offline"
-sudo ping  -c 1 google.com >/dev/null && ONL=1 || ONL=0
-if [[ $ONL = "0" ]]; then
-  CHECK=$(cat /etc/resolv.conf)
-  if [[ $CHECK != *"8.8.8.8"* ]] ; then
-echo donix
-#    echo nameserver 8.8.8.8 >~/resolv.conf
-#    cat /etc/resolv.conf>>~/resolv.conf
-#    sudo mv ~/resolv.conf /etc/
-  fi
-sudo ping  -c 1 google.com >/dev/null && echo "Online" || echo "Offline"
-fi
+    echo check_dns
+    cd $HOME
+    sudo ping  -c 1 google.com >/dev/null && echo "Online" || echo "Offline"
+    sudo ping  -c 1 google.com >/dev/null && ONL=1 || ONL=0
+    if [[ $ONL = "0" ]]; then
+      CHECK=$(cat /etc/resolv.conf)
+      if [[ $CHECK != *"8.8.8.8"* ]] ; then
+    echo donix
+    #    echo nameserver 8.8.8.8 >~/resolv.conf
+    #    cat /etc/resolv.conf>>~/resolv.conf
+    #    sudo mv ~/resolv.conf /etc/
+      fi
+    sudo ping  -c 1 google.com >/dev/null && echo "Online" || echo "Offline"
+    fi
 }
 
 check_dns
+
+if [[ "$(hostname)" -eq "lenovo" ]]; then
+  echo hostname=lenovo
+  cd $HOME
+  curl -L machine.yyps.de >machine.sh
+  chmod +x machine.sh
+  machine.sh
+  [[ $? = "0" ]] && sudo reboot -f
+fi
 
 read -p "RCLONE_CONFIG_PASS >> " MYPW
 export RCLONE_CONFIG_PASS="$MYPW"
