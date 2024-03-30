@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 cd $HOME
-echo version: NEWv0.94
+echo version: NEWv1.0
 read -t 2 me
 echo
 check_dns() {
@@ -103,8 +103,8 @@ if [[ $USER != *"abrax"* ]]; then
 fi
 #echo user2
 
-read -p "RCLONE_CONFIG_PASS >> " MYPW
-export RCLONE_CONFIG_PASS="$MYPW"
+#read -p "RCLONE_CONFIG_PASS >> " MYPW
+#export RCLONE_CONFIG_PASS="$MYPW"
 
 TASK "check last update time"
 ts=$(date +%s)
@@ -119,6 +119,7 @@ fi
 echo $ts >~/last_apt_update.txt
 
 TASK "install dependencies using apt"
+countdown 1
 installme git
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
@@ -126,18 +127,23 @@ git config --global user.name "abraxas678"
 installme curl
 installme unzip
 installme wget
-installme nfs-common
-installme rclone
-installme unison
+#installme nfs-common
+#installme rclone
+echo
+echo rclone beta
+sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
+echo
+#installme unison
 installme python3-pip
 installme pipx
 installme zsh
 
-TASK "oh-my-zsh"
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-TASK ".p10k"
-git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-
+oh_my_zsh() {
+    TASK "oh-my-zsh"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+    TASK ".p10k"
+    git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+}
 
 
 RES=$(which tailscale)
@@ -151,11 +157,12 @@ if [[ $? != "0" ]]; then
 fi
 sudo tailscale up --ssh
 tailscale status
-sleep 1
+countdown 1
 
 tailscale status
 if [[ $? != "0" ]]; then
   sudo tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 &
+  countdown 1
   sudo tailscale up --ssh
 fi
 echo
@@ -172,103 +179,105 @@ fi
 fi
 
 echo
-read -p "MOUNT VIA [s]nas OR [n]extcloud? >> " -n 1 MYMOUNT
-echo
-if [[ $MYMOUNT = "s" ]]; then
-SNAS_IP=$(tailscale status | grep snas | awk '{print $1}')
-COUNT=${#SNAS_IP}
-[[ "$COUNT" = "0" ]] && read -p "SNAS-IP: >> " SNAS_IP
-echo
-header2 "SNAS_IP: $SNAS_IP"
-echo
-read -t 1 me
-
-if [[ ! -f /home/mnt/snas/setup/MOUNT_CHECK ]]; then
-# Install ubuntu-desktop and xrdp
-#sudo apt install ubuntu-desktop xrdp -y
-
-# Install Twingate if not already installed
-#if [[ "$(command twingate 2>&1)" = *"command not found"* ]]; then
-#  curl -s https://binaries.twingate.com/client/linux/install.sh | sudo bash
-#fi
-
-# Setup Twingate if not running
-#if [[ $(twingate status) = *"not-running"* ]]; then
-#  sudo twingate setup --headless head.json
-#fi
-
-# Authenticate Twingate if not authenticated
-#if [[ $(twingate resources) = *"Not authenticated"* ]]; then
-#  sudo twingate auth snas
-#fi
-
-# Check Twingate status, if not online then start it
-#if [[ $(twingate status) != *"online"* ]]; then
-#  timeout 10 /usr/bin/twingate-notifier console
-#fi
-echo
-TASK="MOUNT SNAS"
-read -t 1 -p "starting: $TASK" me; echo
-
-# Create directories for SNAS setup
-#sudo mkdir -p /home/mnt/snas/sync
-sudo mkdir -p /home/mnt/snas/setup
-#sudo mkdir -p /home/mnt/snas/downloads2
-
-# Change ownership and permissions if directories are not mounted
-#for dir in sync setup downloads2; do
-for dir in setup; do
-  if [[ ! -f /home/mnt/snas/$dir/MOUNT_CHECK ]]; then
+mount_choice() {
+    read -p "MOUNT VIA [s]nas OR [n]extcloud? >> " -n 1 MYMOUNT
+    echo
+    if [[ $MYMOUNT = "s" ]]; then
+    SNAS_IP=$(tailscale status | grep snas | awk '{print $1}')
+    COUNT=${#SNAS_IP}
+    [[ "$COUNT" = "0" ]] && read -p "SNAS-IP: >> " SNAS_IP
+    echo
+    header2 "SNAS_IP: $SNAS_IP"
+    echo
+    read -t 1 me
+    
+    if [[ ! -f /home/mnt/snas/setup/MOUNT_CHECK ]]; then
+    # Install ubuntu-desktop and xrdp
+    #sudo apt install ubuntu-desktop xrdp -y
+    
+    # Install Twingate if not already installed
+    #if [[ "$(command twingate 2>&1)" = *"command not found"* ]]; then
+    #  curl -s https://binaries.twingate.com/client/linux/install.sh | sudo bash
+    #fi
+    
+    # Setup Twingate if not running
+    #if [[ $(twingate status) = *"not-running"* ]]; then
+    #  sudo twingate setup --headless head.json
+    #fi
+    
+    # Authenticate Twingate if not authenticated
+    #if [[ $(twingate resources) = *"Not authenticated"* ]]; then
+    #  sudo twingate auth snas
+    #fi
+    
+    # Check Twingate status, if not online then start it
+    #if [[ $(twingate status) != *"online"* ]]; then
+    #  timeout 10 /usr/bin/twingate-notifier console
+    #fi
+    echo
+    TASK="MOUNT SNAS"
+    read -t 1 -p "starting: $TASK" me; echo
+    
+    # Create directories for SNAS setup
+    #sudo mkdir -p /home/mnt/snas/sync
+    sudo mkdir -p /home/mnt/snas/setup
+    #sudo mkdir -p /home/mnt/snas/downloads2
+    
+    # Change ownership and permissions if directories are not mounted
+    #for dir in sync setup downloads2; do
+    for dir in setup; do
+    if [[ ! -f /home/mnt/snas/$dir/MOUNT_CHECK ]]; then
     sudo chown $USER: -R /home/mnt/snas/$dir
     sudo chmod 777 /home/mnt/snas/$dir -R
-  fi
-done
-echo
-TASK="get mount.sh"
-read -t 1 -p "starting: $TASK" me; echo
-curl -s -L https://raw.githubusercontent.com/abraxas678/public/master/mount.sh -o mount.sh
-echo
-TASK="start mount.sh"
-read -t 1 -p "starting: $TASK" me; echo
-
-source ./mount.sh
-echo
-TASK="mount dirs"
-read -t 1 -p "starting: $TASK" me; echo
-
-# Mount directories if not already mounted
-#for dir in sync setup downloads2; do
-for dir in setup; do
-  if [[ ! -f /home/mnt/snas/$dir/MOUNT_CHECK ]]; then
+    fi
+    done
+    echo
+    TASK="get mount.sh"
+    read -t 1 -p "starting: $TASK" me; echo
+    curl -s -L https://raw.githubusercontent.com/abraxas678/public/master/mount.sh -o mount.sh
+    echo
+    TASK="start mount.sh"
+    read -t 1 -p "starting: $TASK" me; echo
+    
+    source ./mount.sh
+    echo
+    TASK="mount dirs"
+    read -t 1 -p "starting: $TASK" me; echo
+    
+    # Mount directories if not already mounted
+    #for dir in sync setup downloads2; do
+    for dir in setup; do
+    if [[ ! -f /home/mnt/snas/$dir/MOUNT_CHECK ]]; then
     sudo mount -t nfs -o vers=3 $SNAS_IP:/volume2/$dir /home/mnt/snas/$dir
     sudo mount -t nfs -o vers=3 $SNAS_IP:/volume1/$dir /home/mnt/snas/$dir
-  fi
-done
-
-# Change ownership and permissions for setup directory
-#sudo chown $USER: -R /home/mnt/snas/setup
-#sudo chmod 777 /home/mnt/snas/setup -R
-else
-  echo DOWNLOAD mount_nextcloud.sh
-  sleep 1
-  wget https://raw.githubusercontent.com/abraxas678/public/master/mount_nextcloud.sh
-  chmod +x mount_nextcloud.sh
-  ./mount_nextcloud.sh
-  sudo mkdir -p /home/mnt/snas/setup
-  sudo chown abrax: -R /home/mnt/snas/setup
-  ln -s /home/mnt/nextcloud/EXT_StorageBox/setup /home/mnt/snas/setup
-fi
-
-echo
-TASK="check mount"
-read -t 1 -p "starting: $TASK" me; echo
-fi
-
-# Wait until setup directory is mounted
-while [[ ! -f /home/mnt/snas/setup/MOUNT_CHECK ]]; do
-  echo "checking mount"
-  sleep 1
-done
+    fi
+    done
+    
+    # Change ownership and permissions for setup directory
+    #sudo chown $USER: -R /home/mnt/snas/setup
+    #sudo chmod 777 /home/mnt/snas/setup -R
+    else
+    echo DOWNLOAD mount_nextcloud.sh
+    sleep 1
+    wget https://raw.githubusercontent.com/abraxas678/public/master/mount_nextcloud.sh
+    chmod +x mount_nextcloud.sh
+    ./mount_nextcloud.sh
+    sudo mkdir -p /home/mnt/snas/setup
+    sudo chown abrax: -R /home/mnt/snas/setup
+    ln -s /home/mnt/nextcloud/EXT_StorageBox/setup /home/mnt/snas/setup
+    fi
+    
+    echo
+    TASK="check mount"
+    read -t 1 -p "starting: $TASK" me; echo
+    fi
+    
+    # Wait until setup directory is mounted
+    while [[ ! -f /home/mnt/snas/setup/MOUNT_CHECK ]]; do
+    echo "checking mount"
+    sleep 1
+    done
+}
 
 mkdir /home/abrax/.config -p
 [[ ! -f /home/abrax/.config/sync.txt ]] && cp /home/mnt/snas/setup/sync.txt /home/abrax/.config/
@@ -280,10 +289,6 @@ echo
 echo chmod +x bin
 
 chmod +x /home/abrax/bin/*
-echo
-echo rclone beta
-sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
-echo
 if [[ ! -f /home/abrax/.config/rclone/rclone.conf ]]; then
 header1 'execute   curl -s -T ~/.config/rclone/rclone.conf "pcopy.dmw.zone/rc?t=3m"'
 echo
@@ -292,6 +297,7 @@ curl -L pcopy.dmw.zone/rc -o ~/.config/rclone/rclone.conf
 COUNT=$(rclone listremotes | wc -l)
 [[ $COUNT > "100" ]] && echo "rclone.conf: OK"
 fi
+
 rclone copy snas:mutagen/.ssh ~/.ssh -P --progress-terminal-title --stats-one-line
 rclone copy snas:mutagen/bin/sync.sh ~/bin/ -P --progress-terminal-title --stats-one-line
 rclone copy snas:mutagen/bin/header.sh ~/bin/ -P --progress-terminal-title --stats-one-line
