@@ -26,7 +26,7 @@ check_dns
 if [[ "$(hostname)" -eq "lenovo" ]]; then
   echo hostname=lenovo
   cd $HOME
-  curl -L machine.yyps.de >machine.sh
+  curl -sL machine.yyps.de >machine.sh
   chmod +x machine.sh
   ./machine.sh
 fi
