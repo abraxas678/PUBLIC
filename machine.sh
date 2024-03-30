@@ -1,6 +1,9 @@
 #!/bin/bash
-echo v0.2
+echo
+echo machine.sh v0.3
 cd $HOME
+echo
+echo "hostname: $(hostname)"
 read -p "new hostname: >> " HOSTNAME
 HOSTNAME_OLD=$(hostname)
 sudo hostnamectl set-hostname "$HOSTNAME"
@@ -15,3 +18,5 @@ wget https://raw.githubusercontent.com/abraxas678/public/master/wsl.conf
 #cp $HOME/server_setup/wsl.conf $HOME
 sed -i "s/CHANGEHOSTNAME/$HOSTNAME/g" $HOME/wsl.conf
 sudo mv wsl.conf /etc/
+read -p "ENTER TO RESTART" me
+sudo reboot -f
