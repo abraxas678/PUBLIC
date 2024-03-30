@@ -127,11 +127,11 @@ installme curl
 installme wget
 installme nfs-common
 installme rclone
-installme restic
 installme unison
-installme python3-full
 installme python3-pip
+installme pipx
 installme zsh
+
 TASK "oh-my-zsh"
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
 TASK ".p10k"
