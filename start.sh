@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 cd $HOME
-echo version: NEWv1.2
+echo version: NEWv1.3
 read -t 2 me
 echo
 check_dns() {
@@ -182,6 +182,13 @@ curl -OL https://bashhub.com/setup && $SHELL setup
 fi
 fi
 
+if [[ ! -f /home/mnt/nc/MOUNT_CHECK ]]; then
+  if [[ ! -d /home/mnt/nc ]]; then
+    sudo mkdir /home/mnt/nc -p
+    sudo chown abrax: -R /home/mnt/nc
+  fi 
+   sudo mount -t davfs -o noexec https://nxt.dmw.zone/index.php/apps/files/files /home/mnt/nc
+fi
 echo
 mount_choice() {
     read -p "MOUNT VIA [s]nas OR [n]extcloud? >> " -n 1 MYMOUNT
