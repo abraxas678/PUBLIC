@@ -168,7 +168,7 @@ fi
 echo
 check_dns
 export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):8081"
-if [[ $(cat ~/.bashrc) != *"BH_URL"* ]] then
+if [[ $(cat ~/.bashrc) != *"BH_URL"* ]]; then
   echo export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):8081" >>~/.bashrc
 fi
 mybh="y"
