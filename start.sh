@@ -187,7 +187,7 @@ if [[ ! -f /home/mnt/nc/MOUNT_CHECK ]]; then
     sudo mkdir /home/mnt/nc -p
     sudo chown abrax: -R /home/mnt/nc
   fi 
-   sudo mount -t davfs -o noexec https://nxt.dmw.zone/index.php/apps/files/files /home/mnt/nc
+   sudo mount -t davfs -o noexec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
 fi
 echo
 mount_choice() {
