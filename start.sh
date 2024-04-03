@@ -1,8 +1,15 @@
 #!/bin/bash
 clear
 cd $HOME
-echo version: NEWv1.4
-read -t 2 me
+CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
+NEW_REL=((CUR_REL+1))
+release_wait() {
+  echo rel wait
+}
+echo version: NEWv5
+VERS="n"
+read -t 5 -n 1 -p "\[W]AIT FOR NEXT RELEASE - v$NEW_REL? >>" VERS
+[[ $VERS = "w" ]] && release_wait
 echo
 check_dns() {
     echo check_dns
