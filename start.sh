@@ -191,6 +191,9 @@ export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):808
 if [[ $(cat ~/.bashrc) != *"BH_URL"* ]]; then
   echo export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):8081" >>~/.bashrc
 fi
+if [[ $(cat ~/.zshrc) != *"BH_URL"* ]]; then
+  echo export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):8081" >>~/.zshrc
+fi
 
 mybashhub() {
 mybh="y"
@@ -214,7 +217,7 @@ if [[ ! -f /home/mnt/nc/MOUNT_CHECK ]]; then
     sudo mkdir /home/mnt/nc -p
     sudo chown abrax: -R /home/mnt/nc
   fi 
-   sudo mount -t davfs -o noexec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
+   sudo mount -t davfs -o exec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
 fi
 }
 mount_nc
