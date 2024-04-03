@@ -14,5 +14,6 @@ if [[ $ONL = "0" ]]; then
     cat /etc/resolv.conf>>~/resolv.conf
     sudo mv ~/resolv.conf /etc/
   fi
+echo
 ping -c 1 google.com >/dev/null && echo "Online" || echo "Offline"
 fi
