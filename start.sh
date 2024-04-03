@@ -3,10 +3,11 @@ clear
 cd $HOME
 CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
 NEW_REL=$((CUR_REL+1))
+echo NEW_REL: $NEW_REL
 release_wait() {
   echo rel wait
 }
-echo version: NEWv7
+echo version: NEWv8
 VERS="n"
 read -t 5 -n 1 -p "\[W]AIT FOR NEXT RELEASE - v$NEW_REL? >>" VERS
 [[ $VERS = "w" ]] && release_wait
