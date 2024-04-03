@@ -2,11 +2,11 @@
 clear
 cd $HOME
 CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
-NEW_REL=((CUR_REL+1))
+NEW_REL=$((CUR_REL+1))
 release_wait() {
   echo rel wait
 }
-echo version: NEWv5
+echo version: NEWv6
 VERS="n"
 read -t 5 -n 1 -p "\[W]AIT FOR NEXT RELEASE - v$NEW_REL? >>" VERS
 [[ $VERS = "w" ]] && release_wait
@@ -137,6 +137,7 @@ installme unzip
 installme wget
 #installme nfs-common
 #installme rclone
+installme keepassxc-cli
 echo
 echo rclone beta
 sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
