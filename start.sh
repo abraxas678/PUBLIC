@@ -5,9 +5,17 @@ CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NE
 NEW_REL=$((CUR_REL+1))
 echo NEW_REL: $NEW_REL
 release_wait() {
-  echo rel wait
+  x=1
+  while [[ $x = 1 ]]; do
+    echo WAITING FOR RELEASE
+    sleep 5
+    CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
+    [[ $CUR_REL = $NEW_REL ]] && x=0
+  done
+    echo realease ready
+    exit
 }
-echo version: NEWv8
+echo version: NEWv9
 VERS="n"
 read -t 5 -n 1 -p "\[W]AIT FOR NEXT RELEASE - v$NEW_REL? >>" VERS
 [[ $VERS = "w" ]] && release_wait
