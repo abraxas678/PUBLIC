@@ -206,6 +206,9 @@ fi
 mybashhub
 
 mount_nc() {
+echo
+header2 MOUNTING NEXTCLOUD
+echo
 if [[ ! -f /home/mnt/nc/MOUNT_CHECK ]]; then
   if [[ ! -d /home/mnt/nc ]]; then
     sudo mkdir /home/mnt/nc -p
