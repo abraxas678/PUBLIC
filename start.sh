@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 cd $HOME
-echo version: NEWv1.3
+echo version: NEWv1.4
 read -t 2 me
 echo
 check_dns() {
