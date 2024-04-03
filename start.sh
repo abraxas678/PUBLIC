@@ -125,6 +125,7 @@ git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 
 installme curl
+installme davfs2
 installme unzip
 installme wget
 #installme nfs-common
