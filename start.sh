@@ -1,9 +1,12 @@
 #!/bin/bash
 clear
 cd $HOME
+echo version: NEWv9
+
 CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
 NEW_REL=$((CUR_REL+1))
 echo NEW_REL: $NEW_REL
+
 release_wait() {
   x=1
   while [[ $x = 1 ]]; do
@@ -15,7 +18,6 @@ release_wait() {
     echo realease ready
     exit
 }
-echo version: NEWv9
 VERS="n"
 read -t 5 -n 1 -p "\[W]AIT FOR NEXT RELEASE - v$NEW_REL? >>" VERS
 [[ $VERS = "w" ]] && release_wait
@@ -189,8 +191,10 @@ export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):808
 if [[ $(cat ~/.bashrc) != *"BH_URL"* ]]; then
   echo export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):8081" >>~/.bashrc
 fi
+
+mybashhub() {
 mybh="y"
-which bh
+which bh >/dev/null 2>&1
 if [[ $? != "0" ]]; then
 read -t 10 -n 1 -p "BASHHUB? >> " mybh
 if [[ $mybh = "y" ]]; then
@@ -198,7 +202,10 @@ TASK bashhub
 curl -OL https://bashhub.com/setup && $SHELL setup
 fi
 fi
+}
+mybashhub
 
+mount_nc() {
 if [[ ! -f /home/mnt/nc/MOUNT_CHECK ]]; then
   if [[ ! -d /home/mnt/nc ]]; then
     sudo mkdir /home/mnt/nc -p
@@ -206,7 +213,15 @@ if [[ ! -f /home/mnt/nc/MOUNT_CHECK ]]; then
   fi 
    sudo mount -t davfs -o noexec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
 fi
+}
+mount_nc
+if [[ -f /home/mnt/nc/MOUNT_CHECK ]]; then
+  echo Nexcloud sucessfully mounted
+fi
 echo
+
+
+
 mount_choice() {
     read -p "MOUNT VIA [s]nas OR [n]extcloud? >> " -n 1 MYMOUNT
     echo
