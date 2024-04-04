@@ -230,9 +230,17 @@ mount_folder() {
 # sudo mount -t davfs -o noexec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
 }
 mount_folder
+echo
 
 if [[ -f /home/mnt/nc/MOUNT_CHECK ]]; then
-  echo Nexcloud sucessfully mounted
+  echo Nexcloud /home/mnt/nc sucessfully mounted
+fi
+ls /home/abrax/bin/MONT_CHECK >/dev/null 2>&1
+if [[ $? = "0" ]]; then
+  echo Nexcloud bin sucessfully mounted
+fi
+if [[ -f /home/abrax/.config/MOUNT_CHECK ]]; then
+  echo Nexcloud .config sucessfully mounted
 fi
 echo
 
