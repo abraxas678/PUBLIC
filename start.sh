@@ -222,9 +222,14 @@ fi
 }
 mount_nc
 
-mount_bin() {
-#   sudo mount -t davfs -o noexec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
+mount_folder() {
+  mkdir -p /home/abrax/bin
+  mkdir -p /home/abrax/.config
+  sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/bin /home/abrax/bin
+  sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/.config /home/abrax/.config
+# sudo mount -t davfs -o noexec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
 }
+mount_folder
 
 if [[ -f /home/mnt/nc/MOUNT_CHECK ]]; then
   echo Nexcloud sucessfully mounted
