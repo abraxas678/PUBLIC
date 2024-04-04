@@ -221,6 +221,11 @@ if [[ ! -f /home/mnt/nc/MOUNT_CHECK ]]; then
 fi
 }
 mount_nc
+
+mount_bin() {
+#   sudo mount -t davfs -o noexec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
+}
+
 if [[ -f /home/mnt/nc/MOUNT_CHECK ]]; then
   echo Nexcloud sucessfully mounted
 fi
