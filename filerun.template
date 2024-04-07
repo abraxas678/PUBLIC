@@ -11,7 +11,7 @@ services:
       - ./db:/var/lib/mysql
 
   web:
-    image: filerun/filerun
+    image: filerun/filerun:8.1
     container_name: filerun_web
     environment:
       FR_DB_HOST: db
