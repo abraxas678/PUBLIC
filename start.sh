@@ -22,6 +22,7 @@ VERS="n"
 read -t 5 -n 1 -p "\[W]AIT FOR NEXT RELEASE - v$NEW_REL? >>" VERS
 [[ $VERS = "w" ]] && release_wait
 echo
+
 check_dns() {
     echo check_dns
     cd $HOME
@@ -196,31 +197,31 @@ if [[ $(cat ~/.zshrc) != *"BH_URL"* ]]; then
 fi
 
 mybashhub() {
-mybh="y"
-which bh >/dev/null 2>&1
-if [[ $? != "0" ]]; then
-read -t 10 -n 1 -p "BASHHUB? >> " mybh
-if [[ $mybh = "y" ]]; then
-TASK bashhub 
-curl -OL https://bashhub.com/setup && $SHELL setup
-fi
-fi
+  mybh="y"
+  which bh >/dev/null 2>&1
+  if [[ $? != "0" ]]; then
+    read -t 10 -n 1 -p "BASHHUB? >> " mybh
+    if [[ $mybh = "y" ]]; then
+      TASK bashhub 
+      curl -OL https://bashhub.com/setup && $SHELL setup
+    fi
+  fi
 }
 mybashhub
 
 mount_nc() {
-echo
-header2 MOUNTING NEXTCLOUD
-echo
-if [[ ! -f /home/mnt/nc/MOUNT_CHECK ]]; then
-  if [[ ! -d /home/mnt/nc ]]; then
-    sudo mkdir /home/mnt/nc -p
-    sudo chown abrax: -R /home/mnt/nc
-  fi 
-   sudo mount -t davfs -o exec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
-fi
+  echo
+  header2 MOUNTING NEXTCLOUD
+  echo
+  if [[ ! -f /home/mnt/nc/MOUNT_CHECK ]]; then
+    if [[ ! -d /home/mnt/nc ]]; then
+      sudo mkdir /home/mnt/nc -p
+      sudo chown abrax: -R /home/mnt/nc
+    fi 
+     sudo mount -t davfs -o exec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
+  fi
 }
-mount_nc
+#mount_nc
 
 mount_folder() {
   mkdir -p /home/abrax/bin
@@ -229,15 +230,25 @@ mount_folder() {
   sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/.config /home/abrax/.config
 # sudo mount -t davfs -o noexec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
 }
-mount_folder
+#mount_folder
 echo
+
+
+
+
+
+exit
+
 
 if [[ -f /home/mnt/nc/MOUNT_CHECK ]]; then
   echo Nexcloud /home/mnt/nc sucessfully mounted
 fi
+
 ls /home/abrax/bin/MONT_CHECK >/dev/null 2>&1
 if [[ $? = "0" ]]; then
   echo Nexcloud bin sucessfully mounted
+else
+  echo bin bin
 fi
 if [[ -f /home/abrax/.config/MOUNT_CHECK ]]; then
   echo Nexcloud .config sucessfully mounted
