@@ -193,8 +193,6 @@ mybashhub() {
 }
 mybashhub
 
-oh_my_zsh
-
 echo; echo "BREW"
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -224,15 +222,6 @@ mount_folder() {
   sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/bin /home/abrax/bin
   sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/.config /home/abrax/.config
 }
-
-zsh4humans() {
-if command -v curl >/dev/null 2>&1; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
-else
-  sh -c "$(wget -O- https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
-fi
-}
-zsh4humans
 
 exit
 
