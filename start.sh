@@ -193,6 +193,8 @@ mybashhub() {
 }
 mybashhub
 
+oh_my_zsh
+
 echo; echo "BREW"
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
