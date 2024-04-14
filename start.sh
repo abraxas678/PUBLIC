@@ -209,7 +209,9 @@ mybashhub() {
 }
 mybashhub
 
-brew() {
+echo; echo "BREW"
+
+#brew() {
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 #  echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.zprofile && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
     sudo apt-get install build-essential -y
@@ -218,9 +220,8 @@ brew() {
    export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
    (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/abrax/.zshrc
    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-}
-echo; echo "BREW"
-brew
+#}
+#brew
 
 mount_nc() {
   echo
