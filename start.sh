@@ -1,6 +1,6 @@
 clear
 cd $HOME
-echo version: NEWv10
+echo version: NEWv11
 
 CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
 NEW_REL=$((CUR_REL+1))
