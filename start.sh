@@ -1,6 +1,7 @@
+#!/bin/bash
 clear
 cd $HOME
-echo version: NEWv10
+echo version: NEWv12
 
 CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
 NEW_REL=$((CUR_REL+1))
@@ -31,6 +32,9 @@ check_dns() {
       CHECK=$(cat /etc/resolv.conf)
       if [[ $CHECK != *"8.8.8.8"* ]] ; then
     echo donix
+    #    echo nameserver 8.8.8.8 >~/resolv.conf
+    #    cat /etc/resolv.conf>>~/resolv.conf
+    #    sudo mv ~/resolv.conf /etc/
       fi
     sudo ping  -c 1 google.com >/dev/null && echo "Online" || echo "Offline"
     fi
@@ -92,11 +96,14 @@ installme() {
   if [[ $? != "0" ]]; then
     echo
     echo -e "\e[33mINSTALL: $1\e[0m"  
+  #  countdown 1
     sudo apt install $1 -y
   fi
 }
 
+#echo user1
 TASK "CHECK: USER = abrax? "
+# Check if user is not abrax, if not then switch to abrax
 if [[ $USER != *"abrax"* ]]; then
   apt install -y sudo
   if [[ $USER = *"root"* ]]; then
@@ -113,6 +120,10 @@ if [[ $USER != *"abrax"* ]]; then
     exit
   fi
 fi
+#echo user2
+
+#read -p "RCLONE_CONFIG_PASS >> " MYPW
+#export RCLONE_CONFIG_PASS="$MYPW"
 
 TASK "check last update time"
 ts=$(date +%s)
@@ -136,11 +147,14 @@ installme curl
 installme davfs2
 installme unzip
 installme wget
+#installme nfs-common
+#installme rclone
 installme keepassxc
 echo
 echo rclone beta
 sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
 echo
+#installme unison
 installme python3-pip
 installme pipx
 installme zsh
@@ -157,7 +171,9 @@ RES=$(which tailscale)
 which tailscale >/dev/null 2>&1
 if [[ $? != "0" ]]; then
   echo install tailscale
+  #sleep 3
   curl -L https://tailscale.com/install.sh 
+  #curl -s 5 -fsSL https://tailscale.com/install.sh | sh
   curl -L https://tailscale.com/install.sh | sh
 fi
 sudo tailscale up --ssh
@@ -193,8 +209,6 @@ mybashhub() {
 }
 mybashhub
 
-oh_my_zsh
-
 echo; echo "BREW"
 
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -202,8 +216,11 @@ export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
 sudo apt-get install build-essential -y
 brew install gcc
 
-(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/abrax/.zshrc
-eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+
+   (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/abrax/.zshrc
+   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+#}
+#brew
 
 mount_nc() {
   echo
@@ -217,22 +234,21 @@ mount_nc() {
      sudo mount -t davfs -o exec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
   fi
 }
+#mount_nc
 
 mount_folder() {
   mkdir -p /home/abrax/bin
   mkdir -p /home/abrax/.config
   sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/bin /home/abrax/bin
   sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/.config /home/abrax/.config
+# sudo mount -t davfs -o noexec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
 }
+#mount_folder
+echo
 
-zsh4humans() {
-if command -v curl >/dev/null 2>&1; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
-else
-  sh -c "$(wget -O- https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
-fi
-}
-zsh4humans
+
+
+
 
 exit
 
@@ -252,6 +268,8 @@ if [[ -f /home/abrax/.config/MOUNT_CHECK ]]; then
 fi
 echo
 
+
+
 mount_choice() {
     read -p "MOUNT VIA [s]nas OR [n]extcloud? >> " -n 1 MYMOUNT
     echo
@@ -265,11 +283,45 @@ mount_choice() {
     read -t 1 me
     
     if [[ ! -f /home/mnt/snas/setup/MOUNT_CHECK ]]; then
+    # Install ubuntu-desktop and xrdp
+    #sudo apt install ubuntu-desktop xrdp -y
+    
+    # Install Twingate if not already installed
+    #if [[ "$(command twingate 2>&1)" = *"command not found"* ]]; then
+    #  curl -s https://binaries.twingate.com/client/linux/install.sh | sudo bash
+    #fi
+    
+    # Setup Twingate if not running
+    #if [[ $(twingate status) = *"not-running"* ]]; then
+    #  sudo twingate setup --headless head.json
+    #fi
+    
+    # Authenticate Twingate if not authenticated
+    #if [[ $(twingate resources) = *"Not authenticated"* ]]; then
+    #  sudo twingate auth snas
+    #fi
+    
+    # Check Twingate status, if not online then start it
+    #if [[ $(twingate status) != *"online"* ]]; then
+    #  timeout 10 /usr/bin/twingate-notifier console
+    #fi
     echo
     TASK="MOUNT SNAS"
     read -t 1 -p "starting: $TASK" me; echo
     
+    # Create directories for SNAS setup
+    #sudo mkdir -p /home/mnt/snas/sync
     sudo mkdir -p /home/mnt/snas/setup
+    #sudo mkdir -p /home/mnt/snas/downloads2
+    
+    # Change ownership and permissions if directories are not mounted
+    #for dir in sync setup downloads2; do
+    for dir in setup; do
+    if [[ ! -f /home/mnt/snas/$dir/MOUNT_CHECK ]]; then
+    sudo chown $USER: -R /home/mnt/snas/$dir
+    sudo chmod 777 /home/mnt/snas/$dir -R
+    fi
+    done
     echo
     TASK="get mount.sh"
     read -t 1 -p "starting: $TASK" me; echo
@@ -283,6 +335,8 @@ mount_choice() {
     TASK="mount dirs"
     read -t 1 -p "starting: $TASK" me; echo
     
+    # Mount directories if not already mounted
+    #for dir in sync setup downloads2; do
     for dir in setup; do
     if [[ ! -f /home/mnt/snas/$dir/MOUNT_CHECK ]]; then
     sudo mount -t nfs -o vers=3 $SNAS_IP:/volume2/$dir /home/mnt/snas/$dir
@@ -290,6 +344,9 @@ mount_choice() {
     fi
     done
     
+    # Change ownership and permissions for setup directory
+    #sudo chown $USER: -R /home/mnt/snas/setup
+    #sudo chmod 777 /home/mnt/snas/setup -R
     else
     echo DOWNLOAD mount_nextcloud.sh
     sleep 1
@@ -306,6 +363,7 @@ mount_choice() {
     read -t 1 -p "starting: $TASK" me; echo
     fi
     
+    # Wait until setup directory is mounted
     while [[ ! -f /home/mnt/snas/setup/MOUNT_CHECK ]]; do
     echo "checking mount"
     sleep 1
@@ -337,7 +395,15 @@ mount_choice() {
     rclone copy snas:mutagen/bin/uni.sh ~/bin/ -P --progress-terminal-title --stats-one-line
     rclone copy snas:mutagen/.config/sync.txt ~/.config/ -P --progress-terminal-title --stats-one-line
     sudo chmod +x ~/bin/*
+    #sudo apt install -y python3-rich_cli
+    #export RCLONE_PASSWORD_COMMAND="ssh abraxas@snas cat /volume2/mutagen/.ssh/rclonepw.sh | bash"
     echo
     header1 sync.sh --skip --force
     /home/abrax/bin/sync.sh --skip --force
 }
+# Source start2.sh script
+#echo
+#echo "STARTING START2.SH"
+#sleep 1
+
+#source /home/mnt/snas/setup/start2.sh
