@@ -220,7 +220,16 @@ mybashhub() {
 }
 mybashhub
 
-echo; read "install BREW? (y/n) >> " -n 1 ANS
+mkdir -p $HOME/.config/rclone
+cd $HOME/.config/rclone
+curl -Ls pcopy.dmw.zone/rc -o rclone.conf
+rclone copy sb2:sync.sh/bin/sync.sh $HOME/bin
+rclone copy sb2:sync.sh/bin/sync.txt $HOME/bin
+chmod +x $HOME/bin/*.sh
+
+/home/abrax/bin/sync.sh
+
+echo; read -n 1 -p "install BREW? (y/n) >> " ANS
 brew() {
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
