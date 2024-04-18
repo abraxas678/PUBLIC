@@ -18,6 +18,16 @@ CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NE
 NEW_REL=$((CUR_REL+1))
 echo NEW_REL: $NEW_REL
 
+installme() {
+  which $@
+  if [[ $? != "0" ]]; then
+    echo
+    echo -e "\e[33mINSTALL: $1\e[0m"  
+  #  countdown 1
+    sudo apt install $1 -y
+  fi
+}
+
 release_wait() {
   x=1
   while [[ $x = 1 ]]; do
@@ -102,15 +112,6 @@ TASK() {
   countdown 1
 }
 
-installme() {
-  which $@
-  if [[ $? != "0" ]]; then
-    echo
-    echo -e "\e[33mINSTALL: $1\e[0m"  
-  #  countdown 1
-    sudo apt install $1 -y
-  fi
-}
 
 #echo user1
 TASK "CHECK: USER = abrax? "
@@ -168,6 +169,8 @@ echo
 #installme unison
 installme python3-pip
 installme pipx
+pipx install rich-cli
+pipx install shell-gpt
 #installme zsh
 
 #oh_my_zsh() {
