@@ -3,6 +3,17 @@ clear
 cd $HOME
 echo version: NEWv12
 
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+BLUE='\033[0;34m'
+YELLOW='\033[1;33m'
+PURPLE='\033[0;35m'
+ORANGE='\033[0;33m'
+GREY='\033[0;37m'
+LIGHT_BLUE='\033[1;34m'
+RESET='\033[0m'
+RC='\033[0m'
+
 CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
 NEW_REL=$((CUR_REL+1))
 echo NEW_REL: $NEW_REL
@@ -157,14 +168,14 @@ echo
 #installme unison
 installme python3-pip
 installme pipx
-installme zsh
+#installme zsh
 
-oh_my_zsh() {
-    TASK "oh-my-zsh"
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-    TASK ".p10k"
-    git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-}
+#oh_my_zsh() {
+#    TASK "oh-my-zsh"
+#    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+#    TASK ".p10k"
+#    git clone --depth=1 https://gitee.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+#}
 
 
 RES=$(which tailscale)
@@ -209,18 +220,19 @@ mybashhub() {
 }
 mybashhub
 
-echo; echo "BREW"
-
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-sudo apt-get install build-essential -y
-brew install gcc
-
-
+echo; read "install BREW? (y/n) >> " -n 1 ANS
+brew() {
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+    sudo apt-get install build-essential -y
+    brew install gcc
    (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/abrax/.zshrc
    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+   exec zsh
 #}
 #brew
+}
+[[ $ANS = "y" ]] && brew
 
 mount_nc() {
   echo
