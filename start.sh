@@ -190,7 +190,7 @@ if [[ $? != "0" ]]; then
   #curl -s 5 -fsSL https://tailscale.com/install.sh | sh
   curl -L https://tailscale.com/install.sh | sh
 fi
-sudo tailscale up --ssh
+sudo tailscale up --ssh --accept-routes
 tailscale status
 countdown 1
 
@@ -198,7 +198,7 @@ tailscale status
 if [[ $? != "0" ]]; then
   sudo tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 &
   countdown 1
-  sudo tailscale up --ssh
+  sudo tailscale up --ssh --accept-routes
 fi
 echo
 check_dns
