@@ -156,6 +156,10 @@ git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 
 installme curl
+mkdir -p $HOME/bin
+cd $HOME/bin
+curl -L pcopy.dmw.zone/down.sh -O
+chmod +x down.sh
 installme davfs2
 installme unzip
 installme wget
