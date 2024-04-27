@@ -163,6 +163,7 @@ chmod +x down.sh
 installme davfs2
 installme unzip
 installme wget
+installme zoxie
 #installme nfs-common
 #installme rclone
 installme keepassxc
@@ -249,6 +250,8 @@ brew() {
 #brew
 }
 [[ $ANS = "y" ]] && brew
+
+brew install eza
 
 mount_nc() {
   echo
