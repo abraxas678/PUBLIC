@@ -255,6 +255,8 @@ brew() {
 }
 [[ $ANS = "y" ]] && brew
 
+echo eza
+countdown 1
 brew install eza
 
 mount_nc() {
