@@ -158,7 +158,7 @@ git config --global user.name "abraxas678"
 installme curl
 mkdir -p $HOME/bin
 cd $HOME/bin
-curl -L pcopy.dmw.zone/down.sh -O
+curl -L ionos0:2586/down.sh -O
 chmod +x down.sh
 installme davfs2
 installme unzip
@@ -230,13 +230,14 @@ mybashhub
 
 mkdir -p $HOME/.config/rclone
 cd $HOME/.config/rclone
-curl -Ls pcopy.dmw.zone/rc -o rclone.conf
+curl -Ls ionos0:2586/rc -o rclone.conf
 rclone copy sb2:sync.sh/bin/sync.sh $HOME/bin
 rclone copy sb2:sync.sh/bin/sync.txt $HOME/bin
 chmod +x $HOME/bin/*.sh
 
 /home/abrax/bin/sync.sh
 
+ANS=n
 echo; read -n 1 -p "install BREW? (y/n) >> " ANS
 brew() {
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
@@ -246,8 +247,6 @@ brew() {
    (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/abrax/.zshrc
    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
    exec zsh
-#}
-#brew
 }
 [[ $ANS = "y" ]] && brew
 
@@ -412,10 +411,10 @@ mount_choice() {
     
     chmod +x /home/abrax/bin/*
     if [[ ! -f /home/abrax/.config/rclone/rclone.conf ]]; then
-    header1 'execute   curl -s -T ~/.config/rclone/rclone.conf "pcopy.dmw.zone/rc?t=3m"'
+    header1 'execute   curl -s -T ~/.config/rclone/rclone.conf "ionos0:2586/rc?t=3m"'
     echo
     read -p BUTTON me
-    curl -L pcopy.dmw.zone/rc -o ~/.config/rclone/rclone.conf
+    curl -L ionos0:2586/rc -o ~/.config/rclone/rclone.conf
     COUNT=$(rclone listremotes | wc -l)
     [[ $COUNT > "100" ]] && echo "rclone.conf: OK"
     fi
