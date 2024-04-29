@@ -3,6 +3,9 @@ clear
 cd $HOME
 echo version: NEWv12
 
+echo; echo "up sync.sh; up down.sh: up sync.txt; up ~/.config/rclone/rclone.conf;"; echo
+read -t 10 me
+
 GREEN='\033[0;32m'
 RED='\033[0;31m'
 BLUE='\033[0;34m'
@@ -23,7 +26,7 @@ installme() {
   if [[ $? != "0" ]]; then
     echo
     echo -e "\e[33mINSTALL: $1\e[0m"  
-  #  countdown 1
+    countdown 1
     sudo apt install $1 -y
   fi
 }
@@ -60,20 +63,6 @@ check_dns() {
     sudo ping  -c 1 google.com >/dev/null && echo "Online" || echo "Offline"
     fi
 }
-
-check_dns
-
-if [[ "$(hostname)" = "lenovo" ]]; then
-  echo hostname=lenovo
-  cd $HOME
-  curl -sL machine.yyps.de >machine.sh
-  chmod +x machine.sh
-  ./machine.sh
-fi
-
-mkdir ~/tmp -p
-MYPWD=$PWD
-cd $HOME/tmp
 
 header1(){
   echo -e "\e[33m$@\e[0m"  
@@ -112,6 +101,20 @@ TASK() {
   countdown 1
 }
 
+check_dns
+
+if [[ "$(hostname)" = "lenovo" ]]; then
+  echo hostname=lenovo
+  cd $HOME
+  curl -sL machine.yyps.de >machine.sh
+  chmod +x machine.sh
+  ./machine.sh
+fi
+
+mkdir ~/tmp -p
+MYPWD=$PWD
+cd $HOME/tmp
+
 
 #echo user1
 TASK "CHECK: USER = abrax? "
@@ -132,10 +135,6 @@ if [[ $USER != *"abrax"* ]]; then
     exit
   fi
 fi
-#echo user2
-
-#read -p "RCLONE_CONFIG_PASS >> " MYPW
-#export RCLONE_CONFIG_PASS="$MYPW"
 
 TASK "check last update time"
 ts=$(date +%s)
@@ -159,6 +158,7 @@ installme curl
 mkdir -p $HOME/bin
 cd $HOME/bin
 curl -L ionos0:2586/down.sh -O
+curl -L ionos0:2586/sync.sh -O
 chmod +x down.sh
 installme davfs2
 installme unzip
@@ -169,6 +169,7 @@ installme zoxie
 installme keepassxc
 echo
 echo rclone beta
+countdown 1
 sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
 echo
 #installme unison
@@ -190,8 +191,8 @@ RES=$(which tailscale)
 which tailscale >/dev/null 2>&1
 if [[ $? != "0" ]]; then
   echo install tailscale
-  #sleep 3
-  curl -L https://tailscale.com/install.sh 
+  sleep 1
+  #curl -L https://tailscale.com/install.sh 
   #curl -s 5 -fsSL https://tailscale.com/install.sh | sh
   curl -L https://tailscale.com/install.sh | sh
 fi
@@ -207,7 +208,7 @@ if [[ $? != "0" ]]; then
 fi
 echo
 check_dns
-export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):8081"
+export BH_URL="http://$(tailscale status | grep ionos0  | awk '{print $1}'):8081"
 if [[ $(cat ~/.bashrc) != *"BH_URL"* ]]; then
   echo export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):8081" >>~/.bashrc
 fi
@@ -230,14 +231,18 @@ mybashhub
 
 mkdir -p $HOME/.config/rclone
 cd $HOME/.config/rclone
-curl -Ls ionos0:2586/rc -o rclone.conf
+curl -Ls ionos0:2586/rclone.conf -O
 rclone copy sb2:sync.sh/bin/sync.sh $HOME/bin
 rclone copy sb2:sync.sh/bin/sync.txt $HOME/bin
 chmod +x $HOME/bin/*.sh
 
+echo; echo sync.sh
+countdown 1
 /home/abrax/bin/sync.sh
+countdown 1
 
 ANS=n
+export PATH="/home/linuxbrew/.linuxbrew/bin/brew:$PATH"
 echo; read -n 1 -p "install BREW? (y/n) >> " ANS
 brew() {
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
