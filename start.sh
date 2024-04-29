@@ -7,6 +7,8 @@ echo; echo "cd /home/abrax/bin/
 up sync.sh 
 up down.sh 
 up sync.txt 
+up header.sh
+up header2.sh
 up ~/.config/rclone/rclone.conf"
 echo
 
