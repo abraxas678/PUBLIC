@@ -3,7 +3,13 @@ clear
 cd $HOME
 echo version: NEWv12
 
-echo; echo "up sync.sh; up down.sh: up sync.txt; up ~/.config/rclone/rclone.conf;"; echo
+echo; echo "cd /home/abrax/bin/ 
+up sync.sh 
+up down.sh 
+up sync.txt 
+up ~/.config/rclone/rclone.conf"
+echo
+
 read -t 10 me
 
 GREEN='\033[0;32m'
