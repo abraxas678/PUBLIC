@@ -206,12 +206,12 @@ if [[ $? != "0" ]]; then
 fi
 sudo tailscale up --ssh --accept-routes
 tailscale status
-countdown 1
+countdown 2
 
 tailscale status
 if [[ $? != "0" ]]; then
   sudo tailscaled --tun=userspace-networking --socks5-server=localhost:1055 --outbound-http-proxy-listen=localhost:1055 &
-  countdown 1
+  countdown 2
   sudo tailscale up --ssh --accept-routes
 fi
 echo
