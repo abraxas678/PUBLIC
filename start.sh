@@ -159,8 +159,13 @@ echo $ts >~/last_apt_update.txt
 TASK "install dependencies using apt"
 countdown 1
 installme git
+installme gh
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
+
+gh status
+gh auth refresh -h github.com -s admin:public_key
+gh ssh-key add ./id_ed25519.pub
 
 installme curl
 mkdir -p $HOME/bin
