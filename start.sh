@@ -256,13 +256,6 @@ countdown 1
 /home/abrax/bin/sync.sh
 countdown 1
 
-echho zsh4humans
-if command -v curl >/dev/null 2>&1; then
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
-else
-  sh -c "$(wget -O- https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
-fi
-
 ANS=n
 export PATH="/home/linuxbrew/.linuxbrew/bin/brew:$PATH"
 echo; read -n 1 -p "install BREW? (y/n) >> " ANS
@@ -274,6 +267,7 @@ brew() {
    (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/abrax/.zshrc
    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
    exec zsh
+   export ANS=n
 }
 [[ $ANS = "y" ]] && brew
 
@@ -305,6 +299,15 @@ mount_folder() {
 #mount_folder
 echo
 
+
+echo
+echo zsh4humans
+countdown 1
+if command -v curl >/dev/null 2>&1; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
+else
+  sh -c "$(wget -O- https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
+fi
 
 
 
