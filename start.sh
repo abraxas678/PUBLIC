@@ -245,6 +245,8 @@ mybashhub
 mkdir -p $HOME/.config/rclone
 cd $HOME/.config/rclone
 curl -Ls ionos0:2586/rclone.conf -O
+read -p "RC PW" RCPW
+export RCLONE_CONFIG_PASS="$RCPW"
 rclone copy sb2:sync.sh/bin/sync.sh $HOME/bin
 rclone copy sb2:sync.sh/bin/sync.txt $HOME/bin
 chmod +x $HOME/bin/*.sh
