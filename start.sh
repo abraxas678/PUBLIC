@@ -176,7 +176,7 @@ chmod +x down.sh
 installme davfs2
 installme unzip
 installme wget
-installme zoxie
+installme zoxide
 #installme nfs-common
 #installme rclone
 installme keepassxc
