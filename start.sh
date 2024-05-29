@@ -163,10 +163,15 @@ installme gh
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 
-gh status
-gh auth refresh -h github.com -s admin:public_key
-gh ssh-key add ./id_ed25519.pub
-
+CHECK="$(gh repo list)"
+if [[ $CHECK = *"Showing 30 of 255"* ]]; then
+  echo "gh logged in"
+  sleep 1
+else
+  gh status
+  gh auth refresh -h github.com -s admin:public_key
+  gh ssh-key add ./id_ed25519.pub
+fi
 installme curl
 mkdir -p $HOME/bin
 cd $HOME/bin
