@@ -170,8 +170,8 @@ gh ssh-key add ./id_ed25519.pub
 installme curl
 mkdir -p $HOME/bin
 cd $HOME/bin
-curl -L hetzner:2586/down.sh -O
-curl -L hetzner:2586/sync.sh -O
+curl -L https://pcopy.dmw.zone/down.sh -O
+curl -L https://pcopy.dmw.zone/sync.sh -O
 chmod +x down.sh
 installme davfs2
 installme unzip
