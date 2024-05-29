@@ -170,8 +170,8 @@ gh ssh-key add ./id_ed25519.pub
 installme curl
 mkdir -p $HOME/bin
 cd $HOME/bin
-curl -L ionos0:2586/down.sh -O
-curl -L ionos0:2586/sync.sh -O
+curl -L hetzner:2586/down.sh -O
+curl -L hetzner:2586/sync.sh -O
 chmod +x down.sh
 installme davfs2
 installme unzip
@@ -221,12 +221,12 @@ if [[ $? != "0" ]]; then
 fi
 echo
 check_dns
-export BH_URL="http://$(tailscale status | grep ionos0  | awk '{print $1}'):8081"
+export BH_URL="http://$(tailscale status | grep hetzner  | awk '{print $1}'):8081"
 if [[ $(cat ~/.bashrc) != *"BH_URL"* ]]; then
-  echo export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):8081" >>~/.bashrc
+  echo export BH_URL="http://$( tailscale status | grep hetzner  | awk '{print $1}'):8081" >>~/.bashrc
 fi
 if [[ $(cat ~/.zshrc) != *"BH_URL"* ]]; then
-  echo export BH_URL="http://$( tailscale status | grep ionos0  | awk '{print $1}'):8081" >>~/.zshrc
+  echo export BH_URL="http://$( tailscale status | grep hetzner  | awk '{print $1}'):8081" >>~/.zshrc
 fi
 
 mybashhub() {
@@ -244,7 +244,7 @@ mybashhub
 
 mkdir -p $HOME/.config/rclone
 cd $HOME/.config/rclone
-curl -Ls ionos0:2586/rclone.conf -O
+curl -Ls hetzner:2586/rclone.conf -O
 read -p "RC PW" RCPW
 export RCLONE_CONFIG_PASS="$RCPW"
 rclone copy sb2:sync.sh/bin/sync.sh $HOME/bin
@@ -443,10 +443,10 @@ mount_choice() {
     
     chmod +x /home/abrax/bin/*
     if [[ ! -f /home/abrax/.config/rclone/rclone.conf ]]; then
-    header1 'execute   curl -s -T ~/.config/rclone/rclone.conf "ionos0:2586/rc?t=3m"'
+    header1 'execute   curl -s -T ~/.config/rclone/rclone.conf "hetzner:2586/rc?t=3m"'
     echo
     read -p BUTTON me
-    curl -L ionos0:2586/rc -o ~/.config/rclone/rclone.conf
+    curl -L hetzner:2586/rc -o ~/.config/rclone/rclone.conf
     COUNT=$(rclone listremotes | wc -l)
     [[ $COUNT > "100" ]] && echo "rclone.conf: OK"
     fi
