@@ -173,8 +173,8 @@ installme gh
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 
-CHECK="$(gh repo list)"
-if [[ $CHECK = *"Showing 30 of 255"* ]]; then
+gh repo list
+if [[ $? = 0 ]]; then
   echo "gh logged in"
   sleep 1
 else
