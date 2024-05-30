@@ -39,6 +39,16 @@ installme() {
   fi
 }
 
+brew() {
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+    sudo apt-get install build-essential -y
+    brew install gcc
+   (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/abrax/.zshrc
+   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+   exec zsh
+   export ANS=n
+}
 release_wait() {
   x=1
   while [[ $x = 1 ]]; do
@@ -261,19 +271,9 @@ countdown 1
 /home/abrax/bin/sync.sh
 countdown 1
 
-ANS=n
+export ANS=n
 export PATH="/home/linuxbrew/.linuxbrew/bin/brew:$PATH"
 echo; read -n 1 -p "install BREW? (y/n) >> " ANS
-brew() {
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-    sudo apt-get install build-essential -y
-    brew install gcc
-   (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/abrax/.zshrc
-   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-   exec zsh
-   export ANS=n
-}
 [[ $ANS = "y" ]] && brew
 
 echo eza
