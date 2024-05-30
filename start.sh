@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 cd $HOME
-echo version: NEWv13
+echo version: NEWv14
 
 echo; echo "cd /home/abrax/bin/ 
 up sync.sh 
@@ -39,7 +39,7 @@ installme() {
   fi
 }
 
-brew() {
+brew_install() {
     /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
     export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
     sudo apt-get install build-essential -y
