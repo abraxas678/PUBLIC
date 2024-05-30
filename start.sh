@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 cd $HOME
-echo version: NEWv12
+echo version: NEWv13
 
 echo; echo "cd /home/abrax/bin/ 
 up sync.sh 
@@ -274,7 +274,7 @@ countdown 1
 export ANS=n
 export PATH="/home/linuxbrew/.linuxbrew/bin/brew:$PATH"
 echo; read -n 1 -p "install BREW? (y/n) >> " ANS
-[[ $ANS = "y" ]] && brew
+[[ $ANS = "y" ]] && echo brew #brew
 
 echo eza
 countdown 1
