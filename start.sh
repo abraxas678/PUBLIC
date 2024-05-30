@@ -55,6 +55,7 @@ release_wait() {
     echo WAITING FOR RELEASE
     sleep 5
     CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
+    echo $CUR_REL $NEW_REL
     [[ $CUR_REL = $NEW_REL ]] && x=0
   done
     echo realease ready
