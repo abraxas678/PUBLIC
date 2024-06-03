@@ -12,7 +12,7 @@ up header2.sh
 up ~/.config/rclone/rclone.conf"
 echo
 
-read -t 10 me
+#read -t 10 me
 
 GREEN='\033[0;32m'
 RED='\033[0;31m'
@@ -27,6 +27,7 @@ RC='\033[0m'
 
 CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
 NEW_REL=$((CUR_REL+1))
+echo CUR_REL: $CUR_REL
 echo NEW_REL: $NEW_REL
 
 installme() {
@@ -123,6 +124,7 @@ TASK() {
 check_dns
 
 if [[ "$(hostname)" = "lenovo" ]]; then
+  header2 change machine name
   echo hostname=lenovo
   cd $HOME
   curl -sL machine.yyps.de >machine.sh
@@ -167,7 +169,7 @@ else
 fi
 echo $ts >~/last_apt_update.txt
 
-TASK "install dependencies using apt"
+header2 "install dependencies using apt"
 countdown 1
 installme git
 installme gh
@@ -206,6 +208,7 @@ installme python3-pip
 installme pipx
 pipx install rich-cli
 pipx install shell-gpt
+pipx install apprise
 #installme zsh
 
 #oh_my_zsh() {
@@ -265,6 +268,9 @@ read -p "RC PW" RCPW
 export RCLONE_CONFIG_PASS="$RCPW"
 rclone copy sb2:sync.sh/bin/sync.sh $HOME/bin
 rclone copy sb2:sync.sh/bin/sync.txt $HOME/bin
+rclone copy sb2:sync.sh/bin/down.sh $HOME/bin
+rclone copy sb2:sync.sh/bin/up.sh $HOME/bin
+rclone copy sb2:sync.sh/bin/header.sh $HOME/bin
 chmod +x $HOME/bin/*.sh
 
 echo; echo sync.sh
