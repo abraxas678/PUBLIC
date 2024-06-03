@@ -241,6 +241,9 @@ fi
 echo
 check_dns
 export BH_URL="http://$(tailscale status | grep hetzner  | awk '{print $1}'):8081"
+export BH_URL="http://100.98.141.82:8081"
+echo; echo BH_URL: $BH_URL
+echo
 if [[ $(cat ~/.bashrc) != *"BH_URL"* ]]; then
   echo export BH_URL="http://$( tailscale status | grep hetzner  | awk '{print $1}'):8081" >>~/.bashrc
 fi
