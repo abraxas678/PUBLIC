@@ -20,8 +20,8 @@ fi
 sleep 1
 clear
 
-
-vault -cp
+read -p "App: >> " MyApp
+vault -c $MyApp -r 2 -l 54
 
 
 ##read -s PHRASE
