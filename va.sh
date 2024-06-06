@@ -1,10 +1,9 @@
 #!/bin/bash
 ### https://github.com/jcoglan/vault
 #vault -cp
-
 read -s PHRASE
-read -s PHRASE2
 echo ${#PHRASE}
+read -s PHRASE2
 [[ ${#PHRASE} != 55 ]] && exit
 echo ${#PHRASE2}
 [[ ${#PHRASE2} != 51 ]] && exit
