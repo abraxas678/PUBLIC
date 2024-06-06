@@ -9,11 +9,13 @@ which npm > /dev/null || B=0
 which vault > /dev/null || C=0
 D=$((A+B+C))
 if [[ $D != 3 ]]; then
-  read -s -p "catcher" -t 5 me
+  read -s -p "catcher" -t 15 me
+  echo; echo "starting installation" | /home/abrax/bin/red.sh || echo "starting installation"
   sudo apt update
   sudo apt install -y nodejs
   sudo apt install -y npm
   sudo npm install -g vault
+  echo; echo "install completed, restart process" | /home/abrax/bin/green.sh || echo "install completed, restart process"
 else
   vault -cp
 fi
