@@ -6,19 +6,12 @@ echo ${#PHRASE}
 echo ${#PHRASE2}
 [[ ${#PHRASE2} != 51 ]] && exit
 sleep 1
-A=1
-B=1
-C=1
-which nodejs > /dev/null || A=0
-which npm > /dev/null || B=0
-which vault > /dev/null || C=0
-D=$((A+B+C))
-if [[ $D != 3 ]]; then
-  sudo apt update
-  sudo apt install -y nodejs
-  sudo apt install -y npm
-  sudo npm install -g vault
-fi
+exit
+
+sudo apt update
+sudo apt install -y nodejs
+sudo apt install -y npm
+sudo npm install -g vault
 sleep 1
 clear
 
