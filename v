@@ -1,4 +1,5 @@
 #!/bin/bash
+clear
 ### https://github.com/jcoglan/vault
 #vault -cp
 A=1
@@ -21,10 +22,12 @@ else
 fi
 sleep 1
 clear
-read -t 3 me 
+#read -t 3 me 
 read -p "App: >> " MyApp
+echo
 vault -c $MyApp -r 2 -l 54 --space 0
-
+echo
+shred ~/.vault
 
 ##read -s PHRASE
 #echo ${#PHRASE}
@@ -32,9 +35,10 @@ vault -c $MyApp -r 2 -l 54 --space 0
 #[[ ${#PHRASE} != 55 ]] && exit
 #echo ${#PHRASE2}
 ##[[ ${#PHRASE2} != 51 ]] && exit
-echo $PHRASE$PHRASE2 | vault google -r 2 -l 54
+#echo $PHRASE$PHRASE2 | vault google -r 2 -l 54
 
 
+exit
 
 if [[ 1 = 2 ]]; then
 sudo timedatectl set-timezone Europe/Berlin

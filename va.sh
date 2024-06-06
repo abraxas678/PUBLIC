@@ -1,4 +1,6 @@
 #!/bin/bash
+echo v1.0
+sleep 1
 clear
 ### https://github.com/jcoglan/vault
 #vault -cp
