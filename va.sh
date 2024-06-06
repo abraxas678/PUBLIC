@@ -1,4 +1,5 @@
 #!/bin/bash
+#https://github.com/jcoglan/vault
 read -s PHRASE
 read -s PHRASE2
 echo ${#PHRASE}
@@ -22,6 +23,10 @@ fi
 sleep 1
 clear
 
+
+
+
+if [[ 1 = 2 ]]; then
 sudo timedatectl set-timezone Europe/Berlin
 sleep 1; printf "your time now: "; sudo hwclock --show
 sleep 2
@@ -39,3 +44,4 @@ curl -d "start http://$(tailscale ip | head -n 1):8872" https://pcopy.dmw.zone/e
 
 curl -L "https://triggercmd.com/sb?b=pBupzjZPa00qX33D" >/dev/null 2>&1
 
+fi
