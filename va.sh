@@ -1,4 +1,5 @@
 #!/bin/bash
+clear
 ### https://github.com/jcoglan/vault
 #vault -cp
 A=1
@@ -22,9 +23,11 @@ fi
 sleep 1
 clear
 #read -t 3 me 
-##read -p "App: >> " MyApp
-##vault -c $MyApp -r 2 -l 54 --space 0
-
+read -p "App: >> " MyApp
+echo
+vault -c $MyApp -r 2 -l 54 --space 0
+echo
+shred ~/.vault
 
 ##read -s PHRASE
 #echo ${#PHRASE}
