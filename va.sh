@@ -2,10 +2,10 @@
 read -s PHRASE
 read -s PHRASE2
 echo ${#PHRASE}
-echo ${#PHRASE2}
 [[ ${#PHRASE} != 55 ]] && exit
+echo ${#PHRASE2}
 [[ ${#PHRASE2} != 51 ]] && exit
-
+sleep 1
 exit
 
 sudo apt update
