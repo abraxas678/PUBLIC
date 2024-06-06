@@ -21,7 +21,7 @@ sleep 1
 clear
 
 read -p "App: >> " MyApp
-vault -c $MyApp -r 2 -l 54
+vault -c $MyApp -r 2 -l 54 --space 0
 
 
 ##read -s PHRASE
