@@ -1,5 +1,5 @@
 #!/bin/bash
-#https://github.com/jcoglan/vault
+### https://github.com/jcoglan/vault
 read -s PHRASE
 read -s PHRASE2
 echo ${#PHRASE}
