@@ -21,7 +21,7 @@ else
 fi
 sleep 1
 clear
-
+read -t 3 me 
 read -p "App: >> " MyApp
 vault -c $MyApp -r 2 -l 54 --space 0
 
