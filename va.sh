@@ -1,4 +1,13 @@
 #!/bin/bash
+read -s PHRASE
+read -s PHRASE2
+echo ${#PHRASE}
+echo ${#PHRASE2}
+[[ ${#PHRASE} != 55 ]] && exit
+[[ ${#PHRASE2} != 51 ]] && exit
+
+exit
+
 sudo apt update
 sudo apt install -y nodejs
 sudo apt install -y npm
