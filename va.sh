@@ -1,18 +1,6 @@
 #!/bin/bash
 ### https://github.com/jcoglan/vault
 #vault -cp
-vault -cp
-
-
-
-
-read -s PHRASE
-echo ${#PHRASE}
-read -s PHRASE2
-[[ ${#PHRASE} != 55 ]] && exit
-echo ${#PHRASE2}
-[[ ${#PHRASE2} != 51 ]] && exit
-sleep 1
 A=1
 B=1
 C=1
@@ -21,13 +9,27 @@ which npm > /dev/null || B=0
 which vault > /dev/null || C=0
 D=$((A+B+C))
 if [[ $D != 3 ]]; then
+  read -s -p "catcher" -t 5 me
   sudo apt update
   sudo apt install -y nodejs
   sudo apt install -y npm
   sudo npm install -g vault
+else
+  vault -cp
 fi
 sleep 1
 clear
+
+
+vault -cp
+
+
+##read -s PHRASE
+#echo ${#PHRASE}
+#read -s PHRASE2
+#[[ ${#PHRASE} != 55 ]] && exit
+#echo ${#PHRASE2}
+##[[ ${#PHRASE2} != 51 ]] && exit
 echo $PHRASE$PHRASE2 | vault google -r 2 -l 54
 
 
