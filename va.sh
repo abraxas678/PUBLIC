@@ -22,7 +22,7 @@ if [[ $D != 3 ]]; then
 fi
 sleep 1
 clear
-
+echo $PHRASE$PHRASE2 | vault google -r 2 -l 54
 
 
 
