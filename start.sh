@@ -171,12 +171,13 @@ echo $ts >~/last_apt_update.txt
 
 header2 "install dependencies using apt"
 countdown 1
+installme curl
 installme git
 installme gh
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 
-gh repo list
+gh status
 if [[ $? = 0 ]]; then
   echo "gh logged in"
   sleep 1
@@ -185,12 +186,19 @@ else
   gh auth refresh -h github.com -s admin:public_key
   gh ssh-key add ./id_ed25519.pub
 fi
-installme curl
-mkdir -p $HOME/bin
-cd $HOME/bin
-curl -L https://pcopy.dmw.zone/down.sh -O
-curl -L https://pcopy.dmw.zone/sync.sh -O
-chmod +x down.sh
+echo
+cd
+echo gh repo clone abraxas678/bin
+gh repo clone abraxas678/bin
+echo
+sleep 1
+cd
+gh repo clone abraxas678/.config
+echo
+sleep 1
+
+chmod +x ~/bin/*
+
 installme davfs2
 installme unzip
 installme wget
@@ -240,10 +248,11 @@ if [[ $? != "0" ]]; then
 fi
 echo
 check_dns
-export BH_URL="http://$(tailscale status | grep hetzner  | awk '{print $1}'):8081"
+#export BH_URL="http://$(tailscale status | grep hetzner  | awk '{print $1}'):8081"
 export BH_URL="http://100.98.141.82:8081"
 echo; echo BH_URL: $BH_URL
 echo
+sleep 1
 if [[ $(cat ~/.bashrc) != *"BH_URL"* ]]; then
   echo export BH_URL="http://$( tailscale status | grep hetzner  | awk '{print $1}'):8081" >>~/.bashrc
 fi
@@ -264,16 +273,17 @@ mybashhub() {
 }
 mybashhub
 
-mkdir -p $HOME/.config/rclone
-cd $HOME/.config/rclone
-curl -Ls hetzner:2586/rclone.conf -O
-read -p "RC PW" RCPW
+#mkdir -p $HOME/.config/rclone
+##cd $HOME/.config/rclone
+#curl -Ls hetzner:2586/rclone.conf -O
+read -p "RC PW >> " RCPW
+clear
 export RCLONE_CONFIG_PASS="$RCPW"
-rclone copy sb2:sync.sh/bin/sync.sh $HOME/bin
-rclone copy sb2:sync.sh/bin/sync.txt $HOME/bin
-rclone copy sb2:sync.sh/bin/down.sh $HOME/bin
-rclone copy sb2:sync.sh/bin/up.sh $HOME/bin
-rclone copy sb2:sync.sh/bin/header.sh $HOME/bin
+#rclone copy sb2:sync.sh/bin/sync.sh $HOME/bin
+##rclone copy sb2:sync.sh/bin/sync.txt $HOME/bin
+#rclone copy sb2:sync.sh/bin/down.sh $HOME/bin
+#rclone copy sb2:sync.sh/bin/up.sh $HOME/bin
+#rclone copy sb2:sync.sh/bin/header.sh $HOME/bin
 chmod +x $HOME/bin/*.sh
 
 echo; echo sync.sh
