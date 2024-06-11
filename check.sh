@@ -1,5 +1,5 @@
 #!/bin/bash
-while true; do
+#while true; do
 clear
 ping 78.46.39.42 -c 1 >/dev/null
 
@@ -13,4 +13,4 @@ fi
 
 sleep 1
 
-done
+#done
