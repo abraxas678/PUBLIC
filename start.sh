@@ -182,7 +182,7 @@ installme gh
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 
-gh status
+gh repo list
 if [[ $? = 0 ]]; then
   echo "gh logged in"
   sleep 1
