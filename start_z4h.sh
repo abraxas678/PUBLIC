@@ -206,13 +206,13 @@ while [[ ! -f /home/mnt/snas/setup/MOUNT_CHECK ]]; do
   sleep 1
 done
 
-mkdir /home/abrax/.config -p
-[[ ! -f /home/abrax/.config/sync.txt ]] && cp /home/mnt/snas/setup/sync.txt /home/abrax/.config/
-mkdir -p /home/abrax/.config/rclone/
-[[ ! -f /home/abrax/.config/rclone/rclone.conf ]] && cp /home/mnt/snas/setup/rclone.conf /home/abrax/.config/rclone/
-[[ ! -f /home/abrax/bin/sync.sh ]] && cp /home/mnt/snas/setup/sync.sh /home/abrax/bin/
-[[ ! -f /home/abrax/bin/age ]] && cp /home/mnt/snas/setup/age /home/abrax/bin/
-chmod +x /home/abrax/bin/*
+mkdir /home/abra/.config -p
+[[ ! -f /home/abra/.config/sync.txt ]] && cp /home/mnt/snas/setup/sync.txt /home/abra/.config/
+mkdir -p /home/abra/.config/rclone/
+[[ ! -f /home/abra/.config/rclone/rclone.conf ]] && cp /home/mnt/snas/setup/rclone.conf /home/abra/.config/rclone/
+[[ ! -f /home/abra/bin/sync.sh ]] && cp /home/mnt/snas/setup/sync.sh /home/abra/bin/
+[[ ! -f /home/abra/bin/age ]] && cp /home/mnt/snas/setup/age /home/abra/bin/
+chmod +x /home/abra/bin/*
 
 installme python3-pip
 sudo apt install -y python3-rich_cli
@@ -220,7 +220,7 @@ export RCLONE_PASSWORD_COMMAND="ssh abraxas@snas cat /volume2/mutagen/.ssh/rclon
 installme rclone
 echo
 header1 sync.sh --skip
-/home/abrax/bin/sync.sh --skip --force
+/home/abra/bin/sync.sh --skip --force
 
 # Source start2.sh script
 echo
