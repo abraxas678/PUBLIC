@@ -141,6 +141,7 @@ cd $HOME/tmp
 TASK "CHECK: USER = abrax? "
 # Check if user is not abrax, if not then switch to abrax
 if [[ $USER != *"abrax"* ]]; then
+if [[ $USER != *"abra"* ]]; then
   apt install -y sudo
   if [[ $USER = *"root"* ]]; then
     su abrax
@@ -155,6 +156,7 @@ if [[ $USER != *"abrax"* ]]; then
     su abrax
     exit
   fi
+fi
 fi
 
 TASK "check last update time"
