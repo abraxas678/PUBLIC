@@ -1,9 +1,12 @@
 #!/bin/bash
 clear
+MYHOME=$HOME
+echo MYHOME=$MYHOME
+sleep 1
 cd $HOME
 echo version: NEWv14
 
-echo; echo "cd /home/abrax/bin/ 
+echo; echo "cd $MYHOME/bin/ 
 up sync.sh 
 up down.sh 
 up sync.txt 
@@ -45,7 +48,7 @@ brew_install() {
     export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
     sudo apt-get install build-essential -y
     brew install gcc
-   (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/abrax/.zshrc
+   (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> $MYHOME/.zshrc
    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
    exec zsh
    export ANS=n
@@ -190,6 +193,7 @@ else
 fi
 echo
 cd
+if [[ ! -d $MYHOME/bin ]]; then
 echo gh repo clone abraxas678/bin
 gh repo clone abraxas678/bin
 echo
@@ -198,6 +202,7 @@ cd
 gh repo clone abraxas678/.config
 echo
 sleep 1
+fi
 
 chmod +x ~/bin/*
 
@@ -290,7 +295,7 @@ chmod +x $HOME/bin/*.sh
 
 echo; echo sync.sh
 countdown 1
-/home/abrax/bin/sync.sh
+$MYHOME/bin/sync.sh
 countdown 1
 
 export ANS=n
@@ -317,10 +322,10 @@ mount_nc() {
 #mount_nc
 
 mount_folder() {
-  mkdir -p /home/abrax/bin
-  mkdir -p /home/abrax/.config
-  sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/bin /home/abrax/bin
-  sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/.config /home/abrax/.config
+  mkdir -p $MYHOME/bin
+  mkdir -p $MYHOME/.config
+  sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/bin $MYHOME/bin
+  sshfs abrax@192.168.11.162:/var/www/nextcloud/data/abraxas678/files/LINUX/abrax/.config $MYHOME/.config
 # sudo mount -t davfs -o noexec https://nxt.dmw.zone/remote.php/dav/files/abraxas678 /home/mnt/nc
 }
 #mount_folder
@@ -346,13 +351,13 @@ if [[ -f /home/mnt/nc/MOUNT_CHECK ]]; then
   echo Nexcloud /home/mnt/nc sucessfully mounted
 fi
 
-ls /home/abrax/bin/MONT_CHECK >/dev/null 2>&1
+ls $MYHOME/bin/MONT_CHECK >/dev/null 2>&1
 if [[ $? = "0" ]]; then
   echo Nexcloud bin sucessfully mounted
 else
   echo bin bin
 fi
-if [[ -f /home/abrax/.config/MOUNT_CHECK ]]; then
+if [[ -f $MYHOME/.config/MOUNT_CHECK ]]; then
   echo Nexcloud .config sucessfully mounted
 fi
 echo
@@ -459,17 +464,17 @@ mount_choice() {
     done
 
     
-    mkdir /home/abrax/.config -p
-    [[ ! -f /home/abrax/.config/sync.txt ]] && cp /home/mnt/snas/setup/sync.txt /home/abrax/.config/
-    mkdir -p /home/abrax/.config/rclone/
-    [[ ! -f /home/abrax/.config/rclone/rclone.conf ]] && cp /home/mnt/snas/setup/rclone.conf /home/abrax/.config/rclone/
-    [[ ! -f /home/abrax/bin/sync.sh ]] && cp /home/mnt/snas/setup/sync.sh /home/abrax/bin/
-    [[ ! -f /home/abrax/bin/age ]] && cp /home/mnt/snas/setup/age /home/abrax/bin/
+    mkdir $MYHOME/.config -p
+    [[ ! -f $MYHOME/.config/sync.txt ]] && cp /home/mnt/snas/setup/sync.txt $MYHOME/.config/
+    mkdir -p $MYHOME/.config/rclone/
+    [[ ! -f $MYHOME/.config/rclone/rclone.conf ]] && cp /home/mnt/snas/setup/rclone.conf $MYHOME/.config/rclone/
+    [[ ! -f $MYHOME/bin/sync.sh ]] && cp /home/mnt/snas/setup/sync.sh $MYHOME/bin/
+    [[ ! -f $MYHOME/bin/age ]] && cp /home/mnt/snas/setup/age $MYHOME/bin/
     echo
     echo chmod +x bin
     
-    chmod +x /home/abrax/bin/*
-    if [[ ! -f /home/abrax/.config/rclone/rclone.conf ]]; then
+    chmod +x $MYHOME/bin/*
+    if [[ ! -f $MYHOME/.config/rclone/rclone.conf ]]; then
     header1 'execute   curl -s -T ~/.config/rclone/rclone.conf "hetzner:2586/rc?t=3m"'
     echo
     read -p BUTTON me
@@ -488,7 +493,7 @@ mount_choice() {
     #export RCLONE_PASSWORD_COMMAND="ssh abraxas@snas cat /volume2/mutagen/.ssh/rclonepw.sh | bash"
     echo
     header1 sync.sh --skip --force
-    /home/abrax/bin/sync.sh --skip --force
+    $MYHOME/bin/sync.sh --skip --force
 }
 # Source start2.sh script
 #echo
