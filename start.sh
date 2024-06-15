@@ -212,6 +212,7 @@ installme wget
 installme zoxide
 #installme nfs-common
 #installme rclone
+installme copyq
 installme keepassxc
 echo
 echo rclone beta
