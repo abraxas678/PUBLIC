@@ -138,8 +138,8 @@ fi
 mkdir ~/tmp -p
 MYPWD=$PWD
 cd $HOME/tmp
-
-
+sudo apt update && sudo apt install unzip -y
+[[ ! -f $HOME/tmp/Terminus.zip ]] && [[ ! -d $HOME/tmp/Terminus ]] && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Terminus.zip && unzip Terminus.zip
 #echo user1
 TASK "CHECK: USER = abrax? "
 # Check if user is not abrax, if not then switch to abrax
