@@ -1,5 +1,5 @@
 #
-curl -L start_main.yyps.de >start_main.sh
-chmod +x start_main.sh
-./start_main.sh
+curl -L start-main.yyps.de >start-main.sh
+chmod +x start-main.sh
+./start-main.sh
 exit
