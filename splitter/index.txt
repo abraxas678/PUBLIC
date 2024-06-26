@@ -1,0 +1,30 @@
+1. Initialization and Environment Setup
+2. Define Utility Functions
+3. Check and Update Release Version
+4. DNS and Connectivity Check
+5. Machine Name and User Setup
+6. Dependency Installation
+7. GitHub Setup
+8. Tailscale Setup
+9. Environment Variable Setup
+10. Node, Yarn, and Homebrew Setup
+11. Homebrew Packages Installation
+12. Chezmoi Setup
+13. Rclone Configuration
+14. GitHub Repository Check and Update
+15. Additional Setup Tasks and Cleanup
+1. Initialization and Environment Setup
+2. Define Functions
+3. Check Machine Name
+4. APT update && upgrade && Font install
+5. User setup && APT update
+6. Dependency Installation - apt && clone bin .config
+7. App install
+8. Tailscale Setup
+9. Install nvm, node, and yarn
+10. Homebrew Setup and Hombrew app install
+11. Chezmoi
+12. Tailscale status check
+13. Rclone Configuration
+14. GitHub Repository Check and Update
+15. DONE
