@@ -1,5 +1,5 @@
 #!/bin/bash
-ls >myfiles
+rclone lsf . --files-only >myfiles
   while IFS= read -r line; do
      nano $line
   done < myfiles
