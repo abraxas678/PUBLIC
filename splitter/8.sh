@@ -1,5 +1,5 @@
 #!/bin/bash
-###############8. Tailscale Setup
+#####################8. Tailscale Setup
 # Install Tailscale
 which tailscale > /dev/null
 if [[ $? != 0 ]]; then

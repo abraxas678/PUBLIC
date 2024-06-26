@@ -1,8 +1,8 @@
 1. Initialization and Environment Setup
-2. release_wait
+2. Define Functions brew
 3. Check Machine Name
-4. User setup
-5. APT update -- check last update time SHOULD BE 3
+4. APT update -- check last update time SHOULD BE 3
+5. User setup
 6. Dependency Installation - git gh
 7. App install
 8. Tailscale Setup

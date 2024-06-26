@@ -1,5 +1,5 @@
 #!/bin/bash
-###############7. App install
+#####################7. App install via apt
 # Install additional packages
 
 installme davfs2
@@ -17,10 +17,4 @@ installme fd-find
 installme zsh
 installme tmux
 installme ripgrep
-
-# Install rclone beta
-echo "rclone beta"
-countdown 1
-sudo -v
-curl https://rclone.org/install.sh | sudo bash -s beta
 

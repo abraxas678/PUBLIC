@@ -1,0 +1,16 @@
+1. Initialization and Environment Setup
+2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew 2. Define Functions brew & release_wait release_wait release_wait release_wait release_wait release_wait release_wait release_wait release_wait release_wait release_wait release_wait release_wait release_wait release_wait release_wait
+3. Check Machine Name
+4. APT update -- check last update time SHOULD BE 3
+5. User setup
+6. Dependency Installation - git gh
+7. App install
+8. Tailscale Setup
+9. Python3 install + Apps
+10. Homebrew Setup and Hombrew app install brew install function rein
+
+
+13. Rclone Configuration rclone setup
+14. GitHub Repository Check and Update DELETE
+
+

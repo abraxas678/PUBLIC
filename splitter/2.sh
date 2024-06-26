@@ -1,17 +1,6 @@
 #!/bin/bash
-###############2. Define Functions  brew #############2. Define Functions  brew ##############2. Define Functions  brew #############2. Define Functions  brew & release_wait release_wait release_wait release_wait
+#####################2. release_wait
 
-# Install Homebrew and its dependencies
-brew_install() {
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-  export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
-  sudo apt-get install -y build-essential
-  brew install gcc
-  echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $MYHOME/.zshrc
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-  exec zsh
-  export ANS=n
-}
 
 # Wait for a new release
 release_wait2() {
