@@ -1,0 +1,30 @@
+##1. Initialization and Environment Setup
+##2. Define Functions
+##3. Check Machine Name
+##4. APT update -- check last update time && FONT
+##5. User setup
+##6. Dependency Installation - git gh
+##7. App install
+##8. Tailscale Setup
+##9. Install nvm, node, and yarn DELETE
+##10. Homebrew Setup and Hombrew app install brew install function rein
+##11. Chezmoi -- DELETE
+##12. Tailscale status check DELETE
+##13. Rclone Configuration rclone setup
+##14. GitHub Repository Check and Update DELETE
+##15. DONE DELETE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 #!/bin/bash
-###4. APT update -- check last update time  && FONT
+###########4. APT update -- check last update time
 
 # Task: Check last apt update time
 TASK "check last update time"
