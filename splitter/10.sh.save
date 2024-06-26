@@ -1,0 +1,5 @@
+11.sh#!/bin/bash 12.sh##10. Homebrew Setup and Hombrew app install 13.sh# Install Homebrew if not already installed 
+which brew > /dev/null if [[ $? != 0 ]]; then echo -e "${YELLOW}INSTALL: Homebrew${RESET}" countdown 1 brew_install 
+fi 14.sh 15.sh# Install utilities using Homebrew installme bat installme exa installme zoxide installme fzf 
+installme fd installme neovim installme chezmoi installme zsh installme tmux installme starship installme ripgrep 
+1.sh 2.sh 3.sh 4.sh 5.sh 6.sh 7.sh 8.sh 9.sh edit_all.sh index.txt myfiles
