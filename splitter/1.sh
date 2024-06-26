@@ -1,5 +1,5 @@
 #!/bin/bash
-#######################1. Initialization and Environment Setup
+#1. Initialization and Environment Setup
 mkdir -p ~/tmp
 cd ~/tmp
 
