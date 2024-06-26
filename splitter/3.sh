@@ -1,5 +1,5 @@
 #!/bin/bash
-##3. Check Machine Name
+###3. Check Machine Name
 
 # Change machine name
 header2 "change machine name"

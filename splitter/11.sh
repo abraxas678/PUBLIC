@@ -1,5 +1,5 @@
 #!/bin/bash
-##11. Chezmoi   -- DELETE
+###11. Chezmoi   -- DELETE
 # Run chezmoi init
 #chezmoi init abraxas678 --apply
 

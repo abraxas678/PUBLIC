@@ -1,7 +1,5 @@
 #!/bin/bash
-##9. Install nvm, node, and yarn
-# DNS check
-check_dns
+###9. Install nvm, node, and yarn   DELETE
 
 # Install nvm, node, and yarn
 which nvm > /dev/null

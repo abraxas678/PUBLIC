@@ -1,25 +1,29 @@
 #!/bin/bash
-##6. Dependency Installation - apt #6. Dependency Installation - apt && clone bin .config#6. Dependency Installation - apt && clone bin .config clone bin .config
+###6. Dependency Installation - git gh
+
 # Task: Install dependencies using apt
+
 header2 "install dependencies using apt"
 countdown 1
-installme curl
+
 installme git
 installme gh
+
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 
 # GitHub authentication and cloning repositories
 gh repo list > /dev/null
 if [[ $? == 0 ]]; then
-echo "gh logged in"
-sleep 1
+  echo "gh logged in"
+  sleep 1
 else
-gh status
-gh auth refresh -h github.com -s admin:public_key
-gh ssh-key add ./id_ed25519.pub
+  gh status
+  gh auth refresh -h github.com -s admin:public_key
+  gh ssh-key add ./id_ed25519.pub
 fi
 echo
+sleep 2
 
 # Clone repositories if not already cloned
 cd
