@@ -1,5 +1,5 @@
 #!/bin/bash
-##5. User setup #5. User setup && APT update#5. User setup && APT update APT update
+##5. User setup #5. User setup && APT update#5. User setup && APT update APT update  && last update time
 # Task: Check if user is 'abrax'
 TASK "CHECK: USER = abrax?"
 if [[ $USER != *"abrax"* ]]; then

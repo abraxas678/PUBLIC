@@ -1,5 +1,5 @@
 #!/bin/bash
-##13. Rclone Configuration
+##13. Rclone Configuration    rclone setup
 # Set up rclone
 TASK "check: rclone"
 if [[ ! -f $MYHOME/.config/rclone/rclone.conf ]]; then

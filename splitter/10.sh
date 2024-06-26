@@ -1,5 +1,5 @@
 #!/bin/bash
-##10. Homebrew Setup and Hombrew app install
+##10. Homebrew Setup and Hombrew app install     brew install function rein
 # Install Homebrew if not already installed
 which brew > /dev/null
 if [[ $? != 0 ]]; then

@@ -1,5 +1,6 @@
 #!/bin/bash
 ##2. Define Functions
+
 # Get current release version
 CUR_REL=$(curl -L start.yyps.de | grep "echo version:" | sed 's/echo version: NEWv//')
 NEW_REL=$((CUR_REL + 1))

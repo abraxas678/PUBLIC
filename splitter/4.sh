@@ -4,4 +4,5 @@
 mkdir -p ~/tmp
 cd ~/tmp
 sudo apt update && sudo apt install -y unzip
+
 [[ ! -f Terminus.zip ]] && [[ ! -d Terminus ]] && wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Terminus.zip && unzip Terminus.zip && sudo mv *.ttf /usr/share/fonts/truetype && sudo fc-cache -fv

@@ -1,5 +1,5 @@
 y#!/bin/bash
-##14. GitHub Repository Check and Update
+##14. GitHub Repository Check and Update   DELETE
 # Check GitHub repository for updates
 TASK "Check: GitHub"
 GITSTATUS=$(git status)

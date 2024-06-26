@@ -1,7 +1,7 @@
 #!/bin/bash
-##11. Chezmoi
+##11. Chezmoi   -- DELETE
 # Run chezmoi init
-chezmoi init abraxas678 --apply
+#chezmoi init abraxas678 --apply
 
 # Update or initialize dotfiles repository
 DOTFILES_DIR="$MYHOME/.local/share/chezmoi"
