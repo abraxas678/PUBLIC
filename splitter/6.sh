@@ -1,5 +1,5 @@
 #!/bin/bash
-#############6. Dependency Installation - git gh
+###############6. Dependency Installation - git gh
 
 # Task: Install dependencies using apt
 

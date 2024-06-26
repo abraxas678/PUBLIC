@@ -1,5 +1,5 @@
 #!/bin/bash
-#############2. Define Functions  brew & release_wait
+###############2. Define Functions  brew #############2. Define Functions  brew ##############2. Define Functions  brew #############2. Define Functions  brew & release_wait release_wait release_wait release_wait
 
 # Install Homebrew and its dependencies
 brew_install() {
