@@ -9,8 +9,7 @@
 9. Python3 install + Apps
 10. Homebrew Setup and Hombrew app install
 11 rclone install
-12. akeyless setup
-13. Rclone Configuration rclone setup
+ 12. akeyless setup
 
 
 
