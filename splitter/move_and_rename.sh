@@ -27,9 +27,9 @@ while IFS= read -r line; do
   echo "Title inside file: $line"
   # Create the file name using awk
   FILENAME="$(echo $line | awk '{print $1}')sh"
-  echo "$FILENAME; $line; ; >>mysheet.csv"
+  echo "$FILENAME; $line; ;" >>mysheet.csv
   # Output the results
-  sleep 1
+  sleep 0.3
 done < index.txt
 echo
 rich mysheet.csv
@@ -45,7 +45,7 @@ rich mysheet.csv
   echo "Calling sgpt with PROMPT: $PROMPT"
   
   # Call the sgpt tool with the constructed prompt
-  FILENAME2=$(sgpt --model ollama/llama3 "$PROMPT")
+#  FILENAME2=$(sgpt --model ollama/llama3 "$PROMPT")
   
   # Debug output after sgpt call
   echo "sgpt returned: $FILENAME2"
