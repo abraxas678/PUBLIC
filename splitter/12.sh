@@ -1,5 +1,5 @@
 !/bin/bash
-#12. User setup
+12. User setup
  Task: Check if user is 'abrax'
 TASK "CHECK: USER = abrax?"
 if [[ $USER != *"abrax"* ]]; then
