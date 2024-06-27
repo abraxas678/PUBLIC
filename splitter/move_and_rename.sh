@@ -28,12 +28,12 @@ rich -u -p "sed empty lines"
 sed '/^$/d' index.txt
 
 while IFS= read -r line; do
-  echo "Title inside file: $line"
+  [[ ${#line} != 0 ]] && echo "Title inside file: $line"
   # Create the file name using awk
   FILENAME="$(echo $line | awk '{print $1}')sh"
   [[ ${#line} != 0 ]] &&  echo "$FILENAME; $line; ;" >>mysheet.csv
   # Output the results
-  sleep 0.3
+#  sleep 0.3
 done < index.txt
 
 w=1
