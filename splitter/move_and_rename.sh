@@ -21,9 +21,11 @@ fi
 
 echo "FILENAME_OLD; TITLE; FILENAME_NEW;" >mysheet.csv
 COUNT=$(cat index.html | wc -l)
+
 # Read the file line by line
 rich -u -p "sed empty lines"
 sed '/^$/d' index.txt
+
 while IFS= read -r line; do
   echo "Title inside file: $line"
   # Create the file name using awk
@@ -32,8 +34,29 @@ while IFS= read -r line; do
   # Output the results
   sleep 0.3
 done < index.txt
+
 echo
-rich mysheet.csv
+rich mysheet.csv; echo
+
+echo "Change Text - Move Positon - AI Filename"
+echo
+read -s ANS
+git add .; git commit -a -m "move_and_rename.sh"; git push; echo
+if [[ $ANS = c ]]; then
+  read -p "Nr: >> " NUM
+  rich -p "cat $NUM.sh | head -n 2 | tail -n 1 -s blue -a ascii -e"
+  read -p "New: >> " NEWTEXT
+  echo "#!/bin/bash" >$NUM.sh.new
+  echo "$NEWTEXT" >>$NUM.sh.new
+  cp $NEW.sh $NEW.sh.old
+  sed -i '1,2d' $NUM.sh >>$NUM.sh.new  #> new_text.txt   
+  cat $NUM.sh >>$NUM.sh.new
+  rich -p "$(cat $NUM.sh.new)" 
+  read -p "ENTER to change" -s "#666666" me
+  mv $NUM.sh.new $NUM.sh
+fi
+
+
   # Construct the prompt
   PROMPT="Out of 15 sentences create a very short but fully understandable file name for every single one and answer nothing else than this file names."
   echo "FILENAME: $FILENAME"
