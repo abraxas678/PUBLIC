@@ -1,5 +1,5 @@
-#!/bin/bash
-#2. release wait
+!/bin/bash
+2. release wait
 
 
  Wait for a new release
