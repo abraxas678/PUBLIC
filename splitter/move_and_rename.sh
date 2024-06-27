@@ -71,7 +71,7 @@ elif [[ $ANS = m ]]; then
   read -p "SWAP2: >> " SWAP2
   mv $SWAP1.sh $SWAP1.sh.park
   mv $SWAP2.sh $SWAP1.sh 
-  mv $SWAP1.sh.park $SWAP1.sh
+  mv $SWAP1.sh.park $SWAP2.sh
   sed -i '2s/$SWAP1/$SWAP2/g' $SWAP2.sh   
   sed -i '2s/$SWAP2/$SWAP1/g' $SWAP1.sh   
   ./move_and_rename.sh
