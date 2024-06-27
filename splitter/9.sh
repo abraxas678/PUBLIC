@@ -1,5 +1,5 @@
 #!/bin/bash
-##9. Python3 install + Apps
+9. Python3 install + Apps
 
 # Install Python packages using pipx
 installme python3-pip
