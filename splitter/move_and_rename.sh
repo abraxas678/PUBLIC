@@ -9,7 +9,7 @@ rich -u -p "collect header"
 ./collect_header.sh
 rich -u -p "sed empty lines"
 sed '/^$/d' index.txt
-rich -u -p "while loop"
+rich -u -p "while loop index.txt $(cat index.txt | wc -l) lines"
 
 while IFS= read -r line; do
   PROMPT="Out of \"$line\" create a very short but fully understandable file name and answer nothing else than this file name"
@@ -18,7 +18,7 @@ while IFS= read -r line; do
   echo
   echo "PROMPT: $PROMPT"; echo
   echo "$FILENAME"
-  echo "Generated Name: $FILENAME2 
+  echo "Generated Name: $FILENAME2"
   echo "Tite inside file: $line"
   sleep 1
 done < index.txt

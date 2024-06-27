@@ -1,5 +1,5 @@
 #!/bin/bash
-#6. github 
+##6. github 
 
 # Task: Install dependencies using apt
 
