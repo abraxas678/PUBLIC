@@ -20,13 +20,27 @@ if [[ ! -f "index.txt" ]]; then
   exit 1
 fi
 
+echo "FILENAME_OLD; TITLE; FILENAME_NEW" >mysheet.csv
+COUNT=$(cat index.html | wc -l)
 # Read the file line by line
 while IFS= read -r line; do
-  echo "Processing line: $line"
-  
+  echo "Title inside file: $line"
+  # Create the file name using awk
+  FILENAME="$(echo $line | awk '{print $1}')sh"
+  echo "$FILENAME; $line; ; >>mysheet.csv"
+  # Output the results
+  sleep 1
+done < index.txt
+echo
+rich mysheet.csv
   # Construct the prompt
-  PROMPT="Out of \"$line\" create a very short but fully understandable file name and answer nothing else than this file name"
-  
+  PROMPT="Out of 15 sentences create a very short but fully understandable file name for every single one and answer nothing else than this file names."
+  echo "FILENAME: $FILENAME"
+  echo "Generated Name: $FILENAME2"
+
+  echo "PROMPT: $PROMPT"
+  echo
+
   # Debug output before sgpt call
   echo "Calling sgpt with PROMPT: $PROMPT"
   
@@ -36,19 +50,6 @@ while IFS= read -r line; do
   # Debug output after sgpt call
   echo "sgpt returned: $FILENAME2"
   
-  # Create the file name using awk
-  FILENAME="$(echo $line | awk '{print $1}')sh"
-  
-  # Output the results
-  echo
-  echo "PROMPT: $PROMPT"
-  echo
-  echo "FILENAME: $FILENAME"
-  echo "Generated Name: $FILENAME2"
-  echo "Title inside file: $line"
-  sleep 1
-done < index.txt
-
 
 
 
