@@ -1,5 +1,5 @@
-#!/bin/bash
-github  and gh setup
+!/bin/bash
+#github  and gh setup
 
  Task: Install dependencies using apt
 
