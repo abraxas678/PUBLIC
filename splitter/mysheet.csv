@@ -1,7 +1,7 @@
 FILENAME_OLD; TITLE; FILENAME_NEW;
 1.sh; 1. Initialization and Environment Setup; ;
 2.sh; 2. release wait; ;
-3.sh; 3. APT update -- check last update time SHOULD BE 3; ;
+3.sh; 3. APT update -- check last update time; ;
 4.sh; 4. User setup; ;
 5.sh; 5. Check Machine Name; ;
 6.sh; 6. github; ;
@@ -10,5 +10,5 @@ FILENAME_OLD; TITLE; FILENAME_NEW;
 9.sh; 9. Python3 install + Apps; ;
 10.sh; 10. Homebrew Setup and Hombrew app install brew install function rein; ;
 11.sh; 11. RCLONE INSTALL; ;
-12.sh; 12. akeyless setup; ;
+12.sh;  12. akeyless setup; ;
 13.sh; 13. Rclone Configuration rclone setup; ;
