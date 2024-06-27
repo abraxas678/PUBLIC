@@ -22,6 +22,8 @@ fi
 echo "FILENAME_OLD; TITLE; FILENAME_NEW;" >mysheet.csv
 COUNT=$(cat index.html | wc -l)
 # Read the file line by line
+rich -u -p "sed empty lines"
+sed '/^$/d' index.txt
 while IFS= read -r line; do
   echo "Title inside file: $line"
   # Create the file name using awk
