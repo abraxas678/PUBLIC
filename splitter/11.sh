@@ -1,5 +1,5 @@
 !/bin/bash
-11 rclone install
+#11 rclone install
 
  Install rclone beta
 echo "rclone beta"
