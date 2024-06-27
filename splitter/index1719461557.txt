@@ -8,11 +8,9 @@
 8. Tailscale Setup
 9. Python3 install + Apps
 10. Homebrew Setup and Hombrew app install brew install function rein
- 11. RCLONE INSTALL
-!/bin/bash
+11. RCLONE INSTALL
+
 13. Rclone Configuration rclone setup
-
-
 
 
 

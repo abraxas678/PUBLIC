@@ -1,5 +1,5 @@
 #!/bin/bash
-#13. Rclone Configuration    rclone setup
+13. Rclone Configuration    rclone setup
 # Set up rclone
 
 # Task: Check last apt update time
