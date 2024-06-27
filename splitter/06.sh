@@ -1,5 +1,5 @@
 !/bin/bash
-6. github and gh setup
+#6. github and gh setup
 
  Task: Install dependencies using apt
 
