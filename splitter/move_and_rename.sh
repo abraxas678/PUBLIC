@@ -11,6 +11,7 @@ echo
 rich -u -p "sed empty lines"
 sed '/^$/d' index.txt
 echo
+
 rich -u -p "while loop index.txt $(cat index.txt | wc -l) lines"
 
 # Check if the file index.txt exists
@@ -35,17 +36,19 @@ while IFS= read -r line; do
   sleep 0.3
 done < index.txt
 
+w=1
+while [[ $w = 1 ]]; do
 echo
 rich mysheet.csv; echo
 
 echo "Change Text - Move Positon - AI Filename"
-echo
 read -n 1  ANS
+
 git add . >/dev/null 2>&1
 git commit -a -m "move_and_rename.sh" >/dev/null 2>&1
 git push >/dev/null 2>&1
-echo
 
+echo
 ### CHANGE TEXT
 if [[ $ANS = c ]]; then
   read -p "Nr: >> " NUM
@@ -59,8 +62,22 @@ if [[ $ANS = c ]]; then
   rich -p "$(cat $NUM.sh.new)" 
   read -p "ENTER to change" me
   mv $NUM.sh.new $NUM.sh
+  ./move_and_rename.sh
+  exit
+elif [[ $ANS = a ]]; then
+  w=0
+elif [[ $ANS = m ]]; then
+  read -p "SWAP1: >> " SWAP1
+  read -p "SWAP2: >> " SWAP2
+  mv $SWAP1.sh $SWAP1.sh.park
+  mv $SWAP2.sh $SWAP1.sh 
+  mv $SWAP1.sh.park $SWAP1.sh
+  sed -i '2s/$SWAP1/$SWAP2/g' $SWAP2.sh   
+  sed -i '2s/$SWAP2/$SWAP1/g' $SWAP1.sh   
+  ./move_and_rename.sh
+  exit
 fi
-
+done
 
   # Construct the prompt
   PROMPT="Out of 15 sentences create a very short but fully understandable file name for every single one and answer nothing else than this file names."
