@@ -1,5 +1,5 @@
 #!/bin/bash
-#######################7. App install via apt
+##7. App install via apt
 # Install additional packages
 
 installme davfs2
