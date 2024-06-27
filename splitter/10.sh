@@ -1,7 +1,7 @@
-#!/bin/bash
-10. Homebrew Setup and Hombrew app install     brew install function rein
+!/bin/bash
+#10. Homebrew Setup and Hombrew app install     brew install function rein
 
-# Install Homebrew and its dependencies
+ Install Homebrew and its dependencies
 brew_install() {
   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
   export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
@@ -13,7 +13,7 @@ brew_install() {
   export ANS=n
 }
 
-# Install Homebrew if not already installed
+ Install Homebrew if not already installed
 which brew > /dev/null
 if [[ $? != 0 ]]; then
   echo -e "${YELLOW}INSTALL: Homebrew${RESET}"
@@ -21,6 +21,6 @@ if [[ $? != 0 ]]; then
   brew_install
 fi
 
-# Install utilities using Homebrew
+ Install utilities using Homebrew
 
-#pueue
+pueue

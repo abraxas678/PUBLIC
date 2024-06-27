@@ -1,6 +1,6 @@
-#!/bin/bash
-7. App install via apt
-# Install additional packages
+!/bin/bash
+#7. App install via apt
+ Install additional packages
 
 installme davfs2
 installme unzip

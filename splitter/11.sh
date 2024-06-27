@@ -1,7 +1,7 @@
-#!/bin/bash
-##11. RCLONE INSTALL
+!/bin/bash
+11. RCLONE INSTALL
 
-# Install rclone beta
+ Install rclone beta
 echo "rclone beta"
 countdown 1
 sudo -v

@@ -1,7 +1,7 @@
-#!/bin/bash
-8. Tailscale Setup
+!/bin/bash
+#8. Tailscale Setup
 
-# Install Tailscale
+ Install Tailscale
 which tailscale > /dev/null
 if [[ $? != 0 ]]; then
   echo "install tailscale"
@@ -21,7 +21,7 @@ if [[ $? != "0" ]]; then
 fi
 echo
 
-# HISHTORY
+ HISHTORY
 curl https://hishtory.dev/install.py | python3 -
 hishtory init $YOUR_HISHTORY_SECRET
 

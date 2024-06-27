@@ -1,8 +1,8 @@
-#!/bin/bash
-##13. Rclone Configuration    rclone setup
-# Set up rclone
+!/bin/bash
+13. Rclone Configuration    rclone setup
+ Set up rclone
 
-# Task: Check last apt update time
+ Task: Check last apt update time
 TASK "check last update time"
 ts=$(date +%s)
 if [[ -f ~/last_apt_update.txt ]]; then

@@ -1,6 +1,6 @@
-#!/bin/bash
-4. User setup
-# Task: Check if user is 'abrax'
+!/bin/bash
+#4. User setup
+ Task: Check if user is 'abrax'
 TASK "CHECK: USER = abrax?"
 if [[ $USER != *"abrax"* ]]; then
 sudo apt install -y sudo
