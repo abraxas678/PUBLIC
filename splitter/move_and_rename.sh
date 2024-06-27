@@ -7,12 +7,11 @@ git push
 
 rich -u -p "collect header"
 ./collect_header.sh
+echo
 rich -u -p "sed empty lines"
 sed '/^$/d' index.txt
+echo
 rich -u -p "while loop index.txt $(cat index.txt | wc -l) lines"
-
-
-#!/bin/bash
 
 # Check if the file index.txt exists
 if [[ ! -f "index.txt" ]]; then
