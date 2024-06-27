@@ -52,7 +52,7 @@ echo
 ### CHANGE TEXT
 if [[ $ANS = c ]]; then
   read -p "Nr: >> " NUM
-  rich -p "$(cat $NUM.sh | head -n 2 | tail -n 1 -s blue -a ascii -e)"
+  rich -p "$(cat $NUM.sh | head -n 2 | tail -n 1) -s blue -a ascii -e"
   read -p "New: >> " NEWTEXT
   echo "#!/bin/bash" >$NUM.sh.new
   echo "$NEWTEXT" >>$NUM.sh.new
