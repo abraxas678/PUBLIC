@@ -1,5 +1,5 @@
 !/bin/bash
-#10. Homebrew Setup and Hombrew app install
+10. Homebrew Setup and Hombrew app install
 
  Install Homebrew and its dependencies
 brew_install() {
