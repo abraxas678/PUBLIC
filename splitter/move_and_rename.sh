@@ -7,12 +7,12 @@ git push
 rich -u -p "collect header"
 ./collect_header.sh
 rich -u -p "sed empty lines"
-sed '/^$/d' filename
-rich -u -p "while loop
-"
+sed '/^$/d' index.txt
+rich -u -p "while loop"
+
 while IFS= read -r line; do
   echo $line
   echo $line  | awk '{print $1}' 
-done < index2.txt
+done < index.txt
 #cat index.txt
 echo
