@@ -13,10 +13,13 @@ rich -u -p "while loop"
 
 while IFS= read -r line; do
   PROMPT="Out of \"$line\" create a very short but fully understandable file name and answer nothing else than this file name"
-  echo $PROMPT
   FILENAME2=$(sgpt --model ollama/llama3  "$PROMPT")
   FILENAME="$(echo $line  | awk '{print $1}')sh" 
-  echo "$FILENAME $FILENAME2 $line"
+  echo
+  echo "PROMPT: $PROMPT"; echo
+  echo "$FILENAME"
+  echo "Generated Name: $FILENAME2 
+  echo "Tite inside file: $line"
   sleep 1
 done < index.txt
 #cat index.txt
