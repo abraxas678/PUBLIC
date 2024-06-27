@@ -27,6 +27,7 @@ while IFS= read -r line; do
   # Create the file name using awk
   FILENAME="$(echo $line | awk '{print $1}')sh"
   echo "$FILENAME; $line; ;" >>mysheet.csv
+  echo ${#line}
   # Output the results
   sleep 0.3
 done < index.txt
