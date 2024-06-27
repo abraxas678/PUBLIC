@@ -1,5 +1,5 @@
 !/bin/bash
-#10. Homebrew Setup and Hombrew app install     brew install function rein
+10. Homebrew Setup and Hombrew app install     brew install function rein
 
  Install Homebrew and its dependencies
 brew_install() {
