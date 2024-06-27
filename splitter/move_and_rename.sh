@@ -11,6 +11,60 @@ rich -u -p "sed empty lines"
 sed '/^$/d' index.txt
 rich -u -p "while loop index.txt $(cat index.txt | wc -l) lines"
 
+
+#!/bin/bash
+
+# Check if the file index.txt exists
+if [[ ! -f "index.txt" ]]; then
+  echo "File index.txt not found!"
+  exit 1
+fi
+
+# Read the file line by line
+while IFS= read -r line; do
+  echo "Processing line: $line"
+  
+  # Construct the prompt
+  PROMPT="Out of \"$line\" create a very short but fully understandable file name and answer nothing else than this file name"
+  
+  # Debug output before sgpt call
+  echo "Calling sgpt with PROMPT: $PROMPT"
+  
+  # Call the sgpt tool with the constructed prompt
+  FILENAME2=$(sgpt --model ollama/llama3 "$PROMPT")
+  
+  # Debug output after sgpt call
+  echo "sgpt returned: $FILENAME2"
+  
+  # Create the file name using awk
+  FILENAME="$(echo $line | awk '{print $1}')sh"
+  
+  # Output the results
+  echo
+  echo "PROMPT: $PROMPT"
+  echo
+  echo "FILENAME: $FILENAME"
+  echo "Generated Name: $FILENAME2"
+  echo "Title inside file: $line"
+  sleep 1
+done < index.txt
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+exit
 while IFS= read -r line; do
   echo line $line
   PROMPT="Out of \"$line\" create a very short but fully understandable file name and answer nothing else than this file name"
