@@ -1,5 +1,5 @@
-#!/bin/bash
-#3. APT update -- check last update time
+!/bin/bash
+3. APT update -- check last update time  SHOULD BE 3
 
  Task: Check last apt update time
 TASK "check last update time"
