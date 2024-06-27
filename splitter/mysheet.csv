@@ -9,6 +9,6 @@ FILENAME_OLD; TITLE; FILENAME_NEW;
 7.sh; 7. App install via apt; ;
 9.sh; 9. Python3 install + Apps; ;
 10.sh; 10. Homebrew Setup and Hombrew app install; ;
-11.sh; 11. RCLONE INSTALL; ;
-12.sh;  12. akeyless setup; ;
+11sh; 11 rclone install; ;
+12.sh; 12. akeyless setup; ;
 13.sh; 13. Rclone Configuration rclone setup; ;
