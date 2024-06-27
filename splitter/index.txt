@@ -4,12 +4,12 @@
 4. User setup
 5. Check Machine Name
 6. github and gh setup
-7. App install via apt
 8. Tailscale Setup
+7. App install via apt
 9. Python3 install + Apps
 10. Homebrew Setup and Hombrew app install brew install function rein
 11. RCLONE INSTALL
- 12. akeyless setup
+12. akeyless setup
 13. Rclone Configuration rclone setup
 
 
