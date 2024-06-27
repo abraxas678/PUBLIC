@@ -40,7 +40,7 @@ rich mysheet.csv; echo
 
 echo "Change Text - Move Positon - AI Filename"
 echo
-read -s ANS
+read -n 1  ANS
 git add .; git commit -a -m "move_and_rename.sh"; git push; echo
 if [[ $ANS = c ]]; then
   read -p "Nr: >> " NUM
