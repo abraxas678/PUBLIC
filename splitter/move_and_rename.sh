@@ -20,7 +20,7 @@ if [[ ! -f "index.txt" ]]; then
   exit 1
 fi
 
-echo "FILENAME_OLD; TITLE; FILENAME_NEW" >mysheet.csv
+echo "FILENAME_OLD; TITLE; FILENAME_NEW;" >mysheet.csv
 COUNT=$(cat index.html | wc -l)
 # Read the file line by line
 while IFS= read -r line; do
