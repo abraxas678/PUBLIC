@@ -41,18 +41,23 @@ rich mysheet.csv; echo
 echo "Change Text - Move Positon - AI Filename"
 echo
 read -n 1  ANS
-git add .; git commit -a -m "move_and_rename.sh"; git push; echo
+git add . >/dev/null 2>&1
+git commit -a -m "move_and_rename.sh" >/dev/null 2>&1
+git push >/dev/null 2>&1
+echo
+
+### CHANGE TEXT
 if [[ $ANS = c ]]; then
   read -p "Nr: >> " NUM
-  rich -p "cat $NUM.sh | head -n 2 | tail -n 1 -s blue -a ascii -e"
+  rich -p "$(cat $NUM.sh | head -n 2 | tail -n 1 -s blue -a ascii -e)"
   read -p "New: >> " NEWTEXT
   echo "#!/bin/bash" >$NUM.sh.new
   echo "$NEWTEXT" >>$NUM.sh.new
-  cp $NEW.sh $NEW.sh.old
-  sed -i '1,2d' $NUM.sh >>$NUM.sh.new  #> new_text.txt   
+  cp $NUM.sh $NUM.sh.old
+  sed -i '1,2d' $NUM.sh #>>$NUM.sh.new  #> new_text.txt   
   cat $NUM.sh >>$NUM.sh.new
   rich -p "$(cat $NUM.sh.new)" 
-  read -p "ENTER to change" -s "#666666" me
+  read -p "ENTER to change" me
   mv $NUM.sh.new $NUM.sh
 fi
 
