@@ -1,4 +1,5 @@
 #!/bin/bash
+export OPENAI_API_KEY=44444444444
 rich -u -p "git"
 git add --all
 git commit -a -m "move_and_rename.sh"
