@@ -9,7 +9,7 @@
 9. Python3 install + Apps
 10. Homebrew Setup and Hombrew app install brew install function rein
  11. RCLONE INSTALL
-!/bin/bash
+akeyless configure --access-id p-mcidcla45c0cam --access-type oidc --profile 'github-oidc'
 13. Rclone Configuration rclone setup
 
 
