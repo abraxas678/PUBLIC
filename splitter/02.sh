@@ -1,2 +1,2 @@
 !/bin/bash
-2. release wait
+#2. release wait
