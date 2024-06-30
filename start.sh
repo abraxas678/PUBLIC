@@ -3,7 +3,7 @@ cd $HOME
 mkdir tmp -p
 cd tmp
 apt update
-apt install python3-pip pipx micro
+apt install python3-pip pipx micro -y
 pip install rich-cli
 [[ $? != 0 ]] && pipx install rich-cli
 
