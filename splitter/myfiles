@@ -7,10 +7,9 @@
 07_tailscale-config.sh
 08_rclone-install.sh
 09_setup_and_apps.sh
-10_script.sh
-11_gh_setup.sh
-12_python_apps.sh
-13_apt_apps.sh
-14_script.sh
-15_huhu.sh
-16_huhu2.sh
+10_gh_setup.sh
+11_python_apps.sh
+12_apt_apps.sh
+13_script.sh
+14_huhu.sh
+15_huhu2.sh

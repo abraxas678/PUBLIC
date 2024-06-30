@@ -7,10 +7,9 @@
 07, [red]0[/red], 07_tailscale-config.sh
 08, [red]0[/red], 08_rclone-install.sh
 09, [red]0[/red], 09_setup_and_apps.sh
-10, [red]0[/red], [green]1[/green]0_script.sh
-11, [red]0[/red], [green]1[/green]1_gh_setup.sh
-12, [red]0[/red], [green]1[/green]2_python_apps.sh
-13, [red]0[/red], [green]1[/green]3_apt_apps.sh
-14, [red]0[/red], [green]1[/green]4_script.sh
-15, [red]0[/red], [green]1[/green]5_huhu.sh
-16, [red]0[/red], [green]1[/green]6_huhu2.sh
+10, [red]0[/red], [green]1[/green]0_gh_setup.sh
+11, [red]0[/red], [green]1[/green]1_python_apps.sh
+12, [red]0[/red], [green]1[/green]2_apt_apps.sh
+13, [red]0[/red], [green]1[/green]3_script.sh
+14, [red]0[/red], [green]1[/green]4_huhu.sh
+15, [red]0[/red], [green]1[/green]5_huhu2.sh

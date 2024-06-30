@@ -1,4 +1,6 @@
 #!/bin/bash
+cd /home/abrax/tmp/public/splitter
+python rename_sequential.py
 ### create script
 ls *.sh | grep -v "create_script.sh" >myfiles
 
