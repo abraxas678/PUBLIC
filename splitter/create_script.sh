@@ -71,6 +71,7 @@ echo  "$original_filename2" "$M2"_$new_filename2
 echo TARGET $TARGET
     echo "rename-$new_filename1" "$TARGET"
     mv "rename-$new_filename1" "$TARGET"
+    mysheet
   elif [[ $ANS = c ]]; then
     read -p "# >>" NUM
     batcat "$(cat mysheet.csv | grep "^$NUM"  | awk '{print $3}')"
@@ -84,4 +85,4 @@ echo TARGET $TARGET
 done
 sleep 1
 rm -f myfiles
-rich mysheet.csv
+mysheet
