@@ -41,6 +41,7 @@ while [[ $y = 1 ]]; do
     # Remove the first three characters
     new_filename1="${original_filename1:3}"
     # Rename the file
+echo "$original_filename1" "rename-$new_filename1"
     mv "$original_filename1" "rename-$new_filename1"
 
     # Original filename
@@ -48,8 +49,13 @@ while [[ $y = 1 ]]; do
     # Remove the first three characters
     new_filename2="${original_filename2:3}"
     # Rename the file
+echo M1 $M1
+echo M2 $M2
+echo  "$original_filename2" "$M2_$new_filename2"
     mv "$original_filename2" "$M2_$new_filename2"
-    mv "rename-$new_filename1" "$M1_$new_filename1"
+    TARGET="$M1_$new_filename1"
+    echo "rename-$new_filename1" "$TARGET"
+    mv "rename-$new_filename1" "$TARGET"
 
   elif [[ $ANS = c ]]; then
   echo c
