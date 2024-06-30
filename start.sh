@@ -2,11 +2,17 @@
 cd $HOME
 mkdir tmp -p
 cd tmp
+apt update
+apt install python3-pip pipx
+pip install rich-cli
+[[ $? != 0 ]] && pipx install rich-cli
 
 [[ ! -d splitter ]] && git clone https://github.com/abraxas678/splitter
 cd splitter
 git pull
 chmod +x *.sh
+mkdir /home/abrax/bin/ -p
+cp letter_or_number.sh /home/abrax/bin/
 ./create_script.sh
 
 
