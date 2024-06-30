@@ -3,7 +3,7 @@ cd $HOME
 mkdir tmp -p
 cd tmp
 apt update
-apt install python3-pip pipx
+apt install python3-pip pipx micro
 pip install rich-cli
 [[ $? != 0 ]] && pipx install rich-cli
 
@@ -13,7 +13,7 @@ git pull
 chmod +x *.sh
 mkdir /home/abrax/bin/ -p
 cp letter_or_number.sh /home/abrax/bin/
-./create_script.sh
+source ./create_script.sh
 
 
 exit
