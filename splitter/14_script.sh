@@ -11,8 +11,7 @@ while IFS= read -r line; do
  #  if [[ $(cat mysheet.csv) != *"$line"* ]]; then
  #    sgpt --model ollama/llama3  "create a new,better filename for $line, on basis of this description: $(cat $line | head -n2 | tail -n 1), answer just the filename, nothing else" >new_filename 
   #   echo "[blue]$x[/blue], [red]0[/red], $line" >>mysheet.csv
-     [[ ${#x} = 1 ]] && xx="0$x" || xx=$x
-     echo "$xx, 0, $line" >>mysheet.csv
+     echo "$x, 0, $line" >>mysheet.csv
 #    echo $line
 #    sgpt --model ollama/llama3 "explain what this script does in one short sentance: $(cat $line)" >$line.desc
 #    [[ ! -f $line.desc ]] && ollama run llama3  "explain what this script does in one short sentance: $(cat $line)" >$line.desc
@@ -23,34 +22,11 @@ x=$((x+1))
 done < myfiles
 rich mysheet.csv
 while [[ $y = 1 ]]; do
-  read -n2 -p "[m]ove [r]ename [c]at [n]ano [#] >> " ANS
+  read -n2 -p "[r]ename [c]at [n]ano [#] >> " ANS
   if [[ $ANS = r ]]; then
   echo r
   elif [[ $ANS = n ]]; then
   echo n
-  elif [[ $ANS = m ]]; then
-    read -p "MOVE # >> " M1
-    read -p "MOVE TO # >> " M2
-    [[ ${#M1} = 1 ]] && M1="0$M1"
-    [[ ${#M2} = 1 ]] && M1="0$M2"
-    LINE1=$(cat mysheet.csv | grep "^$M1"  | awk '{print $3}')
-    LINE2=$(cat mysheet.csv | grep "^$M2"  | awk '{print $3}')
-
-    # Original filename
-    original_filename1="$LINE2"
-    # Remove the first three characters
-    new_filename1="${original_filename1:3}"
-    # Rename the file
-    mv "$original_filename1" "rename-$new_filename1"
-
-    # Original filename
-    original_filename2="$LINE1"
-    # Remove the first three characters
-    new_filename2="${original_filename2:3}"
-    # Rename the file
-    mv "$original_filename2" "$M2_$new_filename2"
-    mv "rename-$new_filename1" "$M1_$new_filename1"
-
   elif [[ $ANS = c ]]; then
   echo c
   else
