@@ -1,9 +1,0 @@
-#######1. Initialization and Environment Setup
-#######2. Define Functions
-#######3. Check Machine Name
-#######4. APT update -- check last update time
-#######5. User setup
-#######6. Dependency Installation - git gh
-#######7. App install
-#######8. Tailscale Setup
-

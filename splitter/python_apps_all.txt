@@ -1,3 +1,0 @@
-rich-cli
-shell-gpt
-apprise
