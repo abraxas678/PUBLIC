@@ -1,19 +1,13 @@
-01. Initialization and Environment Setup
-2. release wait
-3. APT update -- check last update time
-04. akeyless setup
-5. Check Machine Name
-6. github and gh setup
-8. Tailscale Setup
-7. App install via apt
-9. Python3 install + Apps
-10. Homebrew Setup and Hombrew app install
-11 rclone install
-12. User setup
-
-
-
-
-
-
-
+01.sh  #01. Initialization and Environment Setup
+02.sh  #2. release wait
+03.sh  #3. APT update -- check last update time
+04.sh  04. akeyless setup
+05.sh  5. Check Machine Name
+06.sh  #6. github and gh setup
+07.sh  #8. Tailscale Setup
+08.sh  #7. App install via apt
+09.sh  9. Python3 install + Apps
+10.sh  #10. Homebrew Setup and Hombrew app install
+11.sh  11 rclone install
+12.sh  12. User setup
+create_script.sh  ### create script
