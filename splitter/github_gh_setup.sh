@@ -1,18 +1,13 @@
 !/bin/bash
 #6. github and gh setup
 
- Task: Install dependencies using apt
-
-header2 "install dependencies using apt"
-countdown 1
-
 installme git
 installme gh
 
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 
- GitHub authentication and cloning repositories
+# GitHub authentication and cloning repositories
 gh repo list > /dev/null
 if [[ $? == 0 ]]; then
   echo "gh logged in"
@@ -25,7 +20,7 @@ fi
 echo
 sleep 2
 
- Clone repositories if not already cloned
+# Clone repositories if not already cloned
 cd
 if [[ ! -d $MYHOME/bin ]]; then
 gh repo clone abraxas678/bin
@@ -34,5 +29,5 @@ gh repo clone abraxas678/.config
 sleep 1
 fi
 
- Set permissions for bin scripts
+# Set permissions for bin scripts
 chmod +x ~/bin/*

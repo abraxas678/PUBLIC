@@ -1,8 +1,6 @@
 !/bin/bash
 #3. APT update -- check last update time
 
- Task: Check last apt update time
-TASK "check last update time"
 ts=$(date +%s)
 
 if [[ -f ~/last_apt_update.txt ]]; then
