@@ -1,7 +1,7 @@
 import os
 
 # Specify the directory
-directory = '/path/to/your/folder'
+directory = "."
 
 # Get a list of all .sh files in the directory (ignoring subfolders)
 sh_files = [f for f in os.listdir(directory) if os.path.isfile(os.path.join(directory, f)) and f.endswith('.sh')]
