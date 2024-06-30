@@ -1,0 +1,12 @@
+1, [red]0[/red], apt_last_update.sh
+2, [green]1[/green], github_gh_setup.sh
+3, [red]0[/red], homebrew_setup_and_apps.sh
+4, [red]0[/red], init-env.sh
+5, [red]0[/red], install_apt_apps.sh
+6, [red]0[/red], install_python_apps.sh
+7, [red]0[/red], machine_name_check.sh
+8, [red]0[/red], rclone-install.sh
+9, [red]0[/red], release-wait-script.sh
+10, [red]0[/red], setup_keyless.sh
+11, [green]1[/green], tailscale-config.sh
+12, [green]1[/green], user_setup_init.sh

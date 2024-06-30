@@ -12,4 +12,5 @@ fd-find
 zsh
 tmux
 ripgrep
-
+python3-pip
+pipx

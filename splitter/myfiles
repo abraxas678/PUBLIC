@@ -1,0 +1,12 @@
+apt_last_update.sh
+github_gh_setup.sh
+homebrew_setup_and_apps.sh
+init-env.sh
+install_apt_apps.sh
+install_python_apps.sh
+machine_name_check.sh
+rclone-install.sh
+release-wait-script.sh
+setup_keyless.sh
+tailscale-config.sh
+user_setup_init.sh

@@ -1,12 +1,12 @@
-0, apt_app_install.sh
-0, apt_last_update.sh
-0, github_gh_setup.sh
-0, homebrew_setup_and_apps.sh
-0, init-env.sh
-0, machine_name_check.sh
-0, python_apps_installation.sh
-0, rclone-install.sh
-0, release-wait-script.sh
-0, setup_keyless.sh
-0, tailscale-config.sh
-0, user_setup_init.sh
+1, 0, apt_last_update.sh
+2, 1, github_gh_setup.sh
+3, 0, homebrew_setup_and_apps.sh
+4, 0, init-env.sh
+5, 0, install_apt_apps.sh
+6, 0, install_python_apps.sh
+7, 0, machine_name_check.sh
+8, 0, rclone-install.sh
+9, 0, release-wait-script.sh
+10, 0, setup_keyless.sh
+11, 1, tailscale-config.sh
+12, 1, user_setup_init.sh
