@@ -4,6 +4,9 @@ ls *.sh | grep -v "create_script.sh" >myfiles
 
 rm mysheet.csv
 #echo OLD_FILENAME, DESCRIPTION, NEW_FILENAME >mysheet.csv
+mysheet() {
+rm mysheet2.csv
+rm mysheet.csv
 x=1
 y=1
 while IFS= read -r line; do
@@ -21,12 +24,21 @@ while IFS= read -r line; do
 #   fi
 x=$((x+1))
 done < myfiles
-rich mysheet.csv
+  cp mysheet.csv mysheet2.csv
+  sed -i  's/, 1/, \[green\]1\[\/green\]/; s/, 0/, \[red\]0\[\/red\]/' mysheet2.csv
+  rich mysheet2.csv
+ echo
+}
+mysheet
 while [[ $y = 1 ]]; do
+mysheet
   read -n2 -p "[m]ove [r]ename [c]at [n]ano [#] >> " ANS
   if [[ $ANS = r ]]; then
-  echo r
-  elif [[ $ANS = n ]]; then
+    read -n 2 -p "# >> " RENAME
+    read -p "new name: >> " NEWNAME
+    FILE=$(cat mysheet.csv | grep "^$NUM"  | awk '{print $3}')
+    mv $FILE $NEWNAME
+   elif [[ $ANS = n ]]; then
   echo n
   elif [[ $ANS = m ]]; then
     read -p "MOVE # >> " M1
@@ -41,7 +53,7 @@ while [[ $y = 1 ]]; do
     # Remove the first three characters
     new_filename1="${original_filename1:3}"
     # Rename the file
-echo "$original_filename1" "rename-$new_filename1"
+    echo "$original_filename1" "rename-$new_filename1"
     mv "$original_filename1" "rename-$new_filename1"
 
     # Original filename
@@ -51,22 +63,21 @@ echo "$original_filename1" "rename-$new_filename1"
     # Rename the file
 echo M1 $M1
 echo M2 $M2
-echo  "$original_filename2" "$M2_$new_filename2"
-    mv "$original_filename2" "$M2_$new_filename2"
-    TARGET="$M1_$new_filename1"
+echo  "$original_filename2" "$M2"_$new_filename2
+    mv "$original_filename2" "$M2"_$new_filename2
+    TARGET="$M1"_$new_filename1
+echo TARGET $TARGET
     echo "rename-$new_filename1" "$TARGET"
     mv "rename-$new_filename1" "$TARGET"
-
   elif [[ $ANS = c ]]; then
-  echo c
+    read -p "# >>" NUM
+    batcat "$(cat mysheet.csv | grep "^$NUM"  | awk '{print $3}')"
   else
+
   STATE=$(cat mysheet.csv | grep "^$ANS," | awk '{print $2}' | sed "s/,//")
   [[ $STATE = 0 ]] && NEWSTATE=1 || NEWSTATE=0
   echo $STATE $NEWSTATE
   sed "s/^$ANS, $STATE/$ANS, $NEWSTATE/" -i mysheet.csv
-  cp mysheet.csv mysheet2.csv
-  sed -i  's/, 1/, \[green\]1\[\/green\]/; s/, 0/, \[red\]0\[\/red\]/' mysheet2.csv
-  rich mysheet2.csv
   fi
 done
 sleep 1
