@@ -3,9 +3,11 @@ cd $HOME
 mkdir tmp -p
 cd tmp
 apt update
-apt install python3-pip pipx micro -y
+apt install python3-pip pipx micro git -y
 pip install rich-cli
 [[ $? != 0 ]] && pipx install rich-cli
+git config --global user.email "abraxas678@gmail.com"
+git config --global user.name "abraxas678"
 
 [[ ! -d splitter ]] && git clone https://github.com/abraxas678/splitter
 cd splitter
