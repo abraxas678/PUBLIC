@@ -5,9 +5,7 @@ cd tmp
 apt update
 apt install python3-pip pipx micro git -y
 pip install rich-cli
-[[ $? != 0 ]] && pipx install rich-cli
-pipx ensurepath
-exec bash
+[[ $? != 0 ]] && pipx install rich-cli && pipx ensurepath && exec bash
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 
