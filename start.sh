@@ -1,4 +1,5 @@
 #!/bin/bash
+## 0.1
 PMANAGER=dnf
 cd $HOME
 mkdir tmp -p
