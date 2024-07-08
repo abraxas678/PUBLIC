@@ -16,12 +16,9 @@ cd splitter
 git pull
 chmod +x *.sh
 mkdir /home/abrax/bin/ -p
-cp letter_or_number.sh /home/abrax/bin/
-source ./create_script.sh
+cp 02_fix_letter_or_number.sh /home/abrax/bin/letter_or_number.sh 
+source 01_fix_create_scripts.sh
+#source ./create_script.sh
 
 
-exit
-curl -L start-main.yyps.de >start-main.sh
-chmod +x start-main.sh
-./start-main.sh
 exit
