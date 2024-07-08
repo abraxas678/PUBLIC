@@ -1,9 +1,10 @@
 #!/bin/bash
+PMANAGER=dnf
 cd $HOME
 mkdir tmp -p
 cd tmp
-apt update
-apt install python3-pip pipx micro git -y
+$PMANAGER update
+$PMANAGER install python3-pip pipx micro git -y
 pip install rich-cli
 [[ $? != 0 ]] && [[ $(pipx list) != *"- rich"* ]] && pipx install rich-cli && pipx ensurepath && exec bash
 git config --global user.email "abraxas678@gmail.com"
