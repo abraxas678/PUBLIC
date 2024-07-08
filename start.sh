@@ -1,6 +1,6 @@
 #!/bin/bash
 ## 0.1
-PMANAGER=dnf
+PMANAGER=apt
 cd $HOME
 mkdir tmp -p
 cd tmp
