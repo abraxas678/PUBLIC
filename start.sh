@@ -1,5 +1,5 @@
 #!/bin/bash
-## 0.1
+## version 0.1
 PMANAGER=apt
 cd $HOME
 mkdir tmp -p
