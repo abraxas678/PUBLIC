@@ -11,9 +11,13 @@ git config --global user.name "abraxas678"
 sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
 gh auth login
 cd $HOME
+
 [[ ! -d webapps ]] && gh repo clone webapps
 [[ ! -d bin ]] && gh repo clone bin
-[[ ! -d tmpconfig ]] && gh repo clone bin
+source /home/abrax/bin/header.sh
+[[ ! -d tmpconfig ]] && gh repo clone .config tmpconfig
+rclone move tmpconfig/ .config/ --update -P
+rm -rf tmpconfig
 
 pip install rich-cli
 [[ $? != 0 ]] && [[ $(pipx list) != *"- rich"* ]] && pipx install rich-cli && pipx ensurepath && exec bash
@@ -28,6 +32,6 @@ cd $HOME
 #cp 02_fix_letter_or_number.sh /home/abrax/bin/letter_or_number.sh 
 #source 01_fix_create_scripts.sh
 #source ./create_script.sh
-/bin/bash $HOME/webapps/script-runner/script-runner.sh
+/bin/bash $HOME/webapps/script_runner/script_runner.sh
 
 exit
