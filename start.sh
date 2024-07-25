@@ -5,21 +5,29 @@ cd $HOME
 mkdir tmp -p
 cd tmp
 $PMANAGER update
-$PMANAGER install python3-pip pipx micro git -y
-pip install rich-cli
-[[ $? != 0 ]] && [[ $(pipx list) != *"- rich"* ]] && pipx install rich-cli && pipx ensurepath && exec bash
+$PMANAGER install python3-pip pipx micro git gh -y
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
+sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
+gh auth login
+cd $HOME
+[[ ! -d webapps ]] && gh repo clone webapps
+[[ ! -d bin ]] && gh repo clone bin
+[[ ! -d tmpconfig ]] && gh repo clone bin
 
-cd $HOME/tmp
-[[ ! -d splitter ]] && git clone https://github.com/abraxas678/splitter
-cd splitter
+pip install rich-cli
+[[ $? != 0 ]] && [[ $(pipx list) != *"- rich"* ]] && pipx install rich-cli && pipx ensurepath && exec bash
+
+
+cd ~/webapps/script_runner/
 git pull
 chmod +x *.sh
-mkdir /home/abrax/bin/ -p
-cp 02_fix_letter_or_number.sh /home/abrax/bin/letter_or_number.sh 
-source 01_fix_create_scripts.sh
+chmod +x ./shs/*.sh
+#mkdir /home/abrax/bin/ -p
+cd $HOME
+#cp 02_fix_letter_or_number.sh /home/abrax/bin/letter_or_number.sh 
+#source 01_fix_create_scripts.sh
 #source ./create_script.sh
-
+/bin/bash $HOME/webapps/script-runner/script-runner.sh
 
 exit
