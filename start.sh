@@ -10,8 +10,8 @@ git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
 gh auth login
-cd $HOME
 
+cd $HOME
 [[ ! -d webapps ]] && gh repo clone webapps
 [[ ! -d bin ]] && gh repo clone bin
 source /home/abrax/bin/header.sh
