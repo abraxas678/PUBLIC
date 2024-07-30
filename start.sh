@@ -5,7 +5,8 @@ cd $HOME
 mkdir tmp -p
 cd tmp
 $PMANAGER update
-$PMANAGER install python3-pip pipx micro git gh -y
+$PMANAGER install curl wget python3-pip pipx micro git gh -y
+curl -fsSL https://tailscale.com/install.sh | sh
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
