@@ -23,6 +23,11 @@ sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
 
 cd $HOME
 [[ ! -d webapps ]] && doit "gh repo clone webapps"
+chmod +x $HOME/webapps/script_runner/shs/*
+AKEYLESS="$(ls $HOME/webapps/script_runner/shs/*akeyless.sh)"
+doit akeyless "$AKEYLESS"
+GETSSH="$(ls $HOME/webapps/script_runner/shs/*get_ssh.sh)"
+doit "GET SSH KEYS" "$GETSSH"
 [[ ! -d bin ]] && doit "gh repo clone bin"
 source /home/abrax/bin/header.sh
 [[ ! -d tmpconfig ]] && doit "gh repo clone .config tmpconfig && rclone move tmpconfig/ .config/ --update -P"
