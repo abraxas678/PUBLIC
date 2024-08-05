@@ -9,10 +9,11 @@ doit() {
   [[ $me = y ]] && $INSTALL
   tput cnorm
 }
-PMANAGER=apt
+PMANAGER="sudo apt"
 cd $HOME
 mkdir tmp -p
 cd tmp
+sudo apt update && sudo apt install -y python3-pip pipx && pipx install rich-cli
 doit "$PMANAGER update"
 doit "$PMANAGER install curl wget python3-pip pipx micro git gh -y"
 doit tailscale "curl -fsSL https://tailscale.com/install.sh | sh"
@@ -33,7 +34,7 @@ source /home/abrax/bin/header.sh
 [[ ! -d tmpconfig ]] && doit "gh repo clone .config tmpconfig && rclone move tmpconfig/ .config/ --update -P"
 #rm -rf tmpconfig
 
-pip install rich-cli
+#pip install rich-cli
 [[ $? != 0 ]] && [[ $(pipx list) != *"- rich"* ]] && pipx install rich-cli && pipx ensurepath && exec bash
 
 
