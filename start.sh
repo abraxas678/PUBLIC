@@ -2,20 +2,20 @@
 ## version 0.1
 doit() {
   tput civis
-  me=n
+  me=y
   rich -p "EXECUTE [blue]$1[/blue] ? (y/n) >>" -a heavy -s green
-  read -s -n 1 me
+  read -s -n 1 -t 10 me
   [[ -z $2 ]] && INSTALL="$1" || INSTALL="$2"
   [[ $me = y ]] && $INSTALL
   tput cnorm
 }
-PMANAGER="sudo apt"
+[[ $(whoami) != "root" ]] && PMANAGER="sudo apt" || PMANAGER="apt"
 cd $HOME
 mkdir tmp -p
 cd tmp
 sudo apt update && sudo apt install -y python3-pip pipx && pipx install rich-cli
 doit "$PMANAGER update"
-doit "$PMANAGER install curl wget python3-pip pipx micro git gh -y"
+doit "$PMANAGER install curl wget python3-pip pipx micro git gh unzip nano -y"
 doit tailscale "curl -fsSL https://tailscale.com/install.sh | sh"
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
