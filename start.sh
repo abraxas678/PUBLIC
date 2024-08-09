@@ -15,6 +15,7 @@ doit() {
   tput cnorm
 }
 [[ $(whoami) != "root" ]] && PMANAGER="sudo apt" || PMANAGER="apt"
+
 tput cup 0 0
 tput ed
 cd $HOME
@@ -25,6 +26,17 @@ isinstalled gh
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 [[ $(gh auth status) != *"Logged in to github.com account abraxas678"* ]] && doit "gh auth login"
+cd $HOME
+[[ ! -d webapps ]] && doit "gh repo clone webapps"
+cd /home/abrax/webapps/script_runner/shs
+EXE="$(ls *akeyless*)"
+./$EXE
+cd $HOME
+[[ ! -d bin ]] && doit "gh repo clone bin"
+source /home/abrax/bin/header.sh
+sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
+
+[[ ! -d tmpconfig ]] && gh repo clone .config tmpconfig && rclone move tmpconfig/ .config/ --update -P
 
 
 exit
@@ -36,18 +48,12 @@ doit "$PMANAGER install curl wget micro git gh unzip nano -y"
 doit tailscale "wget https://tailscale.com/install.sh"
  chmod +x install.sh; 
 ./install.sh
-sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
 
-cd $HOME
-[[ ! -d webapps ]] && doit "gh repo clone webapps"
 chmod +x $HOME/webapps/script_runner/shs/*
 AKEYLESS="$(ls $HOME/webapps/script_runner/shs/*akeyless.sh)"
 doit akeyless "$AKEYLESS"
 GETSSH="$(ls $HOME/webapps/script_runner/shs/*get_ssh.sh)"
 doit "GET SSH KEYS" "$GETSSH"
-[[ ! -d bin ]] && doit "gh repo clone bin"
-source /home/abrax/bin/header.sh
-[[ ! -d tmpconfig ]] && doit "gh repo clone .config tmpconfig && rclone move tmpconfig/ .config/ --update -P"
 #rm -rf tmpconfig
 
 #pip install rich-cli
