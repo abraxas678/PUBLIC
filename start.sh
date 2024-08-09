@@ -13,7 +13,9 @@ doit() {
 cd $HOME
 mkdir tmp -p
 cd tmp
-sudo apt update && sudo apt install -y python3-pip pipx && pipx install rich-cli
+sudo apt update && sudo apt install -y python3-pip pipx
+pipx install rich-cli
+pipx ensurepath
 doit "$PMANAGER update"
 doit "$PMANAGER install curl wget python3-pip pipx micro git gh unzip nano -y"
 doit tailscale "curl -fsSL https://tailscale.com/install.sh | sh"
