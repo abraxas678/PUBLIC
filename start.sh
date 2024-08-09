@@ -30,16 +30,16 @@ cd $HOME
 [[ ! -d webapps ]] && doit "gh repo clone webapps"
 cd /home/abrax/webapps/script_runner/shs
 EXE="$(ls *akeyless*)"
-./$EXE
+command -v akeyless || ./$EXE
 cd $HOME
 [[ ! -d bin ]] && doit "gh repo clone bin"
 source /home/abrax/bin/header.sh
-sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
+command -v rclone || sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
 
 [[ ! -d tmpconfig ]] && gh repo clone .config tmpconfig && rclone move tmpconfig/ .config/ --update -P
 
-
-exit
+#exit
+sudo apt install -y python3-pip pipx
 pipx install rich-cli
 pipx ensurepath
 echo "pipx ensurepath done"
