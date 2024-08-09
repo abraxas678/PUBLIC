@@ -1,5 +1,10 @@
 #!/bin/bash
 ## version 0.1
+
+isinstalled() {
+  command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed. Installing..."; sleep 2; sudo apt-get update; sudo apt-get update && sudo apt-get install -y $1; }
+}
+
 doit() {
   tput civis
   me=y
@@ -10,19 +15,28 @@ doit() {
   tput cnorm
 }
 [[ $(whoami) != "root" ]] && PMANAGER="sudo apt" || PMANAGER="apt"
+tput cup 0 0
+tput ed
 cd $HOME
 mkdir tmp -p
 cd tmp
-sudo apt update && sudo apt install -y python3-pip pipx
-pipx install rich-cli
-pipx ensurepath
-doit "$PMANAGER update"
-doit "$PMANAGER install curl wget python3-pip pipx micro git gh unzip nano -y"
-doit tailscale "curl -fsSL https://tailscale.com/install.sh | sh"
+isinstalled git
+isinstalled gh
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
-sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
 [[ $(gh auth status) != *"Logged in to github.com account abraxas678"* ]] && doit "gh auth login"
+
+
+exit
+pipx install rich-cli
+pipx ensurepath
+echo "pipx ensurepath done"
+doit "$PMANAGER update"
+doit "$PMANAGER install curl wget micro git gh unzip nano -y"
+doit tailscale "wget https://tailscale.com/install.sh"
+ chmod +x install.sh; 
+./install.sh
+sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
 
 cd $HOME
 [[ ! -d webapps ]] && doit "gh repo clone webapps"
