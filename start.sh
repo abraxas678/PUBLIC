@@ -1,5 +1,5 @@
 #!/bin/bash
-## version 0.1
+## version 0.2 huhu
 
 isinstalled() {
   command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed. Installing..."; sleep 2; sudo apt-get update; sudo apt-get update && sudo apt-get install -y $1; }
