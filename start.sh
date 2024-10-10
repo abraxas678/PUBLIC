@@ -4,6 +4,10 @@
 isinstalled() {
   command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed. Installing..."; sleep 2; sudo apt-get update; sudo apt-get update && sudo apt-get install -y $1; }
 }
+sudo apt install -y python3-pip pipx
+pipx install rich-cli
+pipx ensurepath
+echo "pipx ensurepath done"
 
 doit() {
   tput civis
@@ -23,6 +27,7 @@ mkdir tmp -p
 cd tmp
 isinstalled git
 isinstalled gh
+isinstalled zoxide
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 [[ $(gh auth status) != *"Logged in to github.com account abraxas678"* ]] && doit "gh auth login"
@@ -39,10 +44,6 @@ command -v rclone || sudo -v ; curl https://rclone.org/install.sh | sudo bash -s
 [[ ! -d tmpconfig ]] && gh repo clone .config tmpconfig && rclone move tmpconfig/ .config/ --update -P
 
 #exit
-sudo apt install -y python3-pip pipx
-pipx install rich-cli
-pipx ensurepath
-echo "pipx ensurepath done"
 doit "$PMANAGER update"
 doit "$PMANAGER install curl wget micro git gh unzip nano -y"
 doit tailscale "wget https://tailscale.com/install.sh"
