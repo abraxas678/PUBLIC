@@ -1,13 +1,19 @@
 #!/bin/bash
 ## version 0.2 huhu
+ts=$(date +%s)
 
 isinstalled() {
   command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed. Installing..."; sleep 2; sudo apt-get update; sudo apt-get update && sudo apt-get install -y $1; }
 }
-sudo apt install -y python3-pip pipx
-pipx install rich-cli
-pipx ensurepath
-echo "pipx ensurepath done"
+isinstalled python3-pip
+isinstalled pipx
+CHECK="$(pipx list | grep -v grep | grep -v hishtory | grep rich | wc -l)"
+if  [[ $CHECK = 0 ]]; then
+  pipx install rich-cli
+  pipx ensurepath
+  echo "pipx ensurepath done"; sleep 1
+  echo $ts >/home/abrax/tmp/pipxinstall.done
+fi
 
 doit() {
   tput civis
@@ -46,9 +52,7 @@ command -v rclone || sudo -v ; curl https://rclone.org/install.sh | sudo bash -s
 #exit
 doit "$PMANAGER update"
 doit "$PMANAGER install curl wget micro git gh unzip nano -y"
-doit tailscale "wget https://tailscale.com/install.sh"
- chmod +x install.sh; 
-./install.sh
+doit tailscale "wget https://tailscale.com/install.sh;  chmod +x install.sh; ./install.sh"
 
 chmod +x $HOME/webapps/script_runner/shs/*
 AKEYLESS="$(ls $HOME/webapps/script_runner/shs/*akeyless.sh)"
