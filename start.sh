@@ -57,6 +57,12 @@ doit tailscale "wget https://tailscale.com/install.sh;  chmod +x install.sh; ./i
 chmod +x $HOME/webapps/script_runner/shs/*
 AKEYLESS="$(ls $HOME/webapps/script_runner/shs/*akeyless.sh)"
 doit akeyless "$AKEYLESS"
+chmod +x /home/abrax/bin/akeyless
+sudo cp /home/abrax/bin/akeyless /usr/bin
+chmod +x  /home/abrax/webapps/script_runner/db
+sudo cp  /home/abrax/webapps/script_runner/db /usr/bin
+cp  /home/abrax/webapps/script_runner/db /home/abrax/bin/
+
 GETSSH="$(ls $HOME/webapps/script_runner/shs/*get_ssh.sh)"
 doit "GET SSH KEYS" "$GETSSH"
 #rm -rf tmpconfig
