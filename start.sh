@@ -3,7 +3,10 @@
 ts=$(date +%s)
 
 isinstalled() {
-  command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed. Installing..."; sleep 2; sudo apt-get update; sudo apt-get update && sudo apt-get install -y $1; }
+  read -p "INSTALL $1? (y/n) >> " me
+  if [[ $me = y ]]; then
+    command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed. Installing..."; sleep 2; sudo apt-get update; sudo apt-get update && sudo apt-get install -y $1; }
+  fi
 }
 isinstalled python3-pip
 isinstalled pipx
@@ -38,7 +41,9 @@ git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
 [[ $(gh auth status) != *"Logged in to github.com account abraxas678"* ]] && doit "gh auth login"
 cd $HOME
-[[ ! -d webapps ]] && doit "gh repo clone webapps"
+mkdir webapps -p
+cd $HOME/webapps
+[[ ! -d start.sh ]] && doit "gh repo clone start.sh"
 cd /home/abrax/webapps/script_runner/shs
 EXE="$(ls *akeyless*)"
 command -v akeyless || ./$EXE
