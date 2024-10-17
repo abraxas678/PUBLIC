@@ -3,10 +3,11 @@
 ts=$(date +%s)
 
 isinstalled() {
-  read -p "INSTALL $1? (y/n) >> " me
-  if [[ $me = y ]]; then
+  me=y
+# read -t 2 -p "INSTALL $1? (y/n) >> " me
+#  if [[ $me = y ]]; then
     command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed. Installing..."; sleep 2; sudo apt-get update; sudo apt-get update && sudo apt-get install -y $1; }
-  fi
+#  fi
 }
 isinstalled python3-pip
 isinstalled pipx
@@ -34,6 +35,34 @@ tput ed
 cd $HOME
 mkdir tmp -p
 cd tmp
+isinstalled unzip
+### BWS
+wget https://github.com/bitwarden/sdk/releases/download/bws-v1.0.0/bws-x86_64-unknown-linux-gnu-1.0.0.zip
+unzip bws-x86_64-unknown-linux-gnu-1.0.0.zip
+sudo mv bws /usr/bin/
+rm -f bws-x86_64-unknown-linux-gnu-1.0.0.zip
+### ###
+
+isinstalled yad
+
+echo; rich -p "PROVIDE:  ~/.ssh/bws.dat, just paste" -a heavy -e -s red
+cat  ~/.ssh/bws.dat  | tee /dev/tty | xsel -b
+bws=$(yad --title="Secure Password Input" \
+              --text="BWS:" \
+              --entry \
+              --hide-text \
+              --width=300 \
+              --button="OK:0" \
+              --button="Cancel:1" \
+              --center)
+mkdir -p ~/.ssh/
+echo $bws >~/.ssh/bws.dat
+chmod 600 ~/.ssh/*
+chmod 700 ~/.ssh
+
+
+exit
+
 isinstalled git
 isinstalled gh
 isinstalled zoxide
