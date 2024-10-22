@@ -41,6 +41,8 @@ wget https://github.com/bitwarden/sdk/releases/download/bws-v1.0.0/bws-x86_64-un
 unzip bws-x86_64-unknown-linux-gnu-1.0.0.zip
 sudo mv bws /usr/bin/
 rm -f bws-x86_64-unknown-linux-gnu-1.0.0.zip
+bws config server-base https://vault.bitwarden.eu
+
 ### ###
 
 isinstalled yad
@@ -61,7 +63,7 @@ chmod 600 ~/.ssh/*
 chmod 700 ~/.ssh
 
 
-exit
+#exit
 
 isinstalled git
 isinstalled gh
@@ -72,7 +74,10 @@ git config --global user.name "abraxas678"
 cd $HOME
 mkdir webapps -p
 cd $HOME/webapps
+echo; echo "clone start.sh repo START"
 [[ ! -d start.sh ]] && doit "gh repo clone start.sh"
+echo; echo "clone start.sh repo DONE"
+sleep 2
 cd /home/abrax/webapps/script_runner/shs
 EXE="$(ls *akeyless*)"
 command -v akeyless || ./$EXE
@@ -81,7 +86,8 @@ cd $HOME
 source /home/abrax/bin/header.sh
 command -v rclone || sudo -v ; curl https://rclone.org/install.sh | sudo bash -s beta
 
-[[ ! -d tmpconfig ]] && gh repo clone .config tmpconfig && rclone move tmpconfig/ .config/ --update -P
+## CONFIG COPY
+#[[ ! -d tmpconfig ]] && gh repo clone .config tmpconfig && rclone move tmpconfig/ .config/ --update -P
 
 #exit
 doit "$PMANAGER update"
@@ -89,10 +95,10 @@ doit "$PMANAGER install curl wget micro git gh unzip nano -y"
 doit tailscale "wget https://tailscale.com/install.sh;  chmod +x install.sh; ./install.sh"
 
 chmod +x $HOME/webapps/script_runner/shs/*
-AKEYLESS="$(ls $HOME/webapps/script_runner/shs/*akeyless.sh)"
-doit akeyless "$AKEYLESS"
-chmod +x /home/abrax/bin/akeyless
-sudo cp /home/abrax/bin/akeyless /usr/bin
+#AKEYLESS="$(ls $HOME/webapps/script_runner/shs/*akeyless.sh)"
+#doit akeyless "$AKEYLESS"
+#chmod +x /home/abrax/bin/akeyless
+#sudo cp /home/abrax/bin/akeyless /usr/bin
 chmod +x  /home/abrax/webapps/script_runner/db
 sudo cp  /home/abrax/webapps/script_runner/db /usr/bin
 cp  /home/abrax/webapps/script_runner/db /home/abrax/bin/
