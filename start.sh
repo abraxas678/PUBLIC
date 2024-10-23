@@ -1,5 +1,8 @@
 #!/bin/bash
-## version 0.2 huhu
+## version 0.3
+clear
+echo version 0.3
+sleep 3
 ts=$(date +%s)
 
 isinstalled() {
