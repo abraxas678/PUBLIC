@@ -1,7 +1,7 @@
 #!/bin/bash
 ## version 0.3
 clear
-echo version 0.3
+echo version 0.4
 sleep 3
 ts=$(date +%s)
 
@@ -12,8 +12,10 @@ isinstalled() {
     command -v $1 >/dev/null 2>&1 || { echo >&2 "$1 is not installed. Installing..."; sleep 2; sudo apt-get update; sudo apt-get update && sudo apt-get install -y $1; }
 #  fi
 }
+
 isinstalled python3-pip
 isinstalled pipx
+
 CHECK="$(pipx list | grep -v grep | grep -v hishtory | grep rich | wc -l)"
 if  [[ $CHECK = 0 ]]; then
   pipx install rich-cli
@@ -38,7 +40,10 @@ tput ed
 cd $HOME
 mkdir tmp -p
 cd tmp
-isinstalled unzip
+
+isinstalled unzip 
+isinstalled xsel
+
 ### BWS
 wget https://github.com/bitwarden/sdk/releases/download/bws-v1.0.0/bws-x86_64-unknown-linux-gnu-1.0.0.zip
 unzip bws-x86_64-unknown-linux-gnu-1.0.0.zip
@@ -51,7 +56,11 @@ bws config server-base https://vault.bitwarden.eu
 isinstalled yad
 
 echo; rich -p "PROVIDE:  ~/.ssh/bws.dat, just paste" -a heavy -e -s red
-cat  ~/.ssh/bws.dat  | tee /dev/tty | xsel -b
+if [ -f ~/.ssh/bws.dat ]; then
+  echo -e "${COLORS[BLUE]}Copying content of ~/.ssh/bws.dat to clipboard...${COLORS[NC]}"
+  cat ~/.ssh/bws.dat | tee /dev/tty | xsel -b
+  echo -e "${COLORS[GREEN]}Content copied to clipboard successfully.${COLORS[NC]}"
+fi
 bws=$(yad --title="Secure Password Input" \
               --text="BWS:" \
               --entry \
@@ -65,22 +74,24 @@ echo $bws >~/.ssh/bws.dat
 chmod 600 ~/.ssh/*
 chmod 700 ~/.ssh
 
-
-#exit
-
 isinstalled git
 isinstalled gh
 isinstalled zoxide
+
 git config --global user.email "abraxas678@gmail.com"
 git config --global user.name "abraxas678"
+
 [[ $(gh auth status) != *"Logged in to github.com account abraxas678"* ]] && doit "gh auth login"
-cd $HOME
-mkdir webapps -p
+cd $HOME; mkdir webapps -p
 cd $HOME/webapps
 echo; echo "clone start.sh repo START"
 [[ ! -d start.sh ]] && doit "gh repo clone start.sh"
 echo; echo "clone start.sh repo DONE"
 sleep 2
+rich -p "$(ls start.sh)" -a rounded -s blue
+
+read -p BUTTON me
+
 cd /home/abrax/webapps/script_runner/shs
 EXE="$(ls *akeyless*)"
 command -v akeyless || ./$EXE
