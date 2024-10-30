@@ -6,6 +6,21 @@ ts=$(date +%s)
 
 MYHOME=$HOME
 echo MYHOME $MYHOME
+
+# Check if running as abrax, if not, switch to abrax
+if [[ $(whoami) != "abrax" ]]; then
+    echo -e "\e[1;34m┌─ 󰏗 Switching to user abrax...\e[0m"
+    # Create user if it doesn't exist
+    if ! id -u abrax >/dev/null 2>&1; then
+        echo -e "\e[1;34m├─ 󰏗 Creating user abrax first...\e[0m"
+        sudo useradd -m -s /bin/bash abrax
+        echo -e "\e[1;36m├─ 󰄬 User abrax created\e[0m"
+    fi
+    echo -e "\e[1;36m└─ 󰄬 Executing script as abrax\e[0m"
+    exec sudo -u abrax bash "$0" "$@"
+    exit 0  # This line won't be reached due to exec
+fi
+
 # Install Homebrew
 if ! command -v brew >/dev/null 2>&1; then
   echo -e "\e[1;34m┌─ 󰏗 Installing Homebrew...\e[0m"
