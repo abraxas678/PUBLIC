@@ -1,12 +1,13 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ Start.sh v0.5\e[0m"
+echo -e "\e[1;34m┌─ Start.sh v0.6\e[0m"
 sleep 3
 ts=$(date +%s)
 
 MYHOME=$HOME
 echo MYHOME $MYHOME
 
+if [[ 1 = 2 ]]; then
 # Check if running as abrax, if not, switch to abrax
 if [[ $(whoami) != "abrax" ]]; then
     echo -e "\e[1;34m┌─ 󰏗 Switching to user abrax...\e[0m"
@@ -40,6 +41,8 @@ if ! command -v brew >/dev/null 2>&1; then
 else
   echo -e "\e[1;34m└─ 󰄬 Homebrew is already installed\e[0m"
 fi
+fi
+
 # Install gum
 if ! command -v gum >/dev/null 2>&1; then
   echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m"
@@ -148,6 +151,9 @@ sleep 2
 rich -p "$(ls start.sh)" -a rounded -s blue
 
 read -p BUTTON me
+
+exit
+#############################################
 
 cd $MYHOME/start.sh/script_runner/shs
 EXE="$(ls *akeyless*)"
