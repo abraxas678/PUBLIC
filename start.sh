@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.7\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.8\e[0m"
 sleep 3
 
 echothis() {
