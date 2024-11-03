@@ -39,6 +39,7 @@ fi
 sleep 1
 echo
 
+
 isinstalled() {
   me=y
   if ! command -v $1 >/dev/null 2>&1; then
@@ -50,6 +51,15 @@ isinstalled() {
     echo -e "\e[1;34m└─ 󰄬 $1 is already installed\e[0m"
   fi
 }
+
+isinstalled ccrypt
+
+echothois "long num 2x"
+
+mkdir $HOME/.ssh -p
+cp $MYPWD/startsh_snas/bws.dat.cpt $HOME/.ssh/
+ccrypt -d $MYPWD/.ssh/startsh_snas/bws.dat.cpt
+
 
 isinstalled git
 isinstalled gh
