@@ -48,6 +48,12 @@ gh auth login
 mkdir $HOME/tmp
 cd $HOME/tmp
 
-gh repo clone start.sh
+gh repo clone startsh
+
+echo
+echo "startsh/start2.sh"
+echo
+chmod +x $HOME/tmp/startsh/start2.sh
+$HOME/tmp/startsh/start2.sh
 
 echo DONE
