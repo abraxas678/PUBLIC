@@ -54,11 +54,11 @@ isinstalled() {
 
 isinstalled ccrypt
 
-echothois "long num 2x"
+echothis "long num 2x"
 
 mkdir $HOME/.ssh -p
 cp $MYPWD/startsh_snas/bws.dat.cpt $HOME/.ssh/
-ccrypt -d $MYPWD/.ssh/startsh_snas/bws.dat.cpt
+ccrypt -d $MYPWD/.ssh/bws.dat.cpt
 
 
 isinstalled git
