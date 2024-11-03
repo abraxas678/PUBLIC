@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.9\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.10\e[0m"
 sleep 3
 
 echothis() {
@@ -67,8 +67,13 @@ isinstalled gh
 git config --global user.email "$MYEMAIL"
 git config --global user.name "$MYUSERNAME"
 
-STAT="$(gh auth login)"
-[[ *"$STAT"* != *"Logged in to github.com account abraxas678"* ]] && gh auth login
+# Check if already logged in to GitHub
+if ! gh auth status &>/dev/null; then
+    echothis "Logging in to GitHub..."
+    gh auth login
+else
+    echothis "Already logged in to GitHub"
+fi
 
 mkdir $HOME/tmp
 cd $HOME/tmp
