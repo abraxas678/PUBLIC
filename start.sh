@@ -1,19 +1,26 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ Start.sh v0.6\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.7\e[0m"
 sleep 3
+
+echothis() {
+  echo -e "\e[1;34m--$@\e[0m"
+}
+
 ts=$(date +%s)
 
 MYHOME=$HOME
 MYPWD=$PWD
-echo MYHOME $MYHOME
-echo MYPWD $MYPWD
+echo
+echothis MYHOME $MYHOME
+echothis MYPWD $MYPWD
 sleep 3
 echo
 
 sudo apt update && sudo apt upgrade -y
 sudo apt install nfs-common -y
-
+echo
+echothis "USER INPUT:"
 read -p "snas 192.168. >> " IP0
 IP="192.168.$IP0"
 
@@ -22,8 +29,15 @@ mkdir $MYPWD/startsh_snas; sudo mount -t nfs $IP:/volume2/startsh_snas $MYPWD/st
 source $MYPWD/startsh_snas/env
 
 echo
-[[ -f $MYPWD/.startsh_snas/env ]] && echo "sucessfully mounted"
+if [[ -f $MYPWD/startsh_snas/env ]]; then
+  echothis "sucessfully mounted" 
+else
+  echothis "not mounted" 
+  exit
+fi
+
 sleep 1
+echo
 
 isinstalled() {
   me=y
@@ -43,11 +57,13 @@ isinstalled gh
 git config --global user.email "$MYEMAIL"
 git config --global user.name "$MYUSERNAME"
 
-gh auth login
+STAT="$(gh auth login)"
+[[ *"$STAT"* != *"Logged in to github.com account abraxas678"* ]] && gh auth login
 
 mkdir $HOME/tmp
 cd $HOME/tmp
 
+echothis "cloning startsh"
 gh repo clone startsh
 
 echo
