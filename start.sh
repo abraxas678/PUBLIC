@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.10\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.11\e[0m"
 sleep 3
 
 echothis() {
@@ -57,8 +57,10 @@ isinstalled ccrypt
 echothis "long num 2x"
 
 mkdir $HOME/.ssh -p
-cp $MYPWD/startsh_snas/bws.dat.cpt $HOME/.ssh/
-ccrypt -d $MYPWD/.ssh/bws.dat.cpt
+if [[ ! -f $HOME/.ssh/bws.dat ]]; then
+  cp $MYPWD/startsh_snas/bws.dat.cpt $HOME/.ssh/
+  ccrypt -d $MYPWD/.ssh/bws.dat.cpt
+fi
 
 
 isinstalled git
