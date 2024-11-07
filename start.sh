@@ -81,7 +81,8 @@ mkdir $HOME/tmp
 cd $HOME/tmp
 
 echothis "cloning startsh"
-gh repo clone startsh
+#gh repo clone startsh
+git clone https://git.yyps.de/abraxas678/startsh.git
 
 echo
 echo "startsh/start2.sh"
