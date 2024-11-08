@@ -70,12 +70,12 @@ git config --global user.email "$MYEMAIL"
 git config --global user.name "$MYUSERNAME"
 
 # Check if already logged in to GitHub
-if ! gh auth status &>/dev/null; then
-    echothis "Logging in to GitHub..."
-    gh auth login
-else
-    echothis "Already logged in to GitHub"
-fi
+#if ! gh auth status &>/dev/null; then
+#    echothis "Logging in to GitHub..."
+#    gh auth login
+#else
+#    echothis "Already logged in to GitHub"
+#fi
 
 mkdir $HOME/tmp
 cd $HOME/tmp
