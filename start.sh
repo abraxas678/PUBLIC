@@ -62,7 +62,6 @@ if [[ ! -f $HOME/.ssh/bws.dat ]]; then
   ccrypt -d $MYPWD/.ssh/bws.dat.cpt
 fi
 
-
 isinstalled git
 isinstalled gh
 
@@ -77,7 +76,7 @@ git config --global user.name "$MYUSERNAME"
 #    echothis "Already logged in to GitHub"
 #fi
 
-mkdir $HOME/tmp
+mkdir $HOME/tmp -p
 cd $HOME/tmp
 
 echothis "cloning startsh"
@@ -88,6 +87,10 @@ echo
 echo "startsh/start2.sh"
 echo
 chmod +x $HOME/tmp/startsh/start2.sh
+echo
+echo executing start2.sh
+sleep 3
+
 $HOME/tmp/startsh/start2.sh
 
 echo DONE
