@@ -1,5 +1,0 @@
-curl
-git
-wget
-tailscale
-nfs-common
