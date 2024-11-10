@@ -24,9 +24,9 @@ echothis "USER INPUT:"
 read -p "snas 192.168. >> " IP0
 IP="192.168.$IP0"
 
-mkdir -p $MYPWD/tmp/startsh_snas; sudo mount -t nfs $IP:/volume2/startsh_snas $MYPWD/tmp/startsh_snas
+mkdir -p $MYHOME/tmp/startsh_snas; sudo mount -t nfs $IP:/volume2/startsh_snas $MYHOME/tmp/startsh_snas
 
-if [[ -f $MYPWD/tmp/startsh_snas/env ]]; then
+if [[ -f $MYHOME/tmp/startsh_snas/env ]]; then
   echothis "sucessfully mounted" 
   sleep 3
 else
@@ -36,8 +36,8 @@ else
   sudo apt install -y sshfs
   [[ ! -f ~/.ssh/id_rsa ]] && ssh-keygen
   ssh-copy-id $abrax@$IP
-  sshfs 192.168.11.5/volume2/startsh $MYPWD/tmp/startsh_snas
-  if [[ -f $MYPWD/tmp/startsh_snas/env ]]; then
+  sshfs 192.168.11.5/volume2/startsh $MYHOME/tmp/startsh_snas
+  if [[ -f $MYHOME/tmp/startsh_snas/env ]]; then
     echothis "sucessfully mounted" 
     sleep 3
   else
@@ -50,7 +50,7 @@ fi
 sleep 1
 echo
 
-source $MYPWD/tmp/startsh_snas/env
+source $MYHOME/tmp/startsh_snas/env
 
 echo
 
@@ -73,8 +73,8 @@ echothis "long num 2x"
 
 mkdir $HOME/.ssh -p
 if [[ ! -f $HOME/.ssh/bws.dat ]]; then
-  cp $MYPWD/tmp/startsh_snas/bws.dat.cpt $HOME/.ssh/
-  ccrypt -d $MYPWD/.ssh/bws.dat.cpt
+  cp $MYHOME/tmp/startsh_snas/bws.dat.cpt $HOME/.ssh/
+  ccrypt -d $MYHOME/.ssh/bws.dat.cpt
 fi
 
 isinstalled git
