@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.11\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.12\e[0m"
 sleep 3
 
 echothis() {
@@ -26,17 +26,32 @@ IP="192.168.$IP0"
 
 mkdir $MYPWD/startsh_snas; sudo mount -t nfs $IP:/volume2/startsh_snas $MYPWD/startsh_snas
 
-source $MYPWD/startsh_snas/env
-
-echo
 if [[ -f $MYPWD/startsh_snas/env ]]; then
   echothis "sucessfully mounted" 
+  sleep 3
 else
   echothis "not mounted" 
-  exit
+  sleep 3
+
+  sudo apt install -y sshfs
+  [[ ! -f ~/.ssh/id_rsa ]] && ssh-keygen
+  ssh-copy-id $abrax@$IP
+  sshfs 192.168.11.5/volume2/startsh $MYPWD/startsh_snas
+  if [[ -f $MYPWD/startsh_snas/env ]]; then
+    echothis "sucessfully mounted" 
+    sleep 3
+  else
+    echothis "not mounted" 
+    sleep 3
+    exit
+  fi
 fi
 
 sleep 1
+echo
+
+source $MYPWD/startsh_snas/env
+
 echo
 
 
