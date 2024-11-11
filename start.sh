@@ -2,22 +2,34 @@
 clear
 echo -e "\e[1;34m┌─ public Start.sh v0.12\e[0m"
 sleep 3
+export GITHUB_USERNAME="abraxas678"
 
 echothis() {
+  echo
   echo -e "\e[1;34m--$@\e[0m"
 }
 
-ts=$(date +%s)
+echothis "apt update && upgrade"
+#ts=$(date +%s)
 
-MYHOME=$HOME
-MYPWD=$PWD
-echo
-echothis MYHOME $MYHOME
-echothis MYPWD $MYPWD
-sleep 3
-echo
+#MYHOME=$HOME
+#MYPWD=$PWD
+#echo
+#echothis MYHOME $MYHOME
+#echothis MYPWD $MYPWD
+#sleep 3
+#echo
 
 sudo apt update && sudo apt upgrade -y
+echothis "apt install python3-pip pix"
+sudo apt install python3-pip pipx -y
+pipx ensurepath
+echothis "install ansible (pipx)"
+pipx install --include-deps ansible
+echothis "install chezmoi"
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+
+exit
 sudo apt install nfs-common -y
 echo
 echothis "USER INPUT:"
