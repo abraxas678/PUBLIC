@@ -71,6 +71,41 @@ echothis "install chezmoi"
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
 curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --ssh --accept-routes
+
+curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
+
+#!/bin/bash
+#10. Homebrew Setup and Hombrew app install
+
+# Install Homebrew and its dependencies
+brew_install() {
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+  export PATH="/home/linuxbrew/.linuxbrew/bin:$PATH"
+  sudo apt-get install -y build-essential
+  brew install gcc
+  echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> $MYHOME/.zshrc
+  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  exec zsh
+  export ANS=n
+}
+
+echothis "install brew"
+# Install Homebrew if not already installed
+which brew > /dev/null
+if [[ $? != 0 ]]; then
+  echo -e "${YELLOW}INSTALL: Homebrew${RESET}"
+  countdown 1
+  brew_install
+fi
+
+# Install utilities using Homebrew
+
+while IFS= read -r line; do
+  [[ $line != "#"* ]] && brew install $line
+done < 	brew_all_multi.txt
+
+
+
 exit
 sudo apt install nfs-common -y
 echo
