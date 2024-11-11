@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.12\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.13\e[0m"
 sleep 3
 export GITHUB_USERNAME="abraxas678"
 
@@ -8,6 +8,23 @@ echothis() {
   echo
   echo -e "\e[1;34m--$@\e[0m"
 }
+
+echothis "User setup"
+sudo apt install -y sudo
+CHECKUSER=abrax
+if [[ $USER == *"root"* ]]; then
+su $CHECKUSER
+adduser $CHECKUSER
+usermod -aG sudo $CHECKUSER
+su $CHECKUSER
+exit
+else
+su $CHECKUSER
+sudo adduser $CHECKUSER
+sudo usermod -aG sudo $CHECKUSER
+su $CHECKUSER
+exit
+fi
 
 echothis "apt update && upgrade"
 #ts=$(date +%s)
@@ -28,6 +45,13 @@ sudo apt update && sudo apt upgrade -y
 #pipx install --include-deps ansible
 echothis "install chezmoi"
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+
+echothis "zsh4humans"
+if command -v curl >/dev/null 2>&1; then
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
+else
+  sh -c "$(wget -O- https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
+fi
 
 exit
 sudo apt install nfs-common -y
