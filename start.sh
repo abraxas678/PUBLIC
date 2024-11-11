@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.13\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.14\e[0m"
 sleep 3
 export GITHUB_USERNAME="abraxas678"
 
@@ -9,6 +9,7 @@ echothis() {
   echo -e "\e[1;34m--$@\e[0m"
 }
 
+if [[ $USER != "abrax" ]]; then
 echothis "User setup"
 sudo apt install -y sudo
 CHECKUSER=abrax
@@ -24,6 +25,7 @@ sudo adduser $CHECKUSER
 sudo usermod -aG sudo $CHECKUSER
 su $CHECKUSER
 exit
+fi
 fi
 
 echothis "apt update && upgrade"
