@@ -2,7 +2,7 @@
 MYEMAIL=abraxas678@gmail.com
 MYUSERNAME="abraxas678"
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.18\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.19\e[0m"
 sleep 3
 export GITHUB_USERNAME="abraxas678"
 
