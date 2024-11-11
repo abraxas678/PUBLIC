@@ -1,4 +1,6 @@
 #!/bin/bash
+MYEMAIL=abraxas678@gmail.com
+MYUSERNAME="abraxas678"
 clear
 echo -e "\e[1;34m┌─ public Start.sh v0.15\e[0m"
 sleep 3
@@ -42,6 +44,8 @@ echothis "apt update && upgrade"
 sudo apt update && sudo apt upgrade -y
 echothis "install github gh"
 sudo apt install gh git -y
+git config --global user.email "$MYEMAIL"
+git config --global user.name "$MYUSERNAME"
 #echothis "apt install python3-pip pix"
 #sudo apt install python3-pip pipx -y
 #pipx ensurepath
