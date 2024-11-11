@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.14\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.15\e[0m"
 sleep 3
 export GITHUB_USERNAME="abraxas678"
 
@@ -40,6 +40,8 @@ echothis "apt update && upgrade"
 #echo
 
 sudo apt update && sudo apt upgrade -y
+echothis "install github gh"
+sudo apt install gh git -y
 #echothis "apt install python3-pip pix"
 #sudo apt install python3-pip pipx -y
 #pipx ensurepath
