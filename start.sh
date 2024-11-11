@@ -104,6 +104,7 @@ while IFS= read -r line; do
   [[ $line != "#"* ]] && brew install $line
 done < 	brew_all_multi.txt
 
+brew install gum
 
 
 exit
