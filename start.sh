@@ -30,6 +30,13 @@ exit
 fi
 fi
 
+cat > ~/.config/chezmoi/chezmoi.toml <<EOF
+encryption = "age"
+[age]
+    identity = "~/.config/chezmoi/key.txt"
+    recipient = "age1j7akucmjyh0w82s20v0f9uut053x8gv6ahlg776wwalskjjycydszgme69"
+EOF
+
 echothis "apt update && upgrade"
 #ts=$(date +%s)
 
