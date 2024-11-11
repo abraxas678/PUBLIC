@@ -21,11 +21,11 @@ echothis "apt update && upgrade"
 #echo
 
 sudo apt update && sudo apt upgrade -y
-echothis "apt install python3-pip pix"
-sudo apt install python3-pip pipx -y
-pipx ensurepath
-echothis "install ansible (pipx)"
-pipx install --include-deps ansible
+#echothis "apt install python3-pip pix"
+#sudo apt install python3-pip pipx -y
+#pipx ensurepath
+#echothis "install ansible (pipx)"
+#pipx install --include-deps ansible
 echothis "install chezmoi"
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
