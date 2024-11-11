@@ -70,6 +70,7 @@ git config --global user.name "$MYUSERNAME"
 echothis "install chezmoi"
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
+curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --ssh --accept-routes
 exit
 sudo apt install nfs-common -y
 echo
