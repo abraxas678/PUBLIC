@@ -1,15 +1,45 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.26\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.28\e[0m"
 sleep 3
 echothis() {
   echo
   echo -e "\e[1;34m--$@\e[0m"
 }
+isinstalled() {
+  me=y
+  if ! command -v $1 >/dev/null 2>&1; then
+    echo -e "\e[1;34m┌─ 󰏗 Installing $1...\e[0m"
+    sudo apt-get update
+    sudo apt-get install -y "$1"
+    echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
+  else
+    echo -e "\e[1;34m└─ 󰄬 $1 is already installed\e[0m"
+  fi
+}
 
 export PATH="$HOME/bin:$PATH"
 read -p "GITHUB_USERNAME: " GITHUB_USERNAME
 read -p "LOCAL_USER: " MYUSERNAME
+
+if [[ $USER != "abrax" ]]; then
+  echothis "User setup"
+  sudo apt install -y sudo
+  CHECKUSER=abrax
+if [[ $USER == *"root"* ]]; then
+  su $CHECKUSER
+  adduser $CHECKUSER
+  usermod -aG sudo $CHECKUSER
+  su $CHECKUSER
+  exit
+else
+  su $CHECKUSER
+  sudo adduser $CHECKUSER
+  sudo usermod -aG sudo $CHECKUSER
+  su $CHECKUSER
+exit
+fi
+fi
 
 open https://www.slimjet.com/de/dlpage.php
 open https://www.cursor.com/
@@ -39,6 +69,7 @@ gh repo clone startsh
 chmod +x $HOME/Downloads/*.AppImage
 sudo apt update 
 sudo apt install $HOME/Downloads/*.deb
+/usr/bin/flashpeak-slimjet
 
 chmod +x $HOME/startsh/script_runner/shs/bws.sh
 $HOME/startsh/script_runner/shs/bws.sh
@@ -54,48 +85,8 @@ EOF
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
 sudo apt install -y snap
-sudo snap install deltachat
+sudo snap install deltachat-desktop
 sudo snap connect deltachat-desktop:camera 
-
-
-exit
-
-source $HOME/startsh/creds.txt
-
-
-if [[ $USER != "abrax" ]]; then
-echothis "User setup"
-sudo apt install -y sudo
-CHECKUSER=abrax
-if [[ $USER == *"root"* ]]; then
-su $CHECKUSER
-adduser $CHECKUSER
-usermod -aG sudo $CHECKUSER
-su $CHECKUSER
-exit
-else
-su $CHECKUSER
-sudo adduser $CHECKUSER
-sudo usermod -aG sudo $CHECKUSER
-su $CHECKUSER
-exit
-fi
-fi
-
-
-
-echothis "apt update && upgrade"
-#ts=$(date +%s)
-
-#MYHOME=$HOME
-#MYPWD=$PWD
-#echo
-#echothis MYHOME $MYHOME
-#echothis MYPWD $MYPWD
-#sleep 3
-#echo
-
-sudo apt update && sudo apt upgrade -y
 
 echothis "zsh4humans"
 if command -v curl >/dev/null 2>&1; then
@@ -108,20 +99,17 @@ fi
 echothis "install github gh"
 sudo apt install gh git -y
 git config --global user.email "$MYEMAIL"
-git config --global user.name "$MYUSERNAME"
+git config --global user.name "$GITHUB_USERNAME"
 #echothis "apt install python3-pip pix"
 #sudo apt install python3-pip pipx -y
 #pipx ensurepath
 #echothis "install ansible (pipx)"
 #pipx install --include-deps ansible
-echothis "install chezmoi"
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
 curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --ssh --accept-routes
 
 curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 
-#!/bin/bash
 #10. Homebrew Setup and Hombrew app install
 
 # Install Homebrew and its dependencies
@@ -145,14 +133,11 @@ if [[ $? != 0 ]]; then
   brew_install
 fi
 
-# Install utilities using Homebrew
-
-while IFS= read -r line; do
-  [[ $line != "#"* ]] && brew install $line
-done < 	brew_all_multi.txt
-
 echothis gum
 brew install gum
+
+echothis pueue
+brew install pueue
 
 echothis docker
 for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
@@ -211,19 +196,6 @@ echo
 source $MYHOME/tmp/startsh_snas/env
 
 echo
-
-
-isinstalled() {
-  me=y
-  if ! command -v $1 >/dev/null 2>&1; then
-    echo -e "\e[1;34m┌─ 󰏗 Installing $1...\e[0m"
-    sudo apt-get update
-    sudo apt-get install -y "$1"
-    echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
-  else
-    echo -e "\e[1;34m└─ 󰄬 $1 is already installed\e[0m"
-  fi
-}
 
 isinstalled ccrypt
 
