@@ -1,13 +1,52 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.19\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.20\e[0m"
 sleep 3
-export GITHUB_USERNAME="$MYUSERNAME"
-
 echothis() {
   echo
   echo -e "\e[1;34m--$@\e[0m"
 }
+
+read -p "GITHUB_USERNAME: " GITHUB_USERNAME
+read -p "LOCAL_USER: " MYUSERNAME
+
+open https://www.slimjet.com/de/dlpage.php
+read -p BUTTON me
+open https://github.com/Alex313031/Thorium/releases
+
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y curl unzip
+
+## KOPIA
+curl -s https://kopia.io/signing-key | sudo gpg --dearmor -o /etc/apt/keyrings/kopia-keyring.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kopia-keyring.gpg] http://packages.kopia.io/apt/ stable main" | sudo tee /etc/apt/sources.list.d/kopia.list
+
+sudo apt update
+sudo apt install kopia
+sudo apt install kopia-ui
+
+sudo apt install git gh -y
+
+gh auth login
+
+cd $HOME
+gh repo clone startsh
+
+[[ ! -d $HOME/.ssh ]] && mkdir $HOME/.ssh
+
+chmod +x $HOME/startsh/script_runner/shs/bws.sh
+$HOME/startsh/script_runner/shs/bws.sh
+
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+
+
+
+
+exit
+
+source $HOME/startsh/creds.txt
+
 
 if [[ $USER != "abrax" ]]; then
 echothis "User setup"
