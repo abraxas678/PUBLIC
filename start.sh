@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.25\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.26\e[0m"
 sleep 3
 echothis() {
   echo
@@ -35,6 +35,10 @@ cd $HOME
 gh repo clone startsh
 
 [[ ! -d $HOME/.ssh ]] && mkdir $HOME/.ssh
+
+chmod +x $HOME/Downloads/*.AppImage
+sudo apt update 
+sudo apt install $HOME/Downloads/*.deb
 
 chmod +x $HOME/startsh/script_runner/shs/bws.sh
 $HOME/startsh/script_runner/shs/bws.sh
