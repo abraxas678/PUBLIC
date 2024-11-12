@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.20\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.21\e[0m"
 sleep 3
 echothis() {
   echo
@@ -38,6 +38,13 @@ gh repo clone startsh
 chmod +x $HOME/startsh/script_runner/shs/bws.sh
 $HOME/startsh/script_runner/shs/bws.sh
 
+cat > ~/.config/chezmoi/chezmoi.toml <<EOF
+encryption = "age"
+[age]
+    identity = "~/.config/chezmoi/key.txt"
+    recipient = "age1j7akucmjyh0w82s20v0f9uut053x8gv6ahlg776wwalskjjycydszgme69"
+EOF
+
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
 
@@ -67,12 +74,7 @@ exit
 fi
 fi
 
-cat > ~/.config/chezmoi/chezmoi.toml <<EOF
-encryption = "age"
-[age]
-    identity = "~/.config/chezmoi/key.txt"
-    recipient = "age1j7akucmjyh0w82s20v0f9uut053x8gv6ahlg776wwalskjjycydszgme69"
-EOF
+
 
 echothis "apt update && upgrade"
 #ts=$(date +%s)
