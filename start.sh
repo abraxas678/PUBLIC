@@ -41,6 +41,14 @@ exit
 fi
 fi
 
+command xsel >/dev/null 2>&1; [[ $? != 0 ]] && sudo apt install xsel -y
+echo; echothis "sudo visudo:";
+echo " add:       abrax ALL=(ALL) NOPASSWD: ALL"
+echo "abrax ALL=(ALL) NOPASSWD: ALL" | xsel -b
+read -p BUTTON me
+
+
+
 open https://www.slimjet.com/de/dlpage.php
 open https://www.cursor.com/
 open https://github.com/Alex313031/Thorium/releases
@@ -58,6 +66,10 @@ sudo apt install kopia
 sudo apt install kopia-ui
 
 sudo apt install git gh -y
+
+bws run -- git config --global user.email "$MYEMAIL"
+bws run -- git config --global user.name "$GITHUB_USERNAME"
+
 
 gh auth login
 
