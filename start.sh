@@ -1,12 +1,13 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.24\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.25\e[0m"
 sleep 3
 echothis() {
   echo
   echo -e "\e[1;34m--$@\e[0m"
 }
 
+export PATH="$HOME/bin:$PATH"
 read -p "GITHUB_USERNAME: " GITHUB_USERNAME
 read -p "LOCAL_USER: " MYUSERNAME
 
