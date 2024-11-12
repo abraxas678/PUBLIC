@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.22\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.23\e[0m"
 sleep 3
 echothis() {
   echo
@@ -38,6 +38,7 @@ gh repo clone startsh
 chmod +x $HOME/startsh/script_runner/shs/bws.sh
 $HOME/startsh/script_runner/shs/bws.sh
 
+mkdir -p $HOME/.config/chezmoi
 cat > ~/.config/chezmoi/chezmoi.toml <<EOF
 encryption = "age"
 [age]
