@@ -47,7 +47,7 @@ EOF
 
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
-sudoa apt install -y snap
+sudo apt install -y snap
 sudo snap install deltachat
 sudo snap connect deltachat-desktop:camera 
 
