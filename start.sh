@@ -11,8 +11,6 @@ read -p "GITHUB_USERNAME: " GITHUB_USERNAME
 read -p "LOCAL_USER: " MYUSERNAME
 
 open https://www.slimjet.com/de/dlpage.php
-read -p BUTTON me
-open https://github.com/Alex313031/Thorium/releases
 
 sudo apt update
 sudo apt upgrade -y
@@ -25,6 +23,8 @@ echo "deb [signed-by=/etc/apt/keyrings/kopia-keyring.gpg] http://packages.kopia.
 sudo apt update
 sudo apt install kopia
 sudo apt install kopia-ui
+
+open https://github.com/Alex313031/Thorium/releases
 
 sudo apt install git gh -y
 
