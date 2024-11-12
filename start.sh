@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.21\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.22\e[0m"
 sleep 3
 echothis() {
   echo
@@ -47,7 +47,9 @@ EOF
 
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
-
+sudoa apt install -y snap
+sudo snap install deltachat
+sudo snap connect deltachat-desktop:camera 
 
 
 exit
