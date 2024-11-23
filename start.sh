@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.28\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.29\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m│ 🚀 This script will:\e[0m"
 echo -e "\e[1;32m│ 1. Set up user permissions and sudo access\e[0m"
@@ -68,9 +68,47 @@ sudo apt update
 sudo apt upgrade -y
 sudo apt install -y curl unzip
 
+tput civis
+echo -e "\e[1;34m┌──── System Setup Type\e[0m"
+echo -e "\e[1;34m│\e[0m"
+echo -e "\e[1;34m└─➤\e[0m \e[1;37mAre you setting up a (L)ocal machine or a (S)erver?\e[0m"
+read -n 1 SETUP_TYPE
+echo
+
+case $SETUP_TYPE in
+  [Ll]*)
+    MACHINE_TYPE="local"
+    echo -e "\e[1;32m└─➤ Local machine setup selected\e[0m"
+    ;;
+  [Ss]*)
+    MACHINE_TYPE="server"
+    echo -e "\e[1;32m└─➤ Server setup selected\e[0m"
+    ;;
+  *)
+    echo -e "\e[1;31m└─➤ Invalid selection. Defaulting to local setup\e[0m"
+    MACHINE_TYPE="local"
+    ;;
+esac
+tput cnorm
+
+tput civis
+echo -e "\e[1;34m┌──── Installing and Configuring Chezmoi\e[0m"
+echo -e "\e[1;34m│\e[0m"
+echo -e "\e[1;34m└─➤\e[0m \e[1;37mUpdating system and installing chezmoi...\e[0m"
+sudo apt update && sudo apt upgrade-full -y && sudo apt install chezmoi -y
+
+echo -e "\e[1;34m┌──── Initializing Chezmoi\e[0m"
+echo -e "\e[1;34m│\e[0m"
+echo -e "\e[1;34m└─➤\e[0m \e[1;37mCloning dotfiles from GitHub...\e[0m"
+chezmoi init https://github.com/$GITHUB_USERNAME/dotfiles.git
+
+echo -e "\e[1;34m┌──── Checking Changes\e[0m"
+echo -e "\e[1;34m│\e[0m"
+echo -e "\e[1;34m└─➤\e[0m \e[1;37mShowing diff of changes to be applied:\e[0m"
+chezmoi diff
+tput cnorm
+
 exit
-
-
 open https://www.slimjet.com/de/dlpage.php
 open https://www.cursor.com/
 open https://github.com/Alex313031/Thorium/releases
