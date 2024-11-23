@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.33\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.34\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m│ 🚀 This script will:\e[0m"
 echo -e "\e[1;32m│ 1. Set up user permissions and sudo access\e[0m"
@@ -120,7 +120,34 @@ chezmoi init https://github.com/$GITHUB_USERNAME/dotfiles.git
 echo -e "\e[1;34m┌──── Checking Changes\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m└─➤\e[0m \e[1;37mShowing diff of changes to be applied:\e[0m"
-chezmoi diff
+#chezmoi diff
+echo -e "\e[1;34m┌──── Applying Changes\e[0m"
+echo -e "\e[1;34m│\e[0m"
+echo -e "\e[1;34m└─➤\e[0m \e[1;37mExecuting 'chezmoi update' to apply dotfile changes...\e[0m"
+chezmoi update
+echo -e "\e[1;32m└─➤ Changes applied successfully\e[0m"
+tput cnorm
+
+tput civis
+echo -e "\e[1;34m┌──── Unmanic Installation\e[0m"
+echo -e "\e[1;34m│\e[0m"
+echo -e "\e[1;34m└─➤\e[0m \e[1;37mWould you like to install Unmanic? (y/n):\e[0m"
+read -n 1 INSTALL_UNMANIC
+echo
+
+case $INSTALL_UNMANIC in
+  [Yy]*)
+    echo -e "\e[1;34m┌──── Setting up Unmanic\e[0m"
+    echo -e "\e[1;34m│\e[0m"
+    echo -e "\e[1;34m└─➤\e[0m \e[1;37mExecuting Unmanic setup script...\e[0m"
+    chmod +x $HOME/tmp/public/setup_unmanic.sh
+    $HOME/tmp/public/setup_unmanic.sh
+    echo -e "\e[1;32m└─➤ Unmanic setup completed\e[0m"
+    ;;
+  *)
+    echo -e "\e[1;37m└─➤ Skipping Unmanic installation\e[0m"
+    ;;
+esac
 tput cnorm
 
 exit
