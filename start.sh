@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.31\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.32\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m│ 🚀 This script will:\e[0m"
 echo -e "\e[1;32m│ 1. Set up user permissions and sudo access\e[0m"
@@ -96,7 +96,7 @@ echo -e "\e[1;34m┌──── Installing and Configuring Chezmoi\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m└─➤\e[0m \e[1;37mUpdating system and installing chezmoi...\e[0m"
 sudo apt update && sudo apt upgrade -y && sudo apt install snap -y
-sudo snap install chezmoi 
+sudo snap install chezmoi  --classic
 
 echo -e "\e[1;34m┌──── Initializing Chezmoi\e[0m"
 echo -e "\e[1;34m│\e[0m"
