@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.32\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.33\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m│ 🚀 This script will:\e[0m"
 echo -e "\e[1;32m│ 1. Set up user permissions and sudo access\e[0m"
@@ -34,6 +34,7 @@ isinstalled() {
 export PATH="$HOME/bin:$PATH"
 read -p "GITHUB_USERNAME: " GITHUB_USERNAME
 read -p "LOCAL_USER: " MYUSERNAME
+MYEMAIL="abraxas678@gmail.com"
 
 if [[ $USER != "abrax" ]]; then
   echothis "User setup"
@@ -66,7 +67,10 @@ read -p BUTTON me
 
 sudo apt update
 sudo apt upgrade -y
-sudo apt install -y curl unzip
+sudo apt install -y curl unzip age ccrypt git gh
+
+bws run -- git config --global user.email "$MYEMAIL"
+bws run -- git config --global user.name "$GITHUB_USERNAME"
 
 tput civis
 echo -e "\e[1;34m┌──── System Setup Type\e[0m"
@@ -97,6 +101,16 @@ echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m└─➤\e[0m \e[1;37mUpdating system and installing chezmoi...\e[0m"
 sudo apt update && sudo apt upgrade -y && sudo apt install snap -y
 sudo snap install chezmoi  --classic
+
+gh auth login
+mkdir -p $HOME/tmp
+cd $HOME/tmp
+gh repo clone public
+cd public 
+mkdir -p /home/abrax/.config/chezmoi
+cp chezmoi.toml.cpt /home/abrax/.config/chezmoi
+cd /home/abrax/.config/chezmoi
+ccrypt --decrypt chezmoi.toml.cpt
 
 echo -e "\e[1;34m┌──── Initializing Chezmoi\e[0m"
 echo -e "\e[1;34m│\e[0m"
