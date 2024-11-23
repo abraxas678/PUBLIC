@@ -35,6 +35,7 @@ export PATH="$HOME/bin:$PATH"
 read -p "GITHUB_USERNAME: " GITHUB_USERNAME
 read -p "LOCAL_USER: " MYUSERNAME
 MYEMAIL="abraxas678@gmail.com"
+TAILSCALE_INSTALL="1dee0b6b-63d1-45b3-887e-b23100e3f9dc"
 
 if [[ $USER != "abrax" ]]; then
   echothis "User setup"
