@@ -55,20 +55,26 @@ fi
 fi
 
 command xsel >/dev/null 2>&1; [[ $? != 0 ]] && sudo apt install xsel -y
+wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/pop.sh
+chmod +x pop.sh
+./pop.sh "sudo visudo" &
 echo; echothis "sudo visudo:";
 echo " add:       abrax ALL=(ALL) NOPASSWD: ALL"
 echo "abrax ALL=(ALL) NOPASSWD: ALL" | xsel -b
+echo
 read -p BUTTON me
 
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y curl unzip
+
+exit
 
 
 open https://www.slimjet.com/de/dlpage.php
 open https://www.cursor.com/
 open https://github.com/Alex313031/Thorium/releases
 
-sudo apt update
-sudo apt upgrade -y
-sudo apt install -y curl unzip
 
 ## KOPIA
 curl -s https://kopia.io/signing-key | sudo gpg --dearmor -o /etc/apt/keyrings/kopia-keyring.gpg

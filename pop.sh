@@ -1,6 +1,6 @@
 #!/bin/bash
 v1="$1"
-echo $v1 >/home/abrax/bin/pop.txt
+echo $v1 >pop.txt
 BLUE='\033[1;34m'
 GRAY='\033[1;90m'
 GREEN='\033[1;32m'
@@ -38,7 +38,7 @@ GREEN='\033[1;32m'
 NC='\033[0m'
 
 tput civis
-echo -ne "${BLUE}┌────────────────────────────────┐\n${BLUE}└─➤${GREEN} NOTIFICATION: $(cat /home/abrax/bin/pop.txt)${BLUE}    ${NC}"
+echo -ne "${BLUE}┌────────────────────────────────┐\n${BLUE}└─➤${GREEN} NOTIFICATION: $(cat pop.txt)${BLUE}    ${NC}"
 read -n 1
 tput cnorm
 clear
