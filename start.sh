@@ -56,6 +56,7 @@ exit
 fi
 fi
 
+sudo apt update
 command xsel >/dev/null 2>&1; [[ $? != 0 ]] && sudo apt install xsel -y
 wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/pop.sh
 chmod +x pop.sh
@@ -100,7 +101,7 @@ tput civis
 echo -e "\e[1;34m┌──── Installing and Configuring Chezmoi\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m└─➤\e[0m \e[1;37mUpdating system and installing chezmoi...\e[0m"
-sudo apt update && sudo apt upgrade -y && sudo apt install snap -y
+sudo apt update && sudo apt upgrade -y && sudo apt install snapd -y
 sudo snap install chezmoi  --classic
 
 gh auth login
@@ -108,6 +109,7 @@ mkdir -p $HOME/tmp
 cd $HOME/tmp
 gh repo clone public
 cd public 
+command bws >/dev/null 2>&1; [[ $? != 0 ]] && ./bws.sh
 mkdir -p /home/abrax/.config/chezmoi
 cp chezmoi.toml.cpt /home/abrax/.config/chezmoi
 cd /home/abrax/.config/chezmoi
