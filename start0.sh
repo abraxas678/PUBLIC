@@ -6,7 +6,7 @@
 # Download the script to a temporary file and then execute it
 TMP_SCRIPT=$(mktemp)
 curl -sL start1.yyps.de > "$TMP_SCRIPT"
-bash "$TMP_SCRIPT" <&/dev/tty
+bash "$TMP_SCRIPT"
 rm "$TMP_SCRIPT"
 
 #curl -L start1.yyps.de | bash <&/dev/tty
