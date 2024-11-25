@@ -37,10 +37,10 @@ read -p "LOCAL_USER: " MYUSERNAME
 MYEMAIL="abraxas678@gmail.com"
 TAILSCALE_INSTALL="1dee0b6b-63d1-45b3-887e-b23100e3f9dc"
 
-if [[ $USER != "abrax" ]]; then
+if [[ $USER != "$MYUSERNAME" ]]; then
   echothis "User setup"
   sudo apt install -y sudo
-  CHECKUSER=abrax
+  CHECKUSER=$MYUSERNAME
 if [[ $USER == *"root"* ]]; then
   su $CHECKUSER
   adduser $CHECKUSER
@@ -62,8 +62,8 @@ wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/pop.s
 chmod +x pop.sh
 ./pop.sh "sudo visudo" &
 echo; echothis "sudo visudo:";
-echo " add:       abrax ALL=(ALL) NOPASSWD: ALL"
-echo "abrax ALL=(ALL) NOPASSWD: ALL" | xsel -b
+echo " add:       $MYUSERNAME ALL=(ALL) NOPASSWD: ALL"
+echo "$MYUSERNAME ALL=(ALL) NOPASSWD: ALL" | xsel -b
 echo
 read -p BUTTON me
 
@@ -110,9 +110,9 @@ cd $HOME/tmp
 gh repo clone public
 cd public 
 command bws >/dev/null 2>&1; [[ $? != 0 ]] && ./bws.sh
-mkdir -p /home/abrax/.config/chezmoi
-cp chezmoi.toml.cpt /home/abrax/.config/chezmoi
-cd /home/abrax/.config/chezmoi
+mkdir -p /home/$MYUSERNAME/.config/chezmoi
+cp chezmoi.toml.cpt /home/$MYUSERNAME/.config/chezmoi
+cd /home/$MYUSERNAME/.config/chezmoi
 ccrypt --decrypt chezmoi.toml.cpt
 
 echo -e "\e[1;34m┌──── Initializing Chezmoi\e[0m"
@@ -292,7 +292,7 @@ else
 
   sudo apt install -y sshfs
   [[ ! -f ~/.ssh/id_rsa ]] && ssh-keygen
-  ssh-copy-id $abrax@$IP
+  ssh-copy-id $MYUSERNAME@$IP
   sshfs 192.168.11.5/volume2/startsh $MYHOME/tmp/startsh_snas
   if [[ -f $MYHOME/tmp/startsh_snas/env ]]; then
     echothis "sucessfully mounted" 
