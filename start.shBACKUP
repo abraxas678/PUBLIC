@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌──── Public Start.sh v0.34\e[0m"
+echo -e "\e[1;34m┌─ public Start.sh v0.28\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m│ 🚀 This script will:\e[0m"
 echo -e "\e[1;32m│ 1. Set up user permissions and sudo access\e[0m"
@@ -12,10 +12,7 @@ echo -e "\e[1;32m│ 6. Configure network tools (Tailscale, Docker)\e[0m"
 echo -e "\e[1;32m│ 7. Set up Homebrew and additional utilities\e[0m"
 echo -e "\e[1;32m│ 8. Configure NFS/SSHFS mounts\e[0m"
 echo -e "\e[1;32m│ 9. Set up SSH and encryption keys\e[0m"
-echo -e "\e[1;32m│ 10. Install Unmanic (optional)\e[0m"
-echo -e "\e[1;32m│ 11. Configure Delta Chat\e[0m"
-echo -e "\e[1;32m│ 12. Set up Atuin shell history\e[0m"
-echo -e "\e[1;34m└─➤\e[0m \e[1;37mPress any key to continue...\e[0m"
+echo -e "\e[1;34m└─➤ Press any key to continue...\e[0m"
 read -n 1 -s
 
 echothis() {
@@ -37,13 +34,11 @@ isinstalled() {
 export PATH="$HOME/bin:$PATH"
 read -p "GITHUB_USERNAME: " GITHUB_USERNAME
 read -p "LOCAL_USER: " MYUSERNAME
-MYEMAIL="abraxas678@gmail.com"
-TAILSCALE_INSTALL="1dee0b6b-63d1-45b3-887e-b23100e3f9dc"
 
-if [[ $USER != "$MYUSERNAME" ]]; then
+if [[ $USER != "abrax" ]]; then
   echothis "User setup"
   sudo apt install -y sudo
-  CHECKUSER=$MYUSERNAME
+  CHECKUSER=abrax
 if [[ $USER == *"root"* ]]; then
   su $CHECKUSER
   adduser $CHECKUSER
@@ -59,161 +54,21 @@ exit
 fi
 fi
 
-sudo apt update
 command xsel >/dev/null 2>&1; [[ $? != 0 ]] && sudo apt install xsel -y
-wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/pop.sh
-chmod +x pop.sh
-./pop.sh "sudo visudo" &
-echo; echothis "sudo visudo:"
-SUDOERS_FILE="/etc/sudoers"
-NOPASSWD_LINE="$MYUSERNAME ALL=(ALL) NOPASSWD: ALL"
-
-# Check if the line already exists in sudoers
-if sudo grep -q "^$NOPASSWD_LINE" "$SUDOERS_FILE"; then
-    echo -e "\e[1;32m└─➤ Sudo permissions already configured\e[0m"
-else
-    ./pop.sh "sudo visudo" &
-    echo -e "\e[1;34m│ Adding sudo permissions for $MYUSERNAME\e[0m"
-    echo " add:       $NOPASSWD_LINE"
-    echo "$NOPASSWD_LINE" | xsel -b
-    echo
-    read -p "Press any key after editing sudoers" -n 1
-fi
-
-sudo apt update
-sudo apt upgrade -y
-sudo apt install -y curl unzip age ccrypt git gh
+echo; echothis "sudo visudo:";
+echo " add:       abrax ALL=(ALL) NOPASSWD: ALL"
+echo "abrax ALL=(ALL) NOPASSWD: ALL" | xsel -b
+read -p BUTTON me
 
 
 
-bws run -- git config --global user.email "$MYEMAIL"
-bws run -- git config --global user.name "$GITHUB_USERNAME"
-
-tput civis
-echo -e "\e[1;34m┌──── System Setup Type\e[0m"
-echo -e "\e[1;34m│\e[0m"
-echo -e "\e[1;34m└─➤\e[0m \e[1;37mAre you setting up a (L)ocal machine or a (S)erver?\e[0m"
-read -n 1 SETUP_TYPE
-echo
-
-case $SETUP_TYPE in
-  [Ll]*)
-    MACHINE_TYPE="local"
-    echo -e "\e[1;32m└─➤ Local machine setup selected\e[0m"
-    ;;
-  [Ss]*)
-    MACHINE_TYPE="server"
-    echo -e "\e[1;32m└─➤ Server setup selected\e[0m"
-    ;;
-  *)
-    echo -e "\e[1;31m└─➤ Invalid selection. Defaulting to local setup\e[0m"
-    MACHINE_TYPE="local"
-    ;;
-esac
-tput cnorm
-
-tput civis
-CURRENT_HOSTNAME=$(hostname)
-echo -e "\e[1;34m┌──── Machine Name Configuration\e[0m"
-echo -e "\e[1;34m│\e[0m"
-echo -e "\e[1;34m│ Current hostname: \e[1;33m$CURRENT_HOSTNAME\e[0m"
-echo -e "\e[1;34m└─➤\e[0m \e[1;37mWould you like to change this machine's hostname? (y/n):\e[0m"
-read -n 1 CHANGE_HOSTNAME
-echo
-
-case $CHANGE_HOSTNAME in
-  [Yy]*)
-    echo -e "\e[1;34m┌──── Enter New Hostname\e[0m"
-    echo -e "\e[1;34m│\e[0m"
-    echo -e "\e[1;34m└─➤\e[0m \e[1;37mNew hostname:\e[0m"
-    read NEW_HOSTNAME
-    echo -e "\e[1;34m│ Changing hostname to: $NEW_HOSTNAME\e[0m"
-    sudo hostnamectl set-hostname "$NEW_HOSTNAME"
-    # Update /etc/hosts file
-    sudo sed -i "s/127.0.1.1.*/127.0.1.1\t$NEW_HOSTNAME/g" /etc/hosts
-    echo -e "\e[1;32m└─➤ Hostname updated successfully\e[0m"
-    ;;
-  *)
-    echo -e "\e[1;37m└─➤ Keeping current hostname\e[0m"
-    ;;
-esac
-tput cnorm
-
-tput civis
-echo -e "\e[1;34m┌──── Installing and Configuring Chezmoi\e[0m"
-echo -e "\e[1;34m│\e[0m"
-echo -e "\e[1;34m└─➤\e[0m \e[1;37mUpdating system and installing chezmoi...\e[0m"
-sudo apt update && sudo apt upgrade -y && sudo apt install snapd -y
-sudo snap install chezmoi  --classic
-
-gh auth status &>/dev/null
-if [ $? -ne 0 ]; then
-    echo -e "\e[1;34m┌──── GitHub Authentication\e[0m"
-    echo -e "\e[1;34m│\e[0m"
-    echo -e "\e[1;34m└─➤\e[0m \e[1;37mLogging in to GitHub...\e[0m"
-    gh auth login
-else
-    echo -e "\e[1;34m└─➤\e[0m \e[1;37mGitHub authentication already configured\e[0m"
-fi
-
-mkdir -p $HOME/tmp
-cd $HOME/tmp
-if [ ! -d "public" ]; then
-  gh repo clone public
-else
-  cd public
-  git pull
-fi
- 
-command bws >/dev/null 2>&1; [[ $? != 0 ]] && /home/abrax/tmp/public/bws.sh
-mkdir -p /home/$MYUSERNAME/.config/chezmoi
-cp chezmoi.toml.cpt /home/$MYUSERNAME/.config/chezmoi
-cd /home/$MYUSERNAME/.config/chezmoi
-ccrypt --decrypt chezmoi.toml.cpt
-
-echo -e "\e[1;34m┌──── Initializing Chezmoi\e[0m"
-echo -e "\e[1;34m│\e[0m"
-echo -e "\e[1;34m└─➤\e[0m \e[1;37mCloning dotfiles from GitHub...\e[0m"
-chezmoi init https://github.com/$GITHUB_USERNAME/dotfiles.git
-
-echo -e "\e[1;34m┌──── Checking Changes\e[0m"
-echo -e "\e[1;34m│\e[0m"
-echo -e "\e[1;34m└─➤\e[0m \e[1;37mShowing diff of changes to be applied:\e[0m"
-#chezmoi diff
-echo -e "\e[1;34m┌──── Applying Changes\e[0m"
-echo -e "\e[1;34m│\e[0m"
-echo -e "\e[1;34m└─➤\e[0m \e[1;37mExecuting 'chezmoi update' to apply dotfile changes...\e[0m"
-chezmoi update
-echo -e "\e[1;32m└─➤ Changes applied successfully\e[0m"
-tput cnorm
-
-tput civis
-echo -e "\e[1;34m┌──── Unmanic Installation\e[0m"
-echo -e "\e[1;34m│\e[0m"
-echo -e "\e[1;34m└─➤\e[0m \e[1;37mWould you like to install Unmanic? (y/n):\e[0m"
-read -n 1 INSTALL_UNMANIC
-echo
-
-case $INSTALL_UNMANIC in
-  [Yy]*)
-    echo -e "\e[1;34m┌──── Setting up Unmanic\e[0m"
-    echo -e "\e[1;34m│\e[0m"
-    echo -e "\e[1;34m└─➤\e[0m \e[1;37mExecuting Unmanic setup script...\e[0m"
-    chmod +x $HOME/tmp/public/setup_unmanic.sh
-    $HOME/tmp/public/setup_unmanic.sh
-    echo -e "\e[1;32m└─➤ Unmanic setup completed\e[0m"
-    ;;
-  *)
-    echo -e "\e[1;37m└─➤ Skipping Unmanic installation\e[0m"
-    ;;
-esac
-tput cnorm
-
-exit
 open https://www.slimjet.com/de/dlpage.php
 open https://www.cursor.com/
 open https://github.com/Alex313031/Thorium/releases
 
+sudo apt update
+sudo apt upgrade -y
+sudo apt install -y curl unzip
 
 ## KOPIA
 curl -s https://kopia.io/signing-key | sudo gpg --dearmor -o /etc/apt/keyrings/kopia-keyring.gpg
@@ -276,17 +131,7 @@ git config --global user.name "$GITHUB_USERNAME"
 #echothis "install ansible (pipx)"
 #pipx install --include-deps ansible
 
-# Check if Tailscale is already configured
-if tailscale status >/dev/null 2>&1; then
-    echo -e "\e[1;34m┌──── Tailscale Status\e[0m"
-    echo -e "\e[1;34m│\e[0m"
-    echo -e "\e[1;32m└─➤ Tailscale is already configured\e[0m"
-else
-    echo -e "\e[1;34m┌──── Installing Tailscale\e[0m"
-    echo -e "\e[1;34m│\e[0m"
-    echo -e "\e[1;34m└─➤\e[0m \e[1;37mSetting up Tailscale...\e[0m"
-    curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --ssh --accept-routes
-fi
+curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --ssh --accept-routes
 
 curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 
@@ -358,7 +203,7 @@ else
 
   sudo apt install -y sshfs
   [[ ! -f ~/.ssh/id_rsa ]] && ssh-keygen
-  ssh-copy-id $MYUSERNAME@$IP
+  ssh-copy-id $abrax@$IP
   sshfs 192.168.11.5/volume2/startsh $MYHOME/tmp/startsh_snas
   if [[ -f $MYHOME/tmp/startsh_snas/env ]]; then
     echothis "sucessfully mounted" 
