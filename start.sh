@@ -158,14 +158,20 @@ fi
 
 mkdir -p $HOME/tmp
 cd $HOME/tmp
-gh repo clone public
-cd public 
-command bws >/dev/null 2>&1; [[ $? != 0 ]] && ./bws.sh
+if [ ! -d "public" ]; then
+  gh repo clone public
+else
+  cd public
+  git pull
+fi
+ 
+command bws >/dev/null 2>&1; [[ $? != 0 ]] && /home/abrax/tmp/public/bws.sh
 mkdir -p /home/$MYUSERNAME/.config/chezmoi
 cp chezmoi.toml.cpt /home/$MYUSERNAME/.config/chezmoi
 cd /home/$MYUSERNAME/.config/chezmoi
 ccrypt --decrypt chezmoi.toml.cpt
 
+exit
 echo -e "\e[1;34m┌──── Initializing Chezmoi\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m└─➤\e[0m \e[1;37mCloning dotfiles from GitHub...\e[0m"
