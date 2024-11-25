@@ -171,7 +171,6 @@ cp chezmoi.toml.cpt /home/$MYUSERNAME/.config/chezmoi
 cd /home/$MYUSERNAME/.config/chezmoi
 ccrypt --decrypt chezmoi.toml.cpt
 
-exit
 echo -e "\e[1;34m┌──── Initializing Chezmoi\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m└─➤\e[0m \e[1;37mCloning dotfiles from GitHub...\e[0m"
