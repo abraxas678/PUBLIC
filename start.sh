@@ -1,6 +1,6 @@
 #!/bin/bash
 clear
-echo -e "\e[1;34m┌─ public Start.sh v0.34\e[0m"
+echo -e "\e[1;34m┌──── Public Start.sh v0.34\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m│ 🚀 This script will:\e[0m"
 echo -e "\e[1;32m│ 1. Set up user permissions and sudo access\e[0m"
@@ -12,7 +12,10 @@ echo -e "\e[1;32m│ 6. Configure network tools (Tailscale, Docker)\e[0m"
 echo -e "\e[1;32m│ 7. Set up Homebrew and additional utilities\e[0m"
 echo -e "\e[1;32m│ 8. Configure NFS/SSHFS mounts\e[0m"
 echo -e "\e[1;32m│ 9. Set up SSH and encryption keys\e[0m"
-echo -e "\e[1;34m└─➤ Press any key to continue...\e[0m"
+echo -e "\e[1;32m│ 10. Install Unmanic (optional)\e[0m"
+echo -e "\e[1;32m│ 11. Configure Delta Chat\e[0m"
+echo -e "\e[1;32m│ 12. Set up Atuin shell history\e[0m"
+echo -e "\e[1;34m└─➤\e[0m \e[1;37mPress any key to continue...\e[0m"
 read -n 1 -s
 
 echothis() {
@@ -61,15 +64,27 @@ command xsel >/dev/null 2>&1; [[ $? != 0 ]] && sudo apt install xsel -y
 wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/pop.sh
 chmod +x pop.sh
 ./pop.sh "sudo visudo" &
-echo; echothis "sudo visudo:";
-echo " add:       $MYUSERNAME ALL=(ALL) NOPASSWD: ALL"
-echo "$MYUSERNAME ALL=(ALL) NOPASSWD: ALL" | xsel -b
-echo
-read -p BUTTON me
+echo; echothis "sudo visudo:"
+SUDOERS_FILE="/etc/sudoers"
+NOPASSWD_LINE="$MYUSERNAME ALL=(ALL) NOPASSWD: ALL"
+
+# Check if the line already exists in sudoers
+if sudo grep -q "^$NOPASSWD_LINE" "$SUDOERS_FILE"; then
+    echo -e "\e[1;32m└─➤ Sudo permissions already configured\e[0m"
+else
+    ./pop.sh "sudo visudo" &
+    echo -e "\e[1;34m│ Adding sudo permissions for $MYUSERNAME\e[0m"
+    echo " add:       $NOPASSWD_LINE"
+    echo "$NOPASSWD_LINE" | xsel -b
+    echo
+    read -p "Press any key after editing sudoers" -n 1
+fi
 
 sudo apt update
 sudo apt upgrade -y
 sudo apt install -y curl unzip age ccrypt git gh
+
+
 
 bws run -- git config --global user.email "$MYEMAIL"
 bws run -- git config --global user.name "$GITHUB_USERNAME"
@@ -98,13 +113,49 @@ esac
 tput cnorm
 
 tput civis
+CURRENT_HOSTNAME=$(hostname)
+echo -e "\e[1;34m┌──── Machine Name Configuration\e[0m"
+echo -e "\e[1;34m│\e[0m"
+echo -e "\e[1;34m│ Current hostname: \e[1;33m$CURRENT_HOSTNAME\e[0m"
+echo -e "\e[1;34m└─➤\e[0m \e[1;37mWould you like to change this machine's hostname? (y/n):\e[0m"
+read -n 1 CHANGE_HOSTNAME
+echo
+
+case $CHANGE_HOSTNAME in
+  [Yy]*)
+    echo -e "\e[1;34m┌──── Enter New Hostname\e[0m"
+    echo -e "\e[1;34m│\e[0m"
+    echo -e "\e[1;34m└─➤\e[0m \e[1;37mNew hostname:\e[0m"
+    read NEW_HOSTNAME
+    echo -e "\e[1;34m│ Changing hostname to: $NEW_HOSTNAME\e[0m"
+    sudo hostnamectl set-hostname "$NEW_HOSTNAME"
+    # Update /etc/hosts file
+    sudo sed -i "s/127.0.1.1.*/127.0.1.1\t$NEW_HOSTNAME/g" /etc/hosts
+    echo -e "\e[1;32m└─➤ Hostname updated successfully\e[0m"
+    ;;
+  *)
+    echo -e "\e[1;37m└─➤ Keeping current hostname\e[0m"
+    ;;
+esac
+tput cnorm
+
+tput civis
 echo -e "\e[1;34m┌──── Installing and Configuring Chezmoi\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m└─➤\e[0m \e[1;37mUpdating system and installing chezmoi...\e[0m"
 sudo apt update && sudo apt upgrade -y && sudo apt install snapd -y
 sudo snap install chezmoi  --classic
 
-gh auth login
+gh auth status &>/dev/null
+if [ $? -ne 0 ]; then
+    echo -e "\e[1;34m┌──── GitHub Authentication\e[0m"
+    echo -e "\e[1;34m│\e[0m"
+    echo -e "\e[1;34m└─➤\e[0m \e[1;37mLogging in to GitHub...\e[0m"
+    gh auth login
+else
+    echo -e "\e[1;34m└─➤\e[0m \e[1;37mGitHub authentication already configured\e[0m"
+fi
+
 mkdir -p $HOME/tmp
 cd $HOME/tmp
 gh repo clone public
