@@ -271,7 +271,17 @@ git config --global user.name "$GITHUB_USERNAME"
 #echothis "install ansible (pipx)"
 #pipx install --include-deps ansible
 
-curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --ssh --accept-routes
+# Check if Tailscale is already configured
+if tailscale status >/dev/null 2>&1; then
+    echo -e "\e[1;34m┌──── Tailscale Status\e[0m"
+    echo -e "\e[1;34m│\e[0m"
+    echo -e "\e[1;32m└─➤ Tailscale is already configured\e[0m"
+else
+    echo -e "\e[1;34m┌──── Installing Tailscale\e[0m"
+    echo -e "\e[1;34m│\e[0m"
+    echo -e "\e[1;34m└─➤\e[0m \e[1;37mSetting up Tailscale...\e[0m"
+    curl -fsSL https://tailscale.com/install.sh | sh && sudo tailscale up --ssh --accept-routes
+fi
 
 curl --proto '=https' --tlsv1.2 -LsSf https://setup.atuin.sh | sh
 
