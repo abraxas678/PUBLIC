@@ -34,6 +34,7 @@ isinstalled() {
   fi
 }
 
+export DISPLAY=:0
 export PATH="$HOME/bin:$PATH"
 read -p "GITHUB_USERNAME: " GITHUB_USERNAME
 read -p "LOCAL_USER: " MYUSERNAME
