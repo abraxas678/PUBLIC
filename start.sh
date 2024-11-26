@@ -211,6 +211,8 @@ case $INSTALL_UNMANIC in
 esac
 tput cnorm
 
+/home/abrax/tmp/public/27_zsh4humans.sh
+
 exit
 open https://www.slimjet.com/de/dlpage.php
 open https://www.cursor.com/
