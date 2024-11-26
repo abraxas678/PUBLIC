@@ -34,6 +34,7 @@ isinstalled() {
   fi
 }
 
+export DISPLAY=:0
 export PATH="$HOME/bin:$PATH"
 read -p "GITHUB_USERNAME: " GITHUB_USERNAME
 read -p "LOCAL_USER: " MYUSERNAME
@@ -60,7 +61,7 @@ fi
 fi
 
 sudo apt update
-sudo apt install -y xdotool
+sudo apt install -y xdotool wmctrl
 command xsel >/dev/null 2>&1; [[ $? != 0 ]] && sudo apt install xsel -y
 wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/pop.sh
 chmod +x pop.sh
