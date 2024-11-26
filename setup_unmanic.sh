@@ -13,7 +13,7 @@ sudo mkdir -p /opt/unmanic
 sudo chown $(id -u) /opt/unmanic
 mkdir -p ~/.config/systemd/user
 
-cat << EOF > ~/.config/systemd/user/unmanic.service
+cat << EOF > sudo tee /etc/systemd/system/unmanic.service
 [Unit]
 Description=Unmanic - Library Optimiser
 After=network-online.target
@@ -32,11 +32,11 @@ RestartSec=30
 WantedBy=default.target
 EOF
 
-systemctl --user enable unmanic.service
-systemctl --user start unmanic.service
-
-systemctl --user status unmanic.service
-
+sudo systemctl enable unmanic.service
+sudo systemctl start unmanic.service
+echo
+sudo systemctl status unmanic.service
+echo
 #You can view the logs
 #journalctl --user -u unmanic.service
 
