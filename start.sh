@@ -60,6 +60,7 @@ fi
 fi
 
 sudo apt update
+sudo apt install -y xdotool
 command xsel >/dev/null 2>&1; [[ $? != 0 ]] && sudo apt install xsel -y
 wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/pop.sh
 chmod +x pop.sh
