@@ -21,9 +21,11 @@ echothis() {
   echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
   gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
 #  tput cuu1
-  gum spin --spinner="pulse" --title="." --spinner.foreground="33" --title.foreground="33" sleep 1
+  gum spin --spinner="dot" --title="." --spinner.foreground="33" --title.foreground="33" sleep 0.3
+  gum spin --spinner="dot" --title=".." --spinner.foreground="33" --title.foreground="33" sleep 0.3
+  gum spin --spinner="dot" --title="..." --spinner.foreground="33" --title.foreground="33" sleep 0.3
 #  tput cuu1
-  gum spin --spinner="pulse" --title=".." --spinner.foreground="33" --title.foreground="33" sleep 1
+#  gum spin --spinner="pulse" --title=".." --spinner.foreground="33" --title.foreground="33" sleep 1
 #  tput cuu1
 #  gum spin --spinner="pulse" --title="..." --spinner.foreground="33" --title.foreground="33" sleep 1
  
@@ -80,41 +82,43 @@ echothis "edit visudo"
 [[ $(sudo cat /etc/sudoers | grep -v grep | grep "abrax ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "abrax ALL=(ALL) NOPASSWD: ALL" | sudo EDITOR=nano tee -a /etc/sudoers
 
 
-echothis "ENTER to continue to bws. create a new key"
-read
-open https://vault.bitwarden.eu/
-read -p "Press ENTER to continue"
+#echothis "ENTER to continue to bws. create a new key"
+#read
+#open https://vault.bitwarden.eu/
+#read -p "Press ENTER to continue"
 
 # Securely prompt for BWS API key
-echothis "Enter your Bitwarden API key"
-echo -e "\e[1;33mNote: Input will not be displayed for security\e[0m"
+#echothis "Enter your Bitwarden API key"
+#echo -e "\e[1;33mNote: Input will not be displayed for security\e[0m"
 
 # Create secure memory-only tmpfs mount
-SECURE_DIR=$(mktemp -d)
-sudo mount -t tmpfs -o size=1m,mode=700 tmpfs "$SECURE_DIR"
-KEYFILE="$SECURE_DIR/key"
-touch "$KEYFILE"
-chmod 600 "$KEYFILE"
+#SECURE_DIR=$(mktemp -d)
+#sudo mount -t tmpfs -o size=1m,mode=700 tmpfs "$SECURE_DIR"
+#KEYFILE="$SECURE_DIR/key"
+#sudo touch "$KEYFILE"
+#sudo chmod 600 "$KEYFILE"
 
 # Trap to ensure cleanup
-trap 'sudo umount "$SECURE_DIR" 2>/dev/null; rm -rf "$SECURE_DIR" 2>/dev/null' EXIT
+#trap 'sudo umount "$SECURE_DIR" 2>/dev/null; sudo rm -rf "$SECURE_DIR" 2>/dev/null' EXIT
 
 # Read key securely with timeout and clear screen after
-read -s -t 60 BWS_API_KEY
+#read -p ">> " -s -t 60 BWS_API_KEY
 echo
 clear
 
 # Validate the API key is not empty
-while [[ -z "$BWS_API_KEY" ]]; do
-  echo -e "\e[1;31mAPI key cannot be empty\e[0m"
-  echo -e "\e[1;33mPlease enter your Bitwarden API key:\e[0m"
-  read -s -t 60 BWS_API_KEY
-  echo
-  clear
-done
+#while [[ -z "$BWS_API_KEY" ]]; do
+#  echo -e "\e[1;31mAPI key cannot be empty\e[0m"
+#  echo -e "\e[1;33mPlease enter your Bitwarden API key:\e[0m"
+#  read -s -t 60 BWS_API_KEY
+#  echo
+#  clear
+#done
 
 # Write key to secure tmpfs file
-echo "$BWS_API_KEY" > "$KEYFILE"
+sudo chown abrax: -R $KEYFILE
+sudo chown abrax: -R /tmp
+sudo echo "$BWS_API_KEY" > "$KEYFILE"
 
 # Clear variables and bash history
 BWS_API_KEY=""
@@ -122,14 +126,14 @@ history -c
 set +o history
 
 # Configure BWS using secure file
-bws config set access-token "$(cat "$KEYFILE")"
+bws config set access-token "$(sudo cat "$KEYFILE")"
 
 # Immediately shred and remove keyfile
 shred -u "$KEYFILE"
 
 # Unmount secure tmpfs
 sudo umount "$SECURE_DIR"
-rm -rf "$SECURE_DIR"
+sudo rm -rf "$SECURE_DIR"
 
 # Re-enable history
 set -o history
