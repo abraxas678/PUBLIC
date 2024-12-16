@@ -7,7 +7,9 @@ while [[ -z "$BWS_API_KEY" ]]; do
   echo -e "\e[1;31mAPI key cannot be empty\e[0m"
   echo -e "\e[1;33mPlease enter your Bitwarden API key:\e[0m"
   read -s -t 3 BWS_API_KEY
-  echo
-  clear
+  tput cuu1
+  tput cuu1
+#  echo
+#  clear
 done
 
