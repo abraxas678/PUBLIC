@@ -57,12 +57,15 @@ export PATH="$HOME/bin:$PATH"
 
 echothis "installing essentials"
 isinstalled wget
-sleep 1
+sleep 0.5
 isinstalled curl
-sleep 1
+sleep 0.5
 isinstalled unzip
-sleep 1
+sleep 0.5
 isinstalled shred
+sleep 0.5
+isinstalled keepassxc
+
 
 # BWS INSTALL
 echothis "BWS INSTALL"
@@ -91,19 +94,19 @@ echothis "edit visudo"
 #echothis "Enter your Bitwarden API key"
 #echo -e "\e[1;33mNote: Input will not be displayed for security\e[0m"
 
-# Create secure memory-only tmpfs mount
-#SECURE_DIR=$(mktemp -d)
-#sudo mount -t tmpfs -o size=1m,mode=700 tmpfs "$SECURE_DIR"
-#KEYFILE="$SECURE_DIR/key"
-#sudo touch "$KEYFILE"
-#sudo chmod 600 "$KEYFILE"
+#Create secure memory-only tmpfs mount
+SECURE_DIR=$(mktemp -d)
+sudo mount -t tmpfs -o size=1m,mode=700 tmpfs "$SECURE_DIR"
+KEYFILE="$SECURE_DIR/key"
+sudo touch "$KEYFILE"
+sudo chmod 600 "$KEYFILE"
 
 # Trap to ensure cleanup
-#trap 'sudo umount "$SECURE_DIR" 2>/dev/null; sudo rm -rf "$SECURE_DIR" 2>/dev/null' EXIT
+trap 'sudo umount "$SECURE_DIR" 2>/dev/null; sudo rm -rf "$SECURE_DIR" 2>/dev/null' EXIT
 
 # Read key securely with timeout and clear screen after
 #read -p ">> " -s -t 60 BWS_API_KEY
-echo
+#echo
 clear
 
 # Validate the API key is not empty
@@ -120,6 +123,20 @@ sudo chown abrax: -R $KEYFILE
 sudo chown abrax: -R /tmp
 sudo echo "$BWS_API_KEY" > "$KEYFILE"
 
+https://public.yyps.de/bwkdb.cpt
+bitwarden_cli.keyx
+bitwarden_cli.kdbx
+https://vault.bitwarden.eu/#/sm/d395420e-f43a-4abc-8b97-b207008b2984/machine-accounts/6373f7ec-cc8c-400e-863b-b207008c27ff/projects
+https://www.slimjetbrowser.com/release/slimjet_amd64.deb
+https://chromewebstore.google.com/detail/proton-pass-free-password/ghmbeldphafepmbegfdlkpapadhbakde
+https://chromewebstore.google.com/detail/bitwarden-password-manage/nngceckbapebfimnlniiiahkandclblb
+
+
+find_key() {
+  rclone ls snas:sec_bws/bitwarden_cli.keyx >/dev/null 2>&1
+  [[ $? != 0 ]]
+}
+
 # Clear variables and bash history
 BWS_API_KEY=""
 history -c
@@ -127,6 +144,7 @@ set +o history
 
 # Configure BWS using secure file
 bws config set access-token "$(sudo cat "$KEYFILE")"
+[[ $? != 0 ]] && echo "could not set access-token" && exit 1
 
 # Immediately shred and remove keyfile
 shred -u "$KEYFILE"
@@ -137,11 +155,6 @@ sudo rm -rf "$SECURE_DIR"
 
 # Re-enable history
 set -o history
-
-
-
-
-
 
 bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
