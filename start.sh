@@ -8,10 +8,10 @@ cd $HOME/tmp/
 if ! command -v gum >/dev/null 2>&1; then
   echothis "Installing gum..."
   sudo mkdir -p /etc/apt/keyrings
-  gum spin --spinner="points" --title="apt update..." --spinner.foreground="33" --title.foreground="33" curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+  curl -fsSL https://repo.charm.sh/apt/gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/charm.gpg
   echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | sudo tee /etc/apt/sources.list.d/charm.list
-  gum spin --spinner="points" --title="apt update..." --spinner.foreground="33" --title.foreground="33" sudo apt update
-  gum spin --spinner="points" --title="apt install..." --spinner.foreground="33" --title.foreground="33" sudo apt install gum
+  sudo apt update
+  sudo apt install gum
 fi  
 ### gum done
 
