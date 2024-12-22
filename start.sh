@@ -44,7 +44,8 @@ isinstalled() {
   if ! command -v $1 >/dev/null 2>&1; then
     echo -e "\e[1;34m┌─ 󰏗 Installing $1...\e[0m"
     gum spin --spinner="points" --title="apt update..." --spinner.foreground="33" --title.foreground="33" sudo apt-get update > /dev/null 2>&1
-    gum spin --spinner="points" --title="apt install..." --spinner.foreground="33" --title.foreground="33" sudo apt-get install -y "$1" 
+    #gum spin --spinner="points" --title="apt install..." --spinner.foreground="33" --title.foreground="33" 
+    sudo apt-get install -y "$1" 
     echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
   else
     echo -e "\e[1;34m└─ 󰄬 $1 is already installed\e[0m"
@@ -95,11 +96,11 @@ echothis "edit visudo"
 #echo -e "\e[1;33mNote: Input will not be displayed for security\e[0m"
 
 #Create secure memory-only tmpfs mount
-SECURE_DIR=$(mktemp -d)
-sudo mount -t tmpfs -o size=1m,mode=700 tmpfs "$SECURE_DIR"
-KEYFILE="$SECURE_DIR/key"
-sudo touch "$KEYFILE"
-sudo chmod 600 "$KEYFILE"
+#SECURE_DIR=$(mktemp -d)
+#sudo mount -t tmpfs -o size=1m,mode=700 tmpfs "$SECURE_DIR"
+#KEYFILE="$SECURE_DIR/key"
+#sudo touch "$KEYFILE"
+#sudo chmod 600 "$KEYFILE"
 
 # Trap to ensure cleanup
 trap 'sudo umount "$SECURE_DIR" 2>/dev/null; sudo rm -rf "$SECURE_DIR" 2>/dev/null' EXIT
@@ -107,7 +108,7 @@ trap 'sudo umount "$SECURE_DIR" 2>/dev/null; sudo rm -rf "$SECURE_DIR" 2>/dev/nu
 # Read key securely with timeout and clear screen after
 #read -p ">> " -s -t 60 BWS_API_KEY
 #echo
-clear
+#clear
 
 # Validate the API key is not empty
 #while [[ -z "$BWS_API_KEY" ]]; do
@@ -119,28 +120,28 @@ clear
 #done
 
 # Write key to secure tmpfs file
-sudo chown abrax: -R $KEYFILE
-sudo chown abrax: -R /tmp
-sudo echo "$BWS_API_KEY" > "$KEYFILE"
+#sudo chown abrax: -R $KEYFILE
+#sudo chown abrax: -R /tmp
+#sudo echo "$BWS_API_KEY" > "$KEYFILE"
 
-https://public.yyps.de/bwkdb.cpt
-bitwarden_cli.keyx
-bitwarden_cli.kdbx
-https://vault.bitwarden.eu/#/sm/d395420e-f43a-4abc-8b97-b207008b2984/machine-accounts/6373f7ec-cc8c-400e-863b-b207008c27ff/projects
-https://www.slimjetbrowser.com/release/slimjet_amd64.deb
-https://chromewebstore.google.com/detail/proton-pass-free-password/ghmbeldphafepmbegfdlkpapadhbakde
-https://chromewebstore.google.com/detail/bitwarden-password-manage/nngceckbapebfimnlniiiahkandclblb
+#https://public.yyps.de/bwkdb.cpt
+#bitwarden_cli.keyx
+#bitwarden_cli.kdbx
+#https://vault.bitwarden.eu/#/sm/d395420e-f43a-4abc-8b97-b207008b2984/machine-accounts/6373f7ec-cc8c-400e-863b-b207008c27ff/projects
+#https://www.slimjetbrowser.com/release/slimjet_amd64.deb
+#https://chromewebstore.google.com/detail/proton-pass-free-password/ghmbeldphafepmbegfdlkpapadhbakde
+#https://chromewebstore.google.com/detail/bitwarden-password-manage/nngceckbapebfimnlniiiahkandclblb
 
 
-find_key() {
-  rclone ls snas:sec_bws/bitwarden_cli.keyx >/dev/null 2>&1
-  [[ $? != 0 ]]
-}
+#find_key() {
+#  rclone ls snas:sec_bws/bitwarden_cli.keyx >/dev/null 2>&1
+#  [[ $? != 0 ]]
+#}
 
 # Clear variables and bash history
-BWS_API_KEY=""
-history -c
-set +o history
+#BWS_API_KEY=""
+#history -c
+#set +o history
 
 # Configure BWS using secure file
 bws config set access-token "$(sudo cat "$KEYFILE")"
@@ -150,13 +151,14 @@ bws config set access-token "$(sudo cat "$KEYFILE")"
 shred -u "$KEYFILE"
 
 # Unmount secure tmpfs
-sudo umount "$SECURE_DIR"
-sudo rm -rf "$SECURE_DIR"
+#sudo umount "$SECURE_DIR"
+#sudo rm -rf "$SECURE_DIR"
 
 # Re-enable history
 set -o history
 
 bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+
 
 
 # User setup and sudo configuration
