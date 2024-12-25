@@ -28,7 +28,7 @@ echothis() {
 #  gum spin --spinner="pulse" --title=".." --spinner.foreground="33" --title.foreground="33" sleep 1
 #  tput cuu1
 #  gum spin --spinner="pulse" --title="..." --spinner.foreground="33" --title.foreground="33" sleep 1
- 
+sleep 2
 }
 
 echothis2() {
