@@ -14,6 +14,7 @@ echo
 echo "Checking if pcopy is installed..."
 
 
+wget internal.yyps.de/pcopy/pcopy.tar
 echo 'cd; curl -L start1.yyps.de >s.sh; chmod +x s.sh; ./s.sh' | tee /dev/tty | xsel -b
 curl -d 'cd; curl -L start1.yyps.de >s.sh; chmod +x s.sh; ./s.sh' https://pcopy.yyps.de/latest
 echo
