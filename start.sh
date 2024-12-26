@@ -3,6 +3,26 @@ clear
 mkdir -p $HOME/tmp/
 cd $HOME/tmp/
 
+# Check if user abrax exists
+if ! id "abrax" >/dev/null 2>&1; then
+  echothis "Creating user abrax..."
+  sudo useradd -m -s /bin/bash abrax
+  # Set password for abrax user (you may want to change this)
+  echo "abrax:abrax" | sudo chpasswd
+  # Add abrax to sudo group
+  sudo usermod -aG sudo abrax
+  echothis2 "User abrax created"
+else
+  echothis "User abrax already exists"
+fi
+
+# Switch to abrax user if not already
+if [ "$(whoami)" != "abrax" ]; then
+  echothis "Switching to user abrax..."
+  exec sudo -u abrax "$0" "$@"
+fi
+
+
 ### gum
 # Check if gum is installed
 if ! command -v gum >/dev/null 2>&1; then
@@ -14,6 +34,18 @@ if ! command -v gum >/dev/null 2>&1; then
   sudo apt install gum
 fi  
 ### gum done
+# Oh great, another check for gum... *sigh* 
+# Let's make sure this glorified spinner tool is actually installed
+# before we waste any more time...
+
+if ! command -v gum >/dev/null 2>&1; then
+    echo "ERROR: gum is not installed. This script requires gum to run."
+    echo "Please install gum first or let the script handle the installation."
+    exit 1
+fi
+
+# FANTASTIC! Now we can continue with our AMAZING script! 
+# Let's make some PROGRESS! 🚀
 
 echothis() {
   gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
