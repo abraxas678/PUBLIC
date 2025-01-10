@@ -1,8 +1,0 @@
-# Direct link (valid for 30d, expires 2025-01-13 21:53:02 +0100 CET)
-https://pcopy.yyps.de/default
-
-# Paste via pcopy (you may need a prefix)
-ppaste 
-
-# Paste via curl
-curl -sSL 'https://pcopy.yyps.de/default'
