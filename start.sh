@@ -192,16 +192,17 @@ trap 'sudo umount "$SECURE_DIR" 2>/dev/null; sudo rm -rf "$SECURE_DIR" 2>/dev/nu
 
 # Re-enable history
 #set -o history
-
-bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
-
-
-
 # User setup and sudo configuration
-TAILSCALE_INSTALL="1dee0b6b-63d1-45b3-887e-b23100e3f9dc"
-LOCAL_USER="7d0b08f5-72aa-43a4-80d0-b246016256d7"
-GITHUB_USERNAME="380f19b0-171a-4cd5-a826-b24601628d1d"
-LOCAL_EMAIL="9305523b-c74f-4f06-a0de-b2460162d05a"
+export TAILSCALE_INSTALL="1dee0b6b-63d1-45b3-887e-b23100e3f9dc"
+export LOCAL_USER="7d0b08f5-72aa-43a4-80d0-b246016256d7"
+export GITHUB_USERNAME="380f19b0-171a-4cd5-a826-b24601628d1d"
+export LOCAL_EMAIL="9305523b-c74f-4f06-a0de-b2460162d05a"
+
+
+echothis install chezmoi
+which bws >/dev/null 2>&1
+[[ $? != 0 ]] && bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" --init --apply $GITHUB_USERNAME
+
 
 # Install basic utilities
 echothis "Installing basic utilities"
@@ -212,6 +213,7 @@ sudo apt install -y xdotool wmctrl xsel curl unzip age ccrypt git gh
 bws run -- git config --global user.email "$MYEMAIL"
 bws run -- git config --global user.name "$GITHUB_USERNAME"
 
+if [[ 1 = 2 ]]; then
 # System setup type selection
 tput civis
 echo -e "\e[1;34m┌──── System Setup Type\e[0m"
@@ -235,6 +237,7 @@ case $SETUP_TYPE in
     ;;
 esac
 tput cnorm
+fi
 
 # Hostname configuration
 tput civis
@@ -283,13 +286,15 @@ else
 fi
 
 # Install bws if needed
-command bws >/dev/null 2>&1 || /home/abrax/tmp/public/bws.sh
+#command bws >/dev/null 2>&1 || /home/abrax/tmp/public/bws.sh
+
+mkdir -p /home/$MYUSERNAME/.config/chezmoi
+bws run -- 'echo "$chezmoi_toml"' >/home/$MYUSERNAME/.config/chezmoi/chezmoi.toml
 
 # Configure chezmoi
-mkdir -p /home/$MYUSERNAME/.config/chezmoi
-cp chezmoi.toml.cpt /home/$MYUSERNAME/.config/chezmoi
-cd /home/$MYUSERNAME/.config/chezmoi
-ccrypt --decrypt chezmoi.toml.cpt
+#cp chezmoi.toml.cpt /home/$MYUSERNAME/.config/chezmoi
+#cd /home/$MYUSERNAME/.config/chezmoi
+#ccrypt --decrypt chezmoi.toml.cpt
 
 echo -e "\e[1;34m┌──── Initializing Chezmoi\e[0m"
 echo -e "\e[1;34m│\e[0m"
@@ -305,32 +310,33 @@ tput cnorm
 
 # Install Unmanic if requested
 tput civis
-echo -e "\e[1;34m┌──── Unmanic Installation\e[0m"
-echo -e "\e[1;34m│\e[0m"
-echo -e "\e[1;34m└─➤\e[0m \e[1;37mWould you like to install Unmanic? (y/n):\e[0m"
-read -n 1 INSTALL_UNMANIC
-echo
+#echo -e "\e[1;34m┌──── Unmanic Installation\e[0m"
+#echo -e "\e[1;34m│\e[0m"
+#echo -e "\e[1;34m└─➤\e[0m \e[1;37mWould you like to install Unmanic? (y/n):\e[0m"
+#read -n 1 INSTALL_UNMANIC
+#echo
 
-case $INSTALL_UNMANIC in
-  [Yy]*)
-    echo -e "\e[1;34m┌──── Setting up Unmanic\e[0m"
-    echo -e "\e[1;34m│\e[0m"
-    echo -e "\e[1;34m└─➤\e[0m \e[1;37mExecuting Unmanic setup script...\e[0m"
-    chmod +x $HOME/tmp/public/setup_unmanic.sh
-    $HOME/tmp/public/setup_unmanic.sh
-    echo -e "\e[1;32m└─➤ Unmanic setup completed\e[0m"
-    ;;
-  *)
-    echo -e "\e[1;37m└─➤ Skipping Unmanic installation\e[0m"
-    ;;
-esac
+#case $INSTALL_UNMANIC in
+#  [Yy]*)
+#    echo -e "\e[1;34m┌──── Setting up Unmanic\e[0m"
+#    echo -e "\e[1;34m│\e[0m"
+#    echo -e "\e[1;34m└─➤\e[0m \e[1;37mExecuting Unmanic setup script...\e[0m"
+#    chmod +x $HOME/tmp/public/setup_unmanic.sh
+#    $HOME/tmp/public/setup_unmanic.sh
+#    echo -e "\e[1;32m└─➤ Unmanic setup completed\e[0m"
+#    ;;
+#  *)
+#    echo -e "\e[1;37m└─➤ Skipping Unmanic installation\e[0m"
+#    ;;
+#esac
 tput cnorm
 
 # Install zsh4humans
-/home/abrax/tmp/public/27_zsh4humans.sh
+#/home/abrax/tmp/public/27_zsh4humans.sh
 
 # Open useful URLs
 exit
+
 open https://www.slimjet.com/de/dlpage.php
 open https://www.cursor.com/
 open https://github.com/Alex313031/Thorium/releases
