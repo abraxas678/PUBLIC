@@ -1,9 +1,11 @@
 #!/bin/bash
 clear
+cd $HOME
 [[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
 wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
-sudo apt update
-sudo apt install -y ./gum_0.14.5_amd64.deb
+apt update
+apt install -y ./gum_0.14.5_amd64.deb
+
 echothis() {
   gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
   echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
