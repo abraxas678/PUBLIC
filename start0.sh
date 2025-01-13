@@ -1,5 +1,6 @@
 #!/bin/bash
 clear
+cd $HOME
 
 # Set the sudo prefix based on the current user
 [[ $USER = root ]] && MYSUDO="" || MYSUDO="sudo"
