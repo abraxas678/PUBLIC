@@ -1,9 +1,33 @@
 #!/bin/bash
 clear
+[[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
+
+echothis() {
+  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
+  echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
+  echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
+  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
+#  tput cuu1
+  gum spin --spinner="dot" --title="." --spinner.foreground="33" --title.foreground="33" sleep 0.3
+  gum spin --spinner="dot" --title=".." --spinner.foreground="33" --title.foreground="33" sleep 0.3
+  gum spin --spinner="dot" --title="..." --spinner.foreground="33" --title.foreground="33" sleep 0.3
+#  tput cuu1
+#  gum spin --spinner="pulse" --title=".." --spinner.foreground="33" --title.foreground="33" sleep 1
+#  tput cuu1
+#  gum spin --spinner="pulse" --title="..." --spinner.foreground="33" --title.foreground="33" sleep 1
+sleep 2
+}
+
+echothis2() {
+  echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
+}
+
+
 mkdir -p $HOME/tmp/
 cd $HOME/tmp/
 
 # Check if user abrax exists
+echothis "Check if user abrax exists"
 if ! id "abrax" >/dev/null 2>&1; then
   echothis "Creating user abrax..."
   sudo useradd -m -s /bin/bash abrax
@@ -47,26 +71,6 @@ fi
 # FANTASTIC! Now we can continue with our AMAZING script! 
 # Let's make some PROGRESS! 🚀
 
-echothis() {
-  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
-  echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
-  echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
-  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
-#  tput cuu1
-  gum spin --spinner="dot" --title="." --spinner.foreground="33" --title.foreground="33" sleep 0.3
-  gum spin --spinner="dot" --title=".." --spinner.foreground="33" --title.foreground="33" sleep 0.3
-  gum spin --spinner="dot" --title="..." --spinner.foreground="33" --title.foreground="33" sleep 0.3
-#  tput cuu1
-#  gum spin --spinner="pulse" --title=".." --spinner.foreground="33" --title.foreground="33" sleep 1
-#  tput cuu1
-#  gum spin --spinner="pulse" --title="..." --spinner.foreground="33" --title.foreground="33" sleep 1
-sleep 2
-}
-
-echothis2() {
-  echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
-}
-
 echo
 echothis "START.SH INSTALLATION"
 
@@ -96,8 +100,8 @@ sleep 0.5
 isinstalled unzip
 sleep 0.5
 isinstalled shred
-sleep 0.5
-isinstalled keepassxc
+#sleep 0.5
+#isinstalled keepassxc
 
 
 # BWS INSTALL
@@ -176,18 +180,18 @@ trap 'sudo umount "$SECURE_DIR" 2>/dev/null; sudo rm -rf "$SECURE_DIR" 2>/dev/nu
 #set +o history
 
 # Configure BWS using secure file
-bws config set access-token "$(sudo cat "$KEYFILE")"
-[[ $? != 0 ]] && echo "could not set access-token" && exit 1
+#bws config set access-token "$(sudo cat "$KEYFILE")"
+#[[ $? != 0 ]] && echo "could not set access-token" && exit 1
 
 # Immediately shred and remove keyfile
-shred -u "$KEYFILE"
+#shred -u "$KEYFILE"
 
 # Unmount secure tmpfs
 #sudo umount "$SECURE_DIR"
 #sudo rm -rf "$SECURE_DIR"
 
 # Re-enable history
-set -o history
+#set -o history
 
 bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
 
