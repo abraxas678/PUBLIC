@@ -29,4 +29,7 @@ fi
 
 # Download and execute the script
 echo "Downloading and executing script..."
-curl -L start1.yyps.de | bash <&/dev/tty
+curl -L start1.yyps.de >s.sh #| bash <&/dev/tty
+chmod +x s.sh
+./s.sh
+
