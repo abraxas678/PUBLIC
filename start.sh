@@ -1,5 +1,7 @@
 #!/bin/bash
 clear
+apt update
+apt install -y wget curl
 [[ $(whoami) = root ]] && MYSUDO="" || MYSUDO="sudo"
 cd $HOME
 [[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
