@@ -1,16 +1,20 @@
 #!/bin/bash
 clear
 cd $HOME
-[[ $(whoami) -eq "root" ]] && MYSUDO="" || MYSUDO="sudo"
+[[ "$(whoami)" = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 
 $MYSUDO apt update
+[[ $? = 0 ]] && clear
 $MYSUDO apt install -y wget curl
+[[ $? = 0 ]] && clear
 
 wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
 #$MYSUDO apt update
 $MYSUDO apt install -y ./gum_0.14.5_amd64.deb
+[[ $? = 0 ]] && clear
 
-[[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
+mkdir -p ~/.ssh
+mkdir -p ~/tmp
 
 echothis() {
   gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
@@ -37,10 +41,9 @@ mkdir -p $HOME/tmp/
 cd $HOME/tmp/
 
 echo; echo; echo; echo; echo;
-echo; echo; echo; echo; echo;
-echo; echo; echo; echo; echo;
 # Check if user abrax exists
 echothis "Check if user abrax exists"
+if [[ $(whoami) != "abrax" ]]; then
 if ! id "abrax" >/dev/null 2>&1; then
   echothis "Creating user abrax..."
   $MYSUDO useradd -m -s /bin/bash abrax
@@ -57,6 +60,7 @@ fi
 if [ "$(whoami)" != "abrax" ]]; then
   echothis "Switching to user abrax..."
   exec $MYSUDO -u abrax "$0" "$@"
+fi
 fi
 
 #[[ "$(whoami)" != "abrax" ]] && echo "not abrax. exit." && exit
@@ -88,9 +92,21 @@ fi
 # Let's make some PROGRESS! 🚀
 
 echo
-echo; echo; echo; echo; echo;
-echo; echo; echo; echo; echo;
 echothis "START.SH INSTALLATION"
+
+echo 'curl -fsS https://dl.brave.com/install.sh | sh' >brave.sh
+chmod +x brave.sh
+gum spin --spinner="points" --title="Brave Browser..." --spinner.foreground="33" --title.foreground="33" -- ./brave.sh
+echo
+echo
+read -p BUTTON me
+[[ $(cat ~/.ssh/bws.dat | wc -l) = 0 ]] && rm ~/.ssh/bws.dat
+[[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
+export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
+echo
+brave-browser https://github.com/abraxas678
+sleep 2;
+brave-browser https://bitwarden.eu
 
 
 # Check if package is installed, install if not
@@ -118,7 +134,6 @@ sleep 0.5
 isinstalled unzip
 sleep 0.5
 isinstalled shred
-gum spin --spinner="points" --title="downloading BWS..." --spinner.foreground="33" --title.foreground="33" curl -fsS https://dl.brave.com/install.sh | sh
 
 #sleep 0.5
 #isinstalled keepassxc
@@ -141,6 +156,9 @@ chmod 600 ~/.ssh/*
 echothis "edit visudo"
 [[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "abrax ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "abrax ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
 
+brave-browser https://github.com/Eugeny/tabby/releases/tag/v1.0.219
+echo
+read -p BUTTON me
 
 #echothis "ENTER to continue to bws. create a new key"
 #read
@@ -220,8 +238,11 @@ export LOCAL_EMAIL="9305523b-c74f-4f06-a0de-b2460162d05a"
 
 
 echothis install chezmoi
-which bws >/dev/null 2>&1
-[[ $? = 0 ]] && bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" init --apply $GITHUB_USERNAME
+#which bws >/dev/null 2>&1
+#[[ $? = 0 ]] && bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" 
+#[[ $? = 0 ]] && bws run -- ~/bin/chezmoi init --apply abraxas678
+wget https://github.com/twpayne/chezmoi/releases/download/v2.58.0/chezmoi_2.58.0_linux_amd64.deb
+sudo apt install -y ./chezmoi_2.58.0_linux_amd64.deb
 
 
 # Install basic utilities
@@ -285,6 +306,9 @@ case $CHANGE_HOSTNAME in
 esac
 tput cnorm
 
+echo
+echo "https://github.com/login/device/select_account"
+echo
 # GitHub authentication
 if ! gh auth status &>/dev/null; then
     echo -e "\e[1;34m┌──── GitHub Authentication\e[0m"
@@ -309,7 +333,11 @@ fi
 #command bws >/dev/null 2>&1 || /home/abrax/tmp/public/bws.sh
 
 mkdir -p /home/$MYUSERNAME/.config/chezmoi
-bws run -- 'echo "$chezmoi_toml"' >/home/$MYUSERNAME/.config/chezmoi/chezmoi.toml
+bws run -- 'echo "$chezmoi_toml"' >/home/abrax/.config/chezmoi/chezmoi.toml
+bws run -- 'echo "$tailscale_setup"' >/home/abrax/tmp/tailscale_setup.sh
+chmod +x /home/abrax/tmp/tailscale_setup.sh
+echo
+
 
 # Configure chezmoi
 #cp chezmoi.toml.cpt /home/$MYUSERNAME/.config/chezmoi
@@ -319,7 +347,7 @@ bws run -- 'echo "$chezmoi_toml"' >/home/$MYUSERNAME/.config/chezmoi/chezmoi.tom
 echo -e "\e[1;34m┌──── Initializing Chezmoi\e[0m"
 echo -e "\e[1;34m│\e[0m"
 echo -e "\e[1;34m└─➤\e[0m \e[1;37mCloning dotfiles from GitHub...\e[0m"
-chezmoi init https://github.com/$GITHUB_USERNAME/dotfiles.git
+chezmoi init --apply abraxas678 --ssh
 
 echo -e "\e[1;34m┌──── Applying Changes\e[0m"
 echo -e "\e[1;34m│\e[0m"
