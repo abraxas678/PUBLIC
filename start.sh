@@ -54,7 +54,7 @@ if [ "$(whoami)" != "abrax" ]]; then
   exec $MYSUDO -u abrax "$0" "$@"
 fi
 
-[[ "$(whoami)" != "abrax" ] && echo "not abrax. exit." && exit
+[[ "$(whoami)" != "abrax" ]] && echo "not abrax. exit." && exit
 
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 
