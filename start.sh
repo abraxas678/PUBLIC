@@ -2,7 +2,7 @@
 clear
 apt update
 apt install -y wget curl
-[[ $(whoami) = root ]] && MYSUDO="" || MYSUDO="sudo"
+[[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 cd $HOME
 [[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
 wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
