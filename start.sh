@@ -2,12 +2,13 @@
 clear
 apt update
 apt install -y wget curl
-[[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
+[[ $(whoami) -eq "root" ]] && MYSUDO="" || MYSUDO="sudo"
 cd $HOME
-[[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
 wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
 apt update
 apt install -y ./gum_0.14.5_amd64.deb
+
+[[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
 
 echothis() {
   gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
@@ -53,7 +54,9 @@ if [ "$(whoami)" != "abrax" ]; then
   exec $MYSUDO -u abrax "$0" "$@"
 fi
 
-[[ $(whoami) = root ]] && MYSUDO="" || MYSUDO="sudo"
+[[ "$(whoami)" != "abrax" ] && echo "not abrax. exit." && exit
+
+[[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 
 ### gum
 # Check if gum is installed
