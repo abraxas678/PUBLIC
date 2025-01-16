@@ -5,8 +5,8 @@ apt install -y wget curl
 [[ $(whoami) -eq "root" ]] && MYSUDO="" || MYSUDO="sudo"
 cd $HOME
 wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
-apt update
-apt install -y ./gum_0.14.5_amd64.deb
+$MYSUDO apt update
+$MYSUDO apt install -y ./gum_0.14.5_amd64.deb
 
 [[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
 
@@ -49,7 +49,7 @@ else
 fi
 
 # Switch to abrax user if not already
-if [ "$(whoami)" != "abrax" ]; then
+if [ "$(whoami)" != "abrax" ]]; then
   echothis "Switching to user abrax..."
   exec $MYSUDO -u abrax "$0" "$@"
 fi
