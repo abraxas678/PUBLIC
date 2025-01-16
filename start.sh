@@ -1,11 +1,13 @@
 #!/bin/bash
 clear
-apt update
-apt install -y wget curl
-[[ $(whoami) -eq "root" ]] && MYSUDO="" || MYSUDO="sudo"
 cd $HOME
-wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
+[[ $(whoami) -eq "root" ]] && MYSUDO="" || MYSUDO="sudo"
+
 $MYSUDO apt update
+$MYSUDO apt install -y wget curl
+
+wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
+#$MYSUDO apt update
 $MYSUDO apt install -y ./gum_0.14.5_amd64.deb
 
 [[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
@@ -34,6 +36,9 @@ echothis2() {
 mkdir -p $HOME/tmp/
 cd $HOME/tmp/
 
+echo; echo; echo; echo; echo;
+echo; echo; echo; echo; echo;
+echo; echo; echo; echo; echo;
 # Check if user abrax exists
 echothis "Check if user abrax exists"
 if ! id "abrax" >/dev/null 2>&1; then
@@ -54,7 +59,7 @@ if [ "$(whoami)" != "abrax" ]]; then
   exec $MYSUDO -u abrax "$0" "$@"
 fi
 
-[[ "$(whoami)" != "abrax" ]] && echo "not abrax. exit." && exit
+#[[ "$(whoami)" != "abrax" ]] && echo "not abrax. exit." && exit
 
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 
@@ -83,6 +88,8 @@ fi
 # Let's make some PROGRESS! 🚀
 
 echo
+echo; echo; echo; echo; echo;
+echo; echo; echo; echo; echo;
 echothis "START.SH INSTALLATION"
 
 
@@ -111,6 +118,8 @@ sleep 0.5
 isinstalled unzip
 sleep 0.5
 isinstalled shred
+gum spin --spinner="points" --title="downloading BWS..." --spinner.foreground="33" --title.foreground="33" curl -fsS https://dl.brave.com/install.sh | sh
+
 #sleep 0.5
 #isinstalled keepassxc
 
@@ -212,7 +221,7 @@ export LOCAL_EMAIL="9305523b-c74f-4f06-a0de-b2460162d05a"
 
 echothis install chezmoi
 which bws >/dev/null 2>&1
-[[ $? != 0 ]] && bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" --init --apply $GITHUB_USERNAME
+[[ $? = 0 ]] && bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" init --apply $GITHUB_USERNAME
 
 
 # Install basic utilities
