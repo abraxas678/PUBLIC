@@ -3,7 +3,7 @@ clear
 cd $HOME
 
 # Set the sudo prefix based on the current user
-[[ $USER = root ]] && MYSUDO="" || MYSUDO="sudo"
+[[ $USER = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 
 # Main Functionality
 echo "Updating package list..."
