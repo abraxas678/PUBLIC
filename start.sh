@@ -1,8 +1,5 @@
 #!/bin/bash
 clear
-MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="abrax" --header="USER:" --value="abrax")"
-echo "MYUSER=$MYUSER"
-sleep 5
 
 # Check if package is installed, install if not
 isinstalled() {
@@ -35,6 +32,10 @@ if [[ $? != 0 ]]; then
   $MYSUDO apt install -y ./gum_0.14.5_amd64.deb
   [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m" && echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
 fi
+
+MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="$(whoami)" --header="USER:" --value="$(whoami)")"
+echo "MYUSER=$MYUSER"
+sleep 5
 
 mkdir -p ~/.ssh
 mkdir -p ~/tmp
