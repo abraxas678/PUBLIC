@@ -27,10 +27,10 @@ isinstalled curl
 
 command -v gum >del
 if [[ $? != 0 ]]; then
-  wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
-  echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m"
-  $MYSUDO apt install -y ./gum_0.14.5_amd64.deb
-  [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m" && echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
+wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
+#$MYSUDO apt update
+$MYSUDO apt install -y ./gum_0.14.5_amd64.deb
+[[ $? = 0 ]] && clear
 fi
 
 mkdir -p ~/.ssh
@@ -88,28 +88,46 @@ fi
 
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 
+### gum
+# Check if gum is installed
+if ! command -v gum >/dev/null 2>&1; then
+  echothis "Installing gum..."
+  $MYSUDO mkdir -p /etc/apt/keyrings
+  curl -fsSL https://repo.charm.sh/apt/gpg.key | $MYSUDO gpg --dearmor -o /etc/apt/keyrings/charm.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/charm.gpg] https://repo.charm.sh/apt/ * *" | $MYSUDO tee /etc/apt/sources.list.d/charm.list
+  $MYSUDO apt update
+  $MYSUDO apt install gum
+fi  
+### gum done
+# Oh great, another check for gum... *sigh* 
+# Let's make sure this glorified spinner tool is actually installed
+# before we waste any more time...
+
+if ! command -v gum >/dev/null 2>&1; then
+    echo "ERROR: gum is not installed. This script requires gum to run."
+    echo "Please install gum first or let the script handle the installation."
+    exit 1
+fi
+
+# FANTASTIC! Now we can continue with our AMAZING script! 
+# Let's make some PROGRESS! 🚀
+
 echo
 echothis "START.SH INSTALLATION"
 
-command -v brave-browser >del
-if [[ $? != 0 ]]; then
-  echo -e "\e[1;34m┌─ 󰏗 Installing brave...\e[0m"
-  echo 'curl -fsS https://dl.brave.com/install.sh | sh' >brave.sh
-  chmod +x brave.sh
-  gum spin --spinner="points" --title="Brave Browser..." --spinner.foreground="33" --title.foreground="33" -- ./brave.sh
-  [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing brave...\e[0m" && echo -e "\e[1;36m└─ 󰄬 brave installation completed\e[0m"
-fi
-
-[[ $(cat ~/.ssh/bws.dat | wc -l) = 0 ]] && rm ~/.ssh/bws.dat
-if [[ ! -f ~/.ssh/bws.dat ]]; then
+echo 'curl -fsS https://dl.brave.com/install.sh | sh' >brave.sh
+chmod +x brave.sh
+gum spin --spinner="points" --title="Brave Browser..." --spinner.foreground="33" --title.foreground="33" -- ./brave.sh
+echo
 echo
 read -p BUTTON me
-[[ ! -f ~/.ssh/bws.dat ]] && brave-browser https://github.com/abraxas678 &
-[[ ! -f ~/.ssh/bws.dat ]] && brave-browser https://bitwarden.eu &
+[[ $(cat ~/.ssh/bws.dat | wc -l) = 0 ]] && rm ~/.ssh/bws.dat
 [[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
 export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
 echo
-fi
+brave-browser https://github.com/abraxas678 &
+sleep 2;
+brave-browser https://bitwarden.eu &
 
 # Environment setup
 export DISPLAY=:0
@@ -129,14 +147,11 @@ isinstalled shred
 
 
 # BWS INSTALL
-command -v bws >/dev/null 2>&1
-if [[ $? != 0 ]]; then
 echothis "BWS INSTALL"
 gum spin --spinner="points" --title="downloading BWS..." --spinner.foreground="33" --title.foreground="33" wget https://github.com/bitwarden/sdk/releases/download/bws-v1.0.0/bws-x86_64-unknown-linux-gnu-1.0.0.zip
 gum spin --spinner="points" --title="unzipping BWS..." --spinner.foreground="33" --title.foreground="33"  unzip bws-x86_64-unknown-linux-gnu-1.0.0.zip
 gum spin --spinner="points" --title="move..." --spinner.foreground="33" --title.foreground="33" $MYSUDO mv bws /usr/bin/
 rm -f bws-x86_64-unknown-linux-gnu-1.0.0.zip
-fi
 echothis "updating BWS server-base"
 bws config server-base https://vault.bitwarden.eu >$HOME/tmp/del 2>&1
 echothis2 "$(cat $HOME/tmp/del)"
@@ -148,9 +163,10 @@ chmod 600 ~/.ssh/*
 echothis "edit visudo"
 [[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "abrax ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "abrax ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
 
-[[ ! -f /opt/Tabby/tabby ]] && brave-browser https://github.com/Eugeny/tabby/releases/tag/v1.0.219 &
+brave-browser https://github.com/Eugeny/tabby/releases/tag/v1.0.219 &
 echo
 read -p BUTTON me
+
 #echothis "ENTER to continue to bws. create a new key"
 #read
 #open https://vault.bitwarden.eu/
