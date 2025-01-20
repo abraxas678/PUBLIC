@@ -1,5 +1,8 @@
 #!/bin/bash
 clear
+MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="abrax" --header="USER:" --value="abrax")"
+echo "MYUSER=$MYUSER"
+sleep 5
 
 # Check if package is installed, install if not
 isinstalled() {
@@ -61,30 +64,30 @@ mkdir -p $HOME/tmp/
 cd $HOME/tmp/
 
 echo; echo; echo; echo; echo;
-# Check if user abrax exists
-echothis "Check if user abrax exists"
-if [[ $(whoami) != "abrax" ]]; then
-if ! id "abrax" >/dev/null 2>&1; then
-  echothis "Creating user abrax..."
-  $MYSUDO useradd -m -s /bin/bash abrax
-  # Set password for abrax user (you may want to change this)
-  echo "abrax:abrax" | $MYSUDO chpasswd
-  # Add abrax to sudo group
-  $MYSUDO usermod -aG sudo abrax
-  echothis2 "User abrax created"
+# Check if user $MYUSER exists
+echothis "Check if user $MYUSER exists"
+if [[ $(whoami) != "$MYUSER" ]]; then
+if ! id "$MYUSER" >/dev/null 2>&1; then
+  echothis "Creating user $MYUSER..."
+  $MYSUDO useradd -m -s /bin/bash $MYUSER
+  # Set password for $MYUSER user (you may want to change this)
+  echo "$MYUSER:$MYUSER" | $MYSUDO chpasswd
+  # Add $MYUSER to sudo group
+  $MYSUDO usermod -aG sudo $MYUSER
+  echothis2 "User $MYUSER created"
 else
-  echothis "User abrax already exists"
+  echothis "User $MYUSER already exists"
 fi
 
-# Switch to abrax user if not already
-if [ "$(whoami)" != "abrax" ]]; then
+# Switch to $MYUSER user if not already
+if [ "$(whoami)" != "$MYUSER" ]]; then
 echo
-#  echothis "Switching to user abrax..."
-#  exec $MYSUDO -u abrax "$0" "$@"
+#  echothis "Switching to user $MYUSER..."
+#  exec $MYSUDO -u $MYUSER "$0" "$@"
 fi
 fi
 
-#[[ "$(whoami)" != "abrax" ]] && echo "not abrax. exit." && exit
+#[[ "$(whoami)" != "$MYUSER" ]] && echo "not $MYUSER. exit." && exit
 
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 
@@ -146,7 +149,7 @@ chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
 
 echothis "edit visudo"
-[[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "abrax ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "abrax ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
+[[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "$MYUSER ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "$MYUSER ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
 
 [[ ! -f /opt/Tabby/tabby ]] && brave-browser https://github.com/Eugeny/tabby/releases/tag/v1.0.219 &
 echo
@@ -185,8 +188,8 @@ trap '$MYSUDO umount "$SECURE_DIR" 2>/dev/null; $MYSUDO rm -rf "$SECURE_DIR" 2>/
 #done
 
 # Write key to secure tmpfs file
-#sudo chown abrax: -R $KEYFILE
-#sudo chown abrax: -R /tmp
+#sudo chown $MYUSER: -R $KEYFILE
+#sudo chown $MYUSER: -R /tmp
 #sudo echo "$BWS_API_KEY" > "$KEYFILE"
 
 #https://public.yyps.de/bwkdb.cpt
@@ -324,9 +327,9 @@ fi
 #command bws >/dev/null 2>&1 || /home/abrax/tmp/public/bws.sh
 
 mkdir -p /home/$MYUSERNAME/.config/chezmoi
-bws run -- 'echo "$chezmoi_toml"' >/home/abrax/.config/chezmoi/chezmoi.toml
-bws run -- 'echo "$tailscale_setup"' >/home/abrax/tmp/tailscale_setup.sh
-chmod +x /home/abrax/tmp/tailscale_setup.sh
+bws run -- 'echo "$chezmoi_toml"' >/home/$MYUSER/.config/chezmoi/chezmoi.toml
+bws run -- 'echo "$tailscale_setup"' >/home/$MYUSER/tmp/tailscale_setup.sh
+chmod +x /home/$MYUSER/tmp/tailscale_setup.sh
 echo
 
 
@@ -371,7 +374,7 @@ tput civis
 tput cnorm
 
 # Install zsh4humans
-#/home/abrax/tmp/public/27_zsh4humans.sh
+#/home/$MYUSER/tmp/public/27_zsh4humans.sh
 
 # Open useful URLs
 exit
