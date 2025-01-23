@@ -6,7 +6,6 @@ isinstalled() {
   if ! command -v $1 >/dev/null 2>&1; then
     echo -e "\e[1;34m┌─ 󰏗 Installing $1...\e[0m"
     gum spin --spinner="points" --title="apt update..." --spinner.foreground="33" --title.foreground="33" $MYSUDO apt-get update > /dev/null 2>&1
-    #gum spin --spinner="points" --title="apt install..." --spinner.foreground="33" --title.foreground="33" 
     $MYSUDO apt-get install -y "$1" 
     [[ $? = 0 ]] && clear
     echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
@@ -21,9 +20,6 @@ cd $HOME
 $MYSUDO apt update
 [[ $? = 0 ]] && clear
 isinstalled curl
-
-#$MYSUDO apt install -y wget curl
-#[[ $? = 0 ]] && clear
 
 command -v gum >del
 if [[ $? != 0 ]]; then
@@ -45,15 +41,9 @@ echothis() {
   echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
   echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
   gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
-#  tput cuu1
   gum spin --spinner="dot" --title="." --spinner.foreground="33" --title.foreground="33" sleep 0.3
   gum spin --spinner="dot" --title=".." --spinner.foreground="33" --title.foreground="33" sleep 0.3
   gum spin --spinner="dot" --title="..." --spinner.foreground="33" --title.foreground="33" sleep 0.3
-#  tput cuu1
-#  gum spin --spinner="pulse" --title=".." --spinner.foreground="33" --title.foreground="33" sleep 1
-#  tput cuu1
-#  gum spin --spinner="pulse" --title="..." --spinner.foreground="33" --title.foreground="33" sleep 1
-sleep 2
 }
 
 echothis2() {
