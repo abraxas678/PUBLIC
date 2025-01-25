@@ -4,6 +4,7 @@ curl -d "$(echo $semaphore_vars)" https://n.yyps.de/alert
 echo 
 echo semaphore_vars
 echo $semaphore_vars
+echo {{semaphore_vars.task_details.target_version}}
 echo semaphore_vars
 echo
 echo 1
