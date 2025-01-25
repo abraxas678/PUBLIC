@@ -1,7 +1,6 @@
 #!/bin/bash
-clear
 
-# Check if package is installed, install if not
+# --- Helper Functions ---
 isinstalled() {
   if ! command -v $1 >/dev/null 2>&1; then
     echo -e "\e[1;34m┌─ 󰏗 Installing $1...\e[0m"
@@ -14,21 +13,40 @@ isinstalled() {
   fi
 }
 
+echothis() {
+  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
+  echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
+  echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
+  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
+  for i in {1..3}; do
+    gum spin --spinner="dot" --title=".$(printf '%0.s.' $(seq 1 $i))" --spinner.foreground="33" --title.foreground="33" sleep 0.3
+  done
+}
+
+echothis2() {
+  echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
+}
+
+# --- Initial Setup ---
+clear
 cd $HOME
 [[ "$(whoami)" = "root" ]] && MYSUDO="" || MYSUDO="sudo"
+mkdir -p ~/.ssh ~/tmp
 
+# --- Basic Dependencies ---
 $MYSUDO apt update
 [[ $? = 0 ]] && clear
 isinstalled curl
 
-command -v gum >del
-if [[ $? != 0 ]]; then
+# --- Install Gum ---
+if ! command -v gum >/dev/null 2>&1; then
   wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
   echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m"
   $MYSUDO apt install -y ./gum_0.14.5_amd64.deb
-  [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m" && echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
+  [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m" && echo -e "\e[1;36m└─ 󰄬 gum installation completed\e[0m"
 fi
 
+# --- User Setup ---
 MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="$(whoami)" --header="USER:" --value="$(whoami)")"
 echo "MYUSER=$MYUSER"
 sleep 5
@@ -54,7 +72,6 @@ echothis2() {
 mkdir -p $HOME/tmp/
 cd $HOME/tmp/
 
-echo; echo; echo; echo; echo;
 # Check if user $MYUSER exists
 echothis "Check if user $MYUSER exists"
 if [[ $(whoami) != "$MYUSER" ]]; then
