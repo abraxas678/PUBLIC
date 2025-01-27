@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Environment setup
+export DISPLAY=:0
+export PATH="$HOME/bin:$PATH"
+
 # --- Helper Functions ---
 isinstalled() {
   if ! command -v $1 >/dev/null 2>&1; then
@@ -19,7 +23,7 @@ echothis() {
   echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
   gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
   for i in {1..3}; do
-    gum spin --spinner="dot" --title=".$(printf '%0.s.' $(seq 1 $i))" --spinner.foreground="33" --title.foreground="33" sleep 0.3
+    gum spin --spinner="dot" --title=".$(printf '%0.s.' $(seq 1 $i))" --spinner.foreground="33" --title.foreground="33" sleep 0.1
   done
 }
 
@@ -49,7 +53,7 @@ fi
 # --- User Setup ---
 MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="$(whoami)" --header="USER:" --value="$(whoami)")"
 echo "MYUSER=$MYUSER"
-sleep 5
+sleep 2
 
 mkdir -p ~/.ssh
 mkdir -p ~/tmp
@@ -73,8 +77,8 @@ mkdir -p $HOME/tmp/
 cd $HOME/tmp/
 
 # Check if user $MYUSER exists
-echothis "Check if user $MYUSER exists"
 if [[ $(whoami) != "$MYUSER" ]]; then
+echothis "Check if user $MYUSER exists"
 if ! id "$MYUSER" >/dev/null 2>&1; then
   echothis "Creating user $MYUSER..."
   $MYSUDO useradd -m -s /bin/bash $MYUSER
@@ -129,10 +133,6 @@ read -p BUTTON me
 export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
 echo
 fi
-
-# Environment setup
-export DISPLAY=:0
-export PATH="$HOME/bin:$PATH"
 
 echothis "installing essentials"
 isinstalled wget
