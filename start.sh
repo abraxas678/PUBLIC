@@ -102,21 +102,29 @@ fi
 echo
 echothis "START.SH INSTALLATION"
 
-command -v brave-browser >del
-if [[ $? != 0 ]]; then
-  echo -e "\e[1;34m┌─ 󰏗 Installing brave...\e[0m"
-  echo 'curl -fsS https://dl.brave.com/install.sh | sh' >brave.sh
-  chmod +x brave.sh
-  gum spin --spinner="points" --title="Brave Browser..." --spinner.foreground="33" --title.foreground="33" -- ./brave.sh
-  [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing brave...\e[0m" && echo -e "\e[1;36m└─ 󰄬 brave installation completed\e[0m"
+
+if [[ ! -f /usr/share/applications/slimjet.desktop ]]; then
+  cd $HOME/tmp
+
+#command -v /usr/bin/flashpeak-slimjet >del
+#if [[ $? != 0 ]]; then
+  echo -e "\e[1;34m┌─ 󰏗 Installing slimjet...\e[0m"
+
+  wget https://slimjet.com/release/slimjet_amd64.deb
+  #echo 'curl -fsS https://dl.brave.com/install.sh | sh' >brave.sh
+  #chmod +x brave.sh
+  sudo apt install ./slimjet_amd64.deb -y
+  #gum spin --spinner="points" --title="Brave Browser..." --spinner.foreground="33" --title.foreground="33" -- ./brave.sh
+  [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing slimjet...\e[0m" && echo -e "\e[1;36m└─ 󰄬 slimjet installation completed\e[0m"
 fi
 
-[[ $(cat ~/.ssh/bws.dat | wc -l) = 0 ]] && rm ~/.ssh/bws.dat
+VAR=$(cat ~/.ssh/bws.dat | wc -l)
+[[ ${#VAR} -lt 2 ]] && rm ~/.ssh/bws.dat
 if [[ ! -f ~/.ssh/bws.dat ]]; then
 echo
 read -p BUTTON me
-[[ ! -f ~/.ssh/bws.dat ]] && brave-browser https://github.com/abraxas678 &
-[[ ! -f ~/.ssh/bws.dat ]] && brave-browser https://bitwarden.eu &
+[[ ! -f ~/.ssh/bws.dat ]] && /usr/bin/flashpeak-slimjet https://github.com/abraxas678 &
+[[ ! -f ~/.ssh/bws.dat ]] && /usr/bin/flashpeak-slimjet https://bitwarden.eu &
 [[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
 export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
 echo
@@ -159,7 +167,7 @@ chmod 600 ~/.ssh/*
 echothis "edit visudo"
 [[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "$MYUSER ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "$MYUSER ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
 
-[[ ! -f /opt/Tabby/tabby ]] && brave-browser https://github.com/Eugeny/tabby/releases/tag/v1.0.219 &
+[[ ! -f /opt/Tabby/tabby ]] && /usr/bin/flashpeak-slimjet https://github.com/Eugeny/tabby/releases/tag/v1.0.219 &
 echo
 read -p BUTTON me
 #echothis "ENTER to continue to bws. create a new key"
