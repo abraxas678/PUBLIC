@@ -29,7 +29,7 @@ read_with_timeout() {
 }
 
 no_input_action() {
-echo ""
+printf ""
 #    echo "No input received after 10 seconds. Performing default action." >&2
     # Add your desired action here
 #    TITLE="$(go-chromecast -a 192.168.11.110 status | sed 's/.*title="//' | sed 's/", artist.*//')"
