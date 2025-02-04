@@ -158,7 +158,7 @@ if [[ ! -f ~/.ssh/bws.dat ]]; then
     
     # Only try to open browser if slimjet is installed
     if [[ -f /usr/bin/flashpeak-slimjet ]]; then
-        /usr/bin/flashpeak-slimjet https://github.com/abraxas678 &
+        /usr/bin/flashpeak-slimjet https://github.com/0abraxas678 &
         /usr/bin/flashpeak-slimjet https://bitwarden.eu &
     else
         echo -e "\e[1;33mPlease visit these URLs in your browser:\e[0m"
