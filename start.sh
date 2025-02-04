@@ -4,14 +4,30 @@
 export DISPLAY=:0
 export PATH="$HOME/bin:$PATH"
 
+# Add confirmation function
+confirm_step() {
+    if [[ "$myHEAD" = "0" ]]; then
+        echo -e "\e[1;33m╭─ Execute step: $1?\e[0m"
+        echo -e "\e[1;33m╰─ [y/N]:\e[0m"
+        read -n 1 confirm
+        echo
+        [[ "${confirm,,}" = "y" ]] && return 0 || return 1
+    fi
+    return 0
+}
+
 # --- Helper Functions ---
 isinstalled() {
   if ! command -v $1 >/dev/null 2>&1; then
-    echo -e "\e[1;34m┌─ 󰏗 Installing $1...\e[0m"
-    gum spin --spinner="points" --title="apt update..." --spinner.foreground="33" --title.foreground="33" $MYSUDO apt-get update > /dev/null 2>&1
-    $MYSUDO apt-get install -y "$1" 
-    [[ $? = 0 ]] && clear
-    echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
+    if confirm_step "Install $1"; then
+      echo -e "\e[1;34m┌─ 󰏗 Installing $1...\e[0m"
+      gum spin --spinner="points" --title="apt update..." --spinner.foreground="33" --title.foreground="33" $MYSUDO apt-get update > /dev/null 2>&1
+      $MYSUDO apt-get install -y "$1" 
+      [[ $? = 0 ]] && clear
+      echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
+    else
+      echo -e "\e[1;31m└─ Skipping $1 installation\e[0m"
+    fi
   else
     echo -e "\e[1;34m└─ 󰄬 $1 is already installed\e[0m"
   fi
@@ -38,9 +54,17 @@ cd $HOME
 mkdir -p ~/.ssh ~/tmp
 
 # --- Basic Dependencies ---
-$MYSUDO apt update
-[[ $? = 0 ]] && clear
-isinstalled curl
+if confirm_step "Update system packages"; then
+    $MYSUDO apt update
+    [[ $? = 0 ]] && clear
+fi
+
+if confirm_step "Install basic dependencies"; then
+    isinstalled curl
+    isinstalled wget
+    isinstalled unzip
+    isinstalled shred
+fi
 
 # --- Install Gum ---
 if ! command -v gum >/dev/null 2>&1; then
@@ -54,6 +78,15 @@ fi
 MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="$(whoami)" --header="USER:" --value="$(whoami)")"
 echo "MYUSER=$MYUSER"
 sleep 2
+myHEAD="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="1=head 0=headless" --header="MACHINE:")"
+# Convert text input to 0/1
+if [[ "$myHEAD" = "headless" ]]; then
+    myHEAD="0"
+elif [[ "$myHEAD" = "head" ]]; then
+    myHEAD="1"
+fi
+echo "myHEAD=$myHEAD"
+sleep 1
 
 mkdir -p ~/.ssh
 mkdir -p ~/tmp
@@ -107,37 +140,41 @@ echo
 echothis "START.SH INSTALLATION"
 
 
-if [[ ! -f /usr/share/applications/slimjet.desktop ]]; then
+if [[ ! -f /usr/share/applications/slimjet.desktop ]] && [[ "$myHEAD" = "1" ]]; then
   cd $HOME/tmp
 
-#command -v /usr/bin/flashpeak-slimjet >del
-#if [[ $? != 0 ]]; then
   echo -e "\e[1;34m┌─ 󰏗 Installing slimjet...\e[0m"
 
   wget https://slimjet.com/release/slimjet_amd64.deb
-  #echo 'curl -fsS https://dl.brave.com/install.sh | sh' >brave.sh
-  #chmod +x brave.sh
   sudo apt install ./slimjet_amd64.deb -y
-  #gum spin --spinner="points" --title="Brave Browser..." --spinner.foreground="33" --title.foreground="33" -- ./brave.sh
   [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing slimjet...\e[0m" && echo -e "\e[1;36m└─ 󰄬 slimjet installation completed\e[0m"
 fi
 
 VAR=$(cat ~/.ssh/bws.dat | wc -l)
 [[ ${#VAR} -lt 2 ]] && rm ~/.ssh/bws.dat
 if [[ ! -f ~/.ssh/bws.dat ]]; then
-echo
-read -p BUTTON me
-[[ ! -f ~/.ssh/bws.dat ]] && /usr/bin/flashpeak-slimjet https://github.com/abraxas678 &
-[[ ! -f ~/.ssh/bws.dat ]] && /usr/bin/flashpeak-slimjet https://bitwarden.eu &
-[[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
-export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
-echo
+    echo
+    read -p "BUTTON" me
+    
+    # Only try to open browser if slimjet is installed
+    if [[ -f /usr/bin/flashpeak-slimjet ]]; then
+        /usr/bin/flashpeak-slimjet https://github.com/abraxas678 &
+        /usr/bin/flashpeak-slimjet https://bitwarden.eu &
+    else
+        echo -e "\e[1;33mPlease visit these URLs in your browser:\e[0m"
+        echo "https://github.com/abraxas678"
+        echo "https://bitwarden.eu"
+    fi
+    
+    [[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
+    export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
+    echo
 fi
 
 echothis "installing essentials"
-isinstalled wget
-sleep 0.5
 isinstalled curl
+sleep 0.5
+isinstalled wget
 sleep 0.5
 isinstalled unzip
 sleep 0.5
@@ -251,8 +288,10 @@ echothis install chezmoi
 #which bws >/dev/null 2>&1
 #[[ $? = 0 ]] && bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" 
 #[[ $? = 0 ]] && bws run -- ~/bin/chezmoi init --apply abraxas678
-wget https://github.com/twpayne/chezmoi/releases/download/v2.58.0/chezmoi_2.58.0_linux_amd64.deb
-sudo apt install -y ./chezmoi_2.58.0_linux_amd64.deb
+if confirm_step "Install chezmoi"; then
+    wget https://github.com/twpayne/chezmoi/releases/download/v2.58.0/chezmoi_2.58.0_linux_amd64.deb
+    sudo apt install -y ./chezmoi_2.58.0_linux_amd64.deb
+fi
 
 
 # Install basic utilities
