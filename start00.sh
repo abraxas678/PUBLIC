@@ -9,6 +9,8 @@ if [[ $? != 0 ]]; then
   wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/gum_install.sh
   chmod +x gum_install.sh
   ./gum_install.sh
+else
+  echo "gum already installed"
 fi
 
 mkdir -p ~/.ssh
@@ -21,7 +23,10 @@ if [[ $STAT != 0 ]]; then
   wget https://github.com/abraxas678/public/raw/refs/heads/master/bws_install.sh
   chmod +x bws_install.sh
   ./bws_install.sh
+else
+  echo "bws already installed"
 fi
+
 
 bws run -- git config --global user.email "$MYEMAIL"
 bws run -- git config --global user.name "$GITHUB_USERNAME"
@@ -39,6 +44,9 @@ command chezmoi -v >/dev/null 2>&1
 STAT="$(echo $?)"
 if [[ $STAT != 0 ]]; then
   bws run -- 'sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME'
+else
+  echo "chezmoi already installed"
 fi
+
 
 #41bff4b2-2ccb-42ba-b33a-b27a00ba0f50
