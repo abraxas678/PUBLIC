@@ -16,6 +16,7 @@ fi
 mkdir -p ~/.ssh
 [[ ! -f ~/.ssh/bws.dat ]] && BWS="$(gum input --password --no-show-help --placeholder='enter bws.dat')" && echo $BWS >~/.ssh/bws.dat
 export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
+
 command bws --version >/dev/null 2>&1;
 STAT=$(echo $?)
 if [[ $STAT != 0 ]]; then
@@ -25,6 +26,7 @@ if [[ $STAT != 0 ]]; then
 else
   echo "[RESULT] bws already installed"
 fi
+bws config server-base https://vault.bitwarden.eu
 
 
 bws run -- git config --global user.email "$MYEMAIL"
