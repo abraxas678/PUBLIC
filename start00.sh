@@ -10,7 +10,7 @@ if [[ $? != 0 ]]; then
   chmod +x gum_install.sh
   ./gum_install.sh
 else
-  echo "gum already installed"
+  echo "[RESULT] gum already installed"
 fi
 
 mkdir -p ~/.ssh
@@ -24,7 +24,7 @@ if [[ $STAT != 0 ]]; then
   chmod +x bws_install.sh
   ./bws_install.sh
 else
-  echo "bws already installed"
+  echo "[RESULT] bws already installed"
 fi
 
 
@@ -45,7 +45,7 @@ STAT="$(echo $?)"
 if [[ $STAT != 0 ]]; then
   bws run -- 'sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME'
 else
-  echo "chezmoi already installed"
+  echo "[RESULT] chezmoi already installed"
 fi
 
 
