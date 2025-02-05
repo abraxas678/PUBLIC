@@ -24,10 +24,13 @@ mv setup.tar $ts
 cd $ts
 tar xf setup.tar
 sudo apt update && sudo apt install fd-find -y
-PATH0="$(fd chezmoi.toml | head -n 1)"
+PATH0="$(find chezmoi.toml | head -n 1)"
 PATH=$(echo $PATH0 | sed "s/.*chezmoi\/chezmoi\///")
 echo
 echo PATH $PATH
+
+
+
 exit
 
 
