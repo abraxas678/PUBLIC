@@ -1,4 +1,5 @@
-#! /bin/bash
+##! /bin/bash
+
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 $MYSUDO apt update
 
@@ -12,6 +13,19 @@ if [[ $? != 0 ]]; then
 else
   echo "[RESULT] gum already installed"
 fi
+
+sudo apt install wormhole -y
+
+cd $HOME/tmp
+wormhole receive $(gum input --no-show-help --placeholder="execute wormhole_setup.sh on host and enter the 3 words")
+ts=$(date +%s)
+mkdir $ts
+mv setup.tar $ts
+cd $ts
+tar xf setup.tar
+
+exit
+
 
 mkdir -p ~/.ssh
 [[ ! -f ~/.ssh/bws.dat ]] && BWS="$(gum input --password --no-show-help --placeholder='enter bws.dat')" && echo $BWS >~/.ssh/bws.dat
