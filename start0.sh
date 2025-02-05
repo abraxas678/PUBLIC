@@ -16,6 +16,7 @@ fi
 mkdir -p ~/.ssh
 BWS="$(gum input --password --no-show-help --placeholder='enter bws.dat')"
 echo $BWS >~/.ssh/bws.dat
+export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
 
 command bws --version >/dev/null 2>&1;
 STAT=$(echo $?)
