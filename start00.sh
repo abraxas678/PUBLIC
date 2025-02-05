@@ -9,8 +9,10 @@ else
 fi
 command bws --version >/dev/null 2>&1;
 STAT=$(echo $?)
+echo STAT $STAT
+sleep 2
 if [[ $STAT != 0 ]]; then
   $HOME/tmp/public/bws_install.sh
 fi
 
-41bff4b2-2ccb-42ba-b33a-b27a00ba0f50
+#41bff4b2-2ccb-42ba-b33a-b27a00ba0f50
