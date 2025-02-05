@@ -19,7 +19,8 @@ command wormhole >/dev/null 2>&1
 [[ $? != 0 ]] && sudo apt install wormhole -y
 
 cd $HOME/tmp
-echo y | wormhole receive $(gum input --no-show-help --placeholder="execute wormhole_setup.sh on host and enter the 3 words")
+INP="$(gum input --no-show-help --placeholder='execute wormhole_setup.sh on host and enter the 3 words')"
+echo y | wormhole receive $INP
 ts=$(date +%s)
 mkdir $ts
 mv setup.tar $ts
