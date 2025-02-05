@@ -1,35 +1,52 @@
-#!/bin/bash
-clear
-cd $HOME
+#! /bin/bash
+[[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
+$MYSUDO apt update
 
-# Set the sudo prefix based on the current user
-[[ $USER -eq "root" ]] && MYSUDO="" || MYSUDO="sudo"
-
-# Main Functionality
-echo "Updating package list..."
-$MYSUDO apt update >/dev/null 2>&1
-
-# Check if xsel is installed and install if necessary
-echo "Checking if xsel is installed..."
-if ! command -v xsel &> /dev/null; then
-    echo "Installing xsel..."
-    $MYSUDO apt install xsel -y >/dev/null 2>&1
+mkdir -p $HOME/tmp
+cd $HOME/tmp
+command gum -v >/dev/null 2>&1
+if [[ $? != 0 ]]; then
+  wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/gum_install.sh
+  chmod +x gum_install.sh
+  ./gum_install.sh
+else
+  echo "[RESULT] gum already installed"
 fi
 
-# Check if pcopy is installed and install if necessary
-echo "Checking if pcopy is installed..."
-if ! command -v pcopy &> /dev/null; then
-    echo "Installing pcopy..."
-    wget https://github.com/binwiederhier/pcopy/releases/download/v0.6.1/pcopy_0.6.1_amd64.deb >/dev/null 2>&1
-    echo "Installing pcopy package..."
-    $MYSUDO apt install -y ./pcopy_0.6.1_amd64.deb >/dev/null 2>&1
-    echo "Joining pcopy..."
-    pcopy join https://pc.yyps.de
+mkdir -p ~/.ssh
+BWS="$(gum input --password --no-show-help --placeholder='enter bws.dat')"
+echo $BWS >~/.ssh/bws.dat
+
+command bws --version >/dev/null 2>&1;
+STAT=$(echo $?)
+if [[ $STAT != 0 ]]; then
+  wget https://github.com/abraxas678/public/raw/refs/heads/master/bws_install.sh
+  chmod +x bws_install.sh
+  ./bws_install.sh
+else
+  echo "[RESULT] bws already installed"
 fi
 
-# Download and execute the script
-echo "Downloading and executing script..."
-curl -L start1.yyps.de >s.sh #| bash <&/dev/tty
-chmod +x s.sh
-./s.sh
 
+bws run -- git config --global user.email "$MYEMAIL"
+bws run -- git config --global user.name "$GITHUB_USERNAME"
+
+if [[ ! -d $HOME/tmp/public ]]; then
+  [[ ! -d $HOME/tmp ]] && mkdir -p $HOME/tmp
+  cd $HOME/tmp
+  git clone https://github.com/abraxas678/public
+else
+  cd $HOME/tmp/public
+  git pull
+fi
+
+command chezmoi -v >/dev/null 2>&1
+STAT="$(echo $?)"
+if [[ $STAT != 0 ]]; then
+  bws run -- 'sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME'
+else
+  echo "[RESULT] chezmoi already installed"
+fi
+
+
+#41bff4b2-2ccb-42ba-b33a-b27a00ba0f50
