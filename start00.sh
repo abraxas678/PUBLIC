@@ -12,3 +12,5 @@ STAT=$(echo $?)
 if [[ $STAT != 0 ]]; then
   $HOME/tmp/public/bws_install.sh
 fi
+
+41bff4b2-2ccb-42ba-b33a-b27a00ba0f50
