@@ -1,4 +1,4 @@
-##! /bin/bash
+#! /bin/bash
 
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 $MYSUDO apt update
