@@ -1,4 +1,19 @@
 #! /bin/bash
+[[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
+$MYSUDO apt update
+
+command gum -v >/dev/null 2>&1
+if [[ $? != 0 ]]; then
+  /home/abrax/tmp/public/gum_install.sh
+fi
+
+
+
+
+
+bws run -- git config --global user.email "$MYEMAIL"
+bws run -- git config --global user.name "$GITHUB_USERNAME"
+
 if [[ ! -d $HOME/tmp/public ]]; then
   [[ ! -d $HOME/tmp ]] && mkdir -p $HOME/tmp
   cd $HOME/tmp
@@ -6,11 +21,6 @@ if [[ ! -d $HOME/tmp/public ]]; then
 else
   cd $HOME/tmp/public
   git pull
-fi
-
-command gum -v >/dev/null 2>&1
-if [[ $? != 0 ]]; then
-  /home/abrax/tmp/public/gum_install.sh
 fi
 
 command bws --version >/dev/null 2>&1;
