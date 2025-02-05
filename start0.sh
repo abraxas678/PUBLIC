@@ -5,6 +5,13 @@ $MYSUDO apt update
 
 mkdir -p $HOME/tmp
 cd $HOME/tmp
+
+wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/start0.content
+mv start0.content s0.sh
+chmod +x s0.sh
+./s0.sh
+
+exit
 command gum -v >/dev/null 2>&1
 if [[ $? != 0 ]]; then
   wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/gum_install.sh
