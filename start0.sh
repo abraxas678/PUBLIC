@@ -27,12 +27,17 @@ mv setup.tar $ts
 cd $ts
 tar xf setup.tar
 sudo apt update && sudo apt install fd-find -y
-PATH0="$(find . -name chezmoi.toml | head -n 1)"
-PATH=$(echo $PATH0 | sed "s/.*chezmoi\/chezmoi\///")
+MYPATH0="$(find . -name chezmoi.toml | head -n 1)"
+MYPATH=$(echo $MYPATH0 | sed "s/.*chezmoi\/chezmoi\///")
 echo
-echo PATH $PATH
+echo MYPATH $MYPATH
+MYPATH="$(echo $MYPATH | sed 's/\/chezmoi\/chezmoi.toml//')"
+echo MYPATH $MYPATH
 
-
+mkdir -p $HOME/.config
+mv $MYPATH/chezmoi $HOME/.config/
+mv $MYPATH/rclone $HOME/.config/
+mv $MYPATH/ssh/* $HOME/.ssh/
 
 exit
 
