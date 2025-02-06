@@ -35,8 +35,12 @@ MYPATH="$(echo $MYPATH | sed 's/\/chezmoi\/chezmoi.toml//')"
 echo MYPATH $MYPATH
 
 mkdir -p $HOME/.config
-mv $MYPATH/chezmoi $HOME/.config/
-mv $MYPATH/rclone $HOME/.config/
+mkdir -p $HOME/.ssh
+mkdir -p $HOME/.config/chezmoi
+mkdir -p $HOME/.config/rclone
+
+mv $MYPATH/chezmoi/* $HOME/.config/chezmoi
+mv $MYPATH/rclone/* $HOME/.config/rclone/
 mv $MYPATH/ssh/* $HOME/.ssh/
 
 exit
