@@ -43,11 +43,9 @@ mv $MYPATH/chezmoi/* $HOME/.config/chezmoi
 mv $MYPATH/rclone/* $HOME/.config/rclone/
 mv $MYPATH/ssh/* $HOME/.ssh/
 
-exit
 
-
-mkdir -p ~/.ssh
-[[ ! -f ~/.ssh/bws.dat ]] && BWS="$(gum input --password --no-show-help --placeholder='enter bws.dat')" && echo $BWS >~/.ssh/bws.dat
+#mkdir -p ~/.ssh
+#[[ ! -f ~/.ssh/bws.dat ]] && BWS="$(gum input --password --no-show-help --placeholder='enter bws.dat')" && echo $BWS >~/.ssh/bws.dat
 export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
 
 command bws --version >/dev/null 2>&1;
@@ -81,6 +79,6 @@ if [[ $STAT != 0 ]]; then
 else
   echo "[RESULT] chezmoi already installed"
 fi
-
+chezmoi update -k
 
 #41bff4b2-2ccb-42ba-b33a-b27a00ba0f50
