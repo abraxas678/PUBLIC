@@ -16,7 +16,7 @@ else
 fi
 
 command wormhole >/dev/null 2>&1
-[[ $? != 0 ]] && sudo apt install wormhole -y
+[[ $? != "0" ]] && sudo apt install wormhole -y
 
 cd $HOME/tmp
 INP="$(gum input --no-show-help --placeholder='execute wormhole_setup.sh on host and enter the 3 words')"
