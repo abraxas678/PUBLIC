@@ -4,12 +4,6 @@ clear
 echo V0.0.2
 sleep 2
 
-echo apt update...
-$MYSUDO apt update >/dev/null 2>&1
-
-mkdir -p $HOME/tmp
-cd $HOME/tmp
-
 echo; echo gum
 command gum -v >/dev/null 2>&1
 if [[ $? != 0 ]]; then
@@ -19,6 +13,51 @@ if [[ $? != 0 ]]; then
 else
   echo "[RESULT] gum already installed"
 fi
+
+echo
+echo User
+# --- User Setup ---
+MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="$(whoami)" --header="USER:" --value="$(>
+echo "MYUSER=$MYUSER"
+sleep 2
+myHEAD="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="1=head 0=headless" --header="MACHINE:")"
+# Convert text input to 0/1
+if [[ "$myHEAD" = "headless" ]]; then
+    myHEAD="0"
+elif [[ "$myHEAD" = "head" ]]; then
+    myHEAD="1"
+fi
+echo "myHEAD=$myHEAD"
+sleep 1
+
+# Check if user $MYUSER exists
+if [[ $(whoami) != "$MYUSER" ]]; then
+echo "Check if user $MYUSER exists"
+if ! id "$MYUSER" >/dev/null 2>&1; then
+  echothis "Creating user $MYUSER..."
+  $MYSUDO useradd -m -s /bin/bash $MYUSER
+  # Set password for $MYUSER user (you may want to change this)
+  echo "$MYUSER:$MYUSER" | $MYSUDO chpasswd
+  # Add $MYUSER to sudo group
+  $MYSUDO usermod -aG sudo $MYUSER
+  echothis2 "User $MYUSER created"
+else
+  echothis "User $MYUSER already exists"
+fi
+
+# Switch to $MYUSER user if not already
+if [ "$(whoami)" != "$MYUSER" ]]; then
+   echothis "Switching to user $MYUSER..."
+   exec $MYSUDO -u $MYUSER "$0" "$@"
+fi
+fi
+
+
+echo apt update...
+$MYSUDO apt update >/dev/null 2>&1
+
+mkdir -p $HOME/tmp
+cd $HOME/tmp
 
 echo; echo wormhole
 command wormhole >/dev/null 2>&1
