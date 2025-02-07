@@ -17,7 +17,8 @@ fi
 echo
 echo User
 # --- User Setup ---
-MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="$(whoami)" --header="USER:" --value="$(>
+#MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="$(whoami)" --header="USER:" --value="$(>
+MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="$(whoami)" --header="USER:" --value="$(whoami)")"
 echo "MYUSER=$MYUSER"
 sleep 2
 myHEAD="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="1=head 0=headless" --header="MACHINE:")"
