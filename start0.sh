@@ -1,9 +1,9 @@
 #! /bin/bash
+[[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
+clear
 echo V0.1
 sleep 2
 
-[[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
-clear
 echo apt update...
 $MYSUDO apt update >/dev/null 2>&1
 
@@ -20,12 +20,11 @@ else
   echo "[RESULT] gum already installed"
 fi
 
-echo wormhole
+echo; echo wormhole
 command wormhole >/dev/null 2>&1
 [[ $? != "0" ]] && $MYSUDO apt install wormhole -y >/dev/null 2>&1
 
 cd $HOME/tmp
-echo
 echo
 INP="$(gum input --no-show-help --placeholder='execute wormhole_setup.sh on host and enter the 3 words')"
 echo y | wormhole receive $INP
