@@ -1,4 +1,6 @@
 #! /bin/bash
+echo V0.1
+sleep 2
 
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 clear
