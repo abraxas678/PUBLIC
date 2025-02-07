@@ -1,7 +1,7 @@
 #! /bin/bash
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 clear
-echo V0.0.2
+echo V0.0.3
 sleep 2
 
 echo; echo gum
