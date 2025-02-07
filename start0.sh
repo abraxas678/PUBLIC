@@ -42,6 +42,7 @@ MYPATH="$(echo $MYPATH | sed 's/\/chezmoi\/chezmoi.toml//')"
 echo MYPATH $MYPATH
 sleep 2
 echo
+
 mkdir -p $HOME/.config
 mkdir -p $HOME/.ssh
 mkdir -p $HOME/.config/chezmoi
@@ -54,8 +55,8 @@ mv $MYPATH/ssh/* $HOME/.ssh/
 
 #mkdir -p ~/.ssh
 #[[ ! -f ~/.ssh/bws.dat ]] && BWS="$(gum input --password --no-show-help --placeholder='enter bws.dat')" && echo $BWS >~/.ssh/bws.dat
+echo; echo BWS
 export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
-
 command bws --version >/dev/null 2>&1;
 STAT=$(echo $?)
 if [[ $STAT != 0 ]]; then
@@ -66,11 +67,12 @@ else
   echo "[RESULT] bws already installed"
 fi
 bws config server-base https://vault.bitwarden.eu
-
+echo
 
 bws run -- git config --global user.email "$MYEMAIL"
 bws run -- git config --global user.name "$GITHUB_USERNAME"
 
+echo github public clone
 if [[ ! -d $HOME/tmp/public ]]; then
   [[ ! -d $HOME/tmp ]] && mkdir -p $HOME/tmp
   cd $HOME/tmp
@@ -79,7 +81,9 @@ else
   cd $HOME/tmp/public
   git pull
 fi
+echo
 
+echo chezmoi
 command chezmoi -v >/dev/null 2>&1
 STAT="$(echo $?)"
 if [[ $STAT != 0 ]]; then
@@ -87,6 +91,8 @@ if [[ $STAT != 0 ]]; then
 else
   echo "[RESULT] chezmoi already installed"
 fi
+echo
+echo chezmoi update -k
 chezmoi update -k
 
 #41bff4b2-2ccb-42ba-b33a-b27a00ba0f50
