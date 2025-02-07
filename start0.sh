@@ -1,7 +1,7 @@
 #! /bin/bash
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 clear
-echo V0.1
+echo V0.0.2
 sleep 2
 
 echo apt update...
@@ -29,18 +29,19 @@ echo
 INP="$(gum input --no-show-help --placeholder='execute wormhole_setup.sh on host and enter the 3 words')"
 echo y | wormhole receive $INP
 ts=$(date +%s)
-mkdir $ts
-mv setup.tar $ts
-cd $ts
+mkdir $HOME/tmp/$ts
+mv setup.tar $HOME/tmp/$ts
+cd $HOME/tmp/$ts
 tar xf setup.tar
-$MYSUDO apt update && $MYSUDO apt install fd-find -y
+#$MYSUDO apt update && $MYSUDO apt install fd-find -y
 MYPATH0="$(find . -name chezmoi.toml | head -n 1)"
 MYPATH=$(echo $MYPATH0 | sed "s/.*chezmoi\/chezmoi\///")
 echo
 echo MYPATH $MYPATH
 MYPATH="$(echo $MYPATH | sed 's/\/chezmoi\/chezmoi.toml//')"
 echo MYPATH $MYPATH
-
+sleep 2
+echo
 mkdir -p $HOME/.config
 mkdir -p $HOME/.ssh
 mkdir -p $HOME/.config/chezmoi
