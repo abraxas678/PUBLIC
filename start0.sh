@@ -1,24 +1,30 @@
 #! /bin/bash
 
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
-$MYSUDO apt update
+clear
+echo apt update...
+$MYSUDO apt update >/dev/null 2>&1
 
 mkdir -p $HOME/tmp
 cd $HOME/tmp
 
+echo; echo gum
 command gum -v >/dev/null 2>&1
 if [[ $? != 0 ]]; then
-  wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/gum_install.sh
+  wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/gum_install.sh >/dev/null 2>&1
   chmod +x gum_install.sh
   ./gum_install.sh
 else
   echo "[RESULT] gum already installed"
 fi
 
+echo wormhole
 command wormhole >/dev/null 2>&1
-[[ $? != "0" ]] && sudo apt install wormhole -y
+[[ $? != "0" ]] && $MYSUDO apt install wormhole -y >/dev/null 2>&1
 
 cd $HOME/tmp
+echo
+echo
 INP="$(gum input --no-show-help --placeholder='execute wormhole_setup.sh on host and enter the 3 words')"
 echo y | wormhole receive $INP
 ts=$(date +%s)
@@ -26,7 +32,7 @@ mkdir $ts
 mv setup.tar $ts
 cd $ts
 tar xf setup.tar
-sudo apt update && sudo apt install fd-find -y
+$MYSUDO apt update && $MYSUDO apt install fd-find -y
 MYPATH0="$(find . -name chezmoi.toml | head -n 1)"
 MYPATH=$(echo $MYPATH0 | sed "s/.*chezmoi\/chezmoi\///")
 echo
