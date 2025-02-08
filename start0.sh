@@ -36,20 +36,20 @@ sleep 1
 if [[ $(whoami) != "$MYUSER" ]]; then
 echo "Check if user $MYUSER exists"
 if ! id "$MYUSER" >/dev/null 2>&1; then
-  echothis "Creating user $MYUSER..."
+  echo "Creating user $MYUSER..."
   $MYSUDO useradd -m -s /bin/bash $MYUSER
   # Set password for $MYUSER user (you may want to change this)
   echo "$MYUSER:$MYUSER" | $MYSUDO chpasswd
   # Add $MYUSER to sudo group
   $MYSUDO usermod -aG sudo $MYUSER
-  echothis2 "User $MYUSER created"
+  echo "User $MYUSER created"
 else
-  echothis "User $MYUSER already exists"
+  echo "User $MYUSER already exists"
 fi
 
 # Switch to $MYUSER user if not already
 if [ "$(whoami)" != "$MYUSER" ]]; then
-   echothis "Switching to user $MYUSER..."
+   echo "Switching to user $MYUSER..."
    exec $MYSUDO -u $MYUSER "$0" "$@"
 fi
 fi
