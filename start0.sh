@@ -7,6 +7,7 @@ sleep 2
 echo; echo gum
 command gum -v >/dev/null 2>&1
 if [[ "$?" != "0" ]]; then
+  $MYSUDO apt update; $MYSUDO apt install gpg -y
   wget https://raw.githubusercontent.com/abraxas678/public/refs/heads/master/gum_install.sh >/dev/null 2>&1
   chmod +x gum_install.sh
   ./gum_install.sh
