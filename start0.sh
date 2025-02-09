@@ -1,4 +1,5 @@
 #!/bin/bash
+
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 
 isinstalled() {
