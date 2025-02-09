@@ -1,4 +1,4 @@
-#!/bin/bash
+#! /bin/bash
 
 [[ $(whoami) = "root" ]] && MYSUDO="" || MYSUDO="sudo"
 
@@ -20,7 +20,7 @@ isinstalled() {
 }
 
 clear
-echo V0.0.5
+echo V0.0.6
 sleep 2
 
 mkdir -p $HOME/tmp
