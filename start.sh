@@ -34,12 +34,12 @@ isinstalled() {
 }
 
 echothis() {
-echo;  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
+  echo;  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
   echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
   echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
   gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
   for i in {1..3}; do
-    gum spin --spinner="dot" --title=".$(printf '%0.s.' $(seq 1 $i))" --spinner.foreground="33" --title.foreground="33" sleep 0.1
+     gum spin --spinner="dot" --title=".$(printf '%0.s.' $(seq 1 $i))" --spinner.foreground="33" --title.foreground="33" sleep 0.1
   done
 }
 
@@ -77,7 +77,7 @@ fi
 # --- User Setup ---
 MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="$(whoami)" --header="USER:" --value="$(whoami)")"
 echo; echo "MYUSER=$MYUSER"
-sleep 2
+sleep 0.5
 myHEAD="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="1=head 0=headless" --header="MACHINE:")"
 # Convert text input to 0/1
 if [[ "$myHEAD" = "headless" ]]; then
@@ -86,7 +86,7 @@ elif [[ "$myHEAD" = "head" ]]; then
     myHEAD="1"
 fi
 echo "myHEAD=$myHEAD"
-sleep 1
+sleep 0.5
 
 mkdir -p ~/.ssh
 mkdir -p ~/tmp
@@ -140,6 +140,7 @@ echo
 echothis "START.SH INSTALLATION"
 
 
+if [[ 1 = 2 ]]; then
 if [[ ! -f /usr/share/applications/slimjet.desktop ]] && [[ "$myHEAD" = "1" ]]; then
   cd $HOME/tmp
 
@@ -149,9 +150,16 @@ if [[ ! -f /usr/share/applications/slimjet.desktop ]] && [[ "$myHEAD" = "1" ]]; 
   sudo apt install ./slimjet_amd64.deb -y
   [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing slimjet...\e[0m" && echo -e "\e[1;36m└─ 󰄬 slimjet installation completed\e[0m"
 fi
+fi
 
-VAR=$(cat ~/.ssh/bws.dat | wc -l)
-[[ ${#VAR} -lt 2 ]] && rm ~/.ssh/bws.dat
+echothis "install thorium browser"
+URL="$($HOME/tmp/public/github_latest_release_url.sh Alex313031 thorium)"
+cd $HOME/tmp
+wget $URL
+$MYSUDO apt install $HOME/tmp/$(basename $URL)
+
+VAR=$(cat ~/.ssh/bws.dat)
+[[ ${#VAR} != 94 ]] && rm ~/.ssh/bws.dat
 if [[ ! -f ~/.ssh/bws.dat ]]; then
     echo
     read -p "BUTTON" me
