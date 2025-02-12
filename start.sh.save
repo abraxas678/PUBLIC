@@ -34,7 +34,7 @@ isinstalled() {
 }
 
 echothis() {
-echo;  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
+  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
   echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
   echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
   gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
@@ -103,7 +103,7 @@ echothis() {
 
 echothis2() {
   echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
-}
+}	
 
 
 mkdir -p $HOME/tmp/
