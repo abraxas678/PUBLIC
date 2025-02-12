@@ -92,6 +92,7 @@ mkdir -p ~/.ssh
 mkdir -p ~/tmp
 
 echothis() {
+  echo
   gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
   echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
   echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
@@ -152,18 +153,30 @@ if [[ ! -f /usr/share/applications/slimjet.desktop ]] && [[ "$myHEAD" = "1" ]]; 
 fi
 fi
 
-echothis "install thorium browser"
-URL="$($HOME/tmp/public/github_latest_release_url.sh Alex313031 thorium)"
-cd $HOME/tmp
-wget $URL
-$MYSUDO apt install $HOME/tmp/$(basename $URL)
+which thorium-browser >/dev/null 2>&1
+if [[ $? != 0 ]]; then
+  echothis "install thorium browser"
+  URL="$($HOME/tmp/public/github_latest_release_url.sh Alex313031 thorium)"
+  cd $HOME/tmp
+  wget $URL
+  $MYSUDO apt install $HOME/tmp/$(basename $URL)
+fi
+
+which tabby >/dev/null 2>&1
+if [[ $? != 0 ]]; then
+  echothis "install tabby"
+  URL="$($HOME/tmp/public/github_latest_release_url.sh Eugeny tabby)"
+  cd $HOME/tmp
+  wget $URL
+  $MYSUDO apt install $HOME/tmp/$(basename $URL)
+fi
 
 VAR=$(cat ~/.ssh/bws.dat)
 [[ ${#VAR} != 94 ]] && rm ~/.ssh/bws.dat
 if [[ ! -f ~/.ssh/bws.dat ]]; then
     echo
     read -p "BUTTON" me
-    
+
     # Only try to open browser if slimjet is installed
     if [[ -f /usr/bin/flashpeak-slimjet ]]; then
         /usr/bin/flashpeak-slimjet https://github.com/0abraxas678 &
@@ -173,7 +186,7 @@ if [[ ! -f ~/.ssh/bws.dat ]]; then
         echo "https://github.com/abraxas678"
         echo "https://bitwarden.eu"
     fi
-    
+
     [[ ! -f ~/.ssh/bws.dat ]] && gum input --password --no-show-help --placeholder="enter bws.dat" >~/.ssh/bws.dat
     export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
     echo
@@ -181,11 +194,11 @@ fi
 
 echothis "installing essentials"
 isinstalled curl
-sleep 0.5
+#sleep 0.5
 isinstalled wget
-sleep 0.5
+#sleep 0.5
 isinstalled unzip
-sleep 0.5
+#sleep 0.5
 isinstalled shred
 
 #sleep 0.5
@@ -195,12 +208,13 @@ isinstalled shred
 # BWS INSTALL
 command -v bws >/dev/null 2>&1
 if [[ $? != 0 ]]; then
-echothis "BWS INSTALL"
-gum spin --spinner="points" --title="downloading BWS..." --spinner.foreground="33" --title.foreground="33" wget https://github.com/bitwarden/sdk/releases/download/bws-v1.0.0/bws-x86_64-unknown-linux-gnu-1.0.0.zip
-gum spin --spinner="points" --title="unzipping BWS..." --spinner.foreground="33" --title.foreground="33"  unzip bws-x86_64-unknown-linux-gnu-1.0.0.zip
-gum spin --spinner="points" --title="move..." --spinner.foreground="33" --title.foreground="33" $MYSUDO mv bws /usr/bin/
-rm -f bws-x86_64-unknown-linux-gnu-1.0.0.zip
+  echothis "BWS INSTALL"
+  gum spin --spinner="points" --title="downloading BWS..." --spinner.foreground="33" --title.foreground="33" wget https://github.com/bitwarden/sdk/releases/download/bws-v1.0.0/bws-x86_64-unknown-linux-gnu-1.0.0.zip
+  gum spin --spinner="points" --title="unzipping BWS..." --spinner.foreground="33" --title.foreground="33"  unzip bws-x86_64-unknown-linux-gnu-1.0.0.zip
+  gum spin --spinner="points" --title="move..." --spinner.foreground="33" --title.foreground="33" $MYSUDO mv bws /usr/bin/
+  rm -f bws-x86_64-unknown-linux-gnu-1.0.0.zip
 fi
+
 echothis "updating BWS server-base"
 bws config server-base https://vault.bitwarden.eu >$HOME/tmp/del 2>&1
 echothis2 "$(cat $HOME/tmp/del)"
@@ -212,7 +226,7 @@ chmod 600 ~/.ssh/*
 echothis "edit visudo"
 [[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "$MYUSER ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "$MYUSER ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
 
-[[ ! -f /opt/Tabby/tabby ]] && /usr/bin/flashpeak-slimjet https://github.com/Eugeny/tabby/releases/tag/v1.0.219 &
+#[[ ! -f /opt/Tabby/tabby ]] && /usr/bin/flashpeak-slimjet https://github.com/Eugeny/tabby/releases/tag/v1.0.219 &
 echo
 read -p BUTTON me
 #echothis "ENTER to continue to bws. create a new key"
