@@ -143,15 +143,20 @@ echothis "START.SH INSTALLATION"
 
 if [[ 1 = 2 ]]; then
 if [[ ! -f /usr/share/applications/slimjet.desktop ]] && [[ "$myHEAD" = "1" ]]; then
+echo
+fi
   cd $HOME/tmp
 
-  echo -e "\e[1;34m┌─ 󰏗 Installing slimjet...\e[0m"
+  #echo -e "\e[1;34m┌─ 󰏗 Installing slimjet...\e[0m"
 
-  wget https://slimjet.com/release/slimjet_amd64.deb
-  sudo apt install ./slimjet_amd64.deb -y
-  [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing slimjet...\e[0m" && echo -e "\e[1;36m└─ 󰄬 slimjet installation completed\e[0m"
+  #wget https://slimjet.com/release/slimjet_amd64.deb
+  #sudo apt install ./slimjet_amd64.deb -y
+  #[[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing slimjet...\e[0m" && echo -e "\e[1;36m└─ 󰄬 slimjet installation completed\e[0m"
 fi
-fi
+
+isinstalled xsel
+isinstalled fzf
+isinstalled gron
 
 which thorium-browser >/dev/null 2>&1
 if [[ $? != 0 ]]; then
