@@ -72,3 +72,5 @@ echo
 echo "===================================================="
 echo
 
+/opt/Tabby/tabby --no-sandbox %U
+
