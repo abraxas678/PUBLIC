@@ -167,6 +167,16 @@ if [[ $? != 0 ]]; then
   $MYSUDO apt install $HOME/tmp/$(basename $URL)
 fi
 
+which age >/dev/null 2>&1
+if [[ $? != 0 ]]; then
+  echothis "install age"
+  URL="$($HOME/tmp/public/github_latest_release_url.sh FiloSottile age)"
+  cd $HOME/tmp
+  wget $URL
+  $MYSUDO apt install $HOME/tmp/$(basename $URL)
+fi
+
+
 which tabby >/dev/null 2>&1
 if [[ $? != 0 ]]; then
   echothis "install tabby"
@@ -309,8 +319,11 @@ export TAILSCALE_INSTALL="1dee0b6b-63d1-45b3-887e-b23100e3f9dc"
 export LOCAL_USER="7d0b08f5-72aa-43a4-80d0-b246016256d7"
 export GITHUB_USERNAME="380f19b0-171a-4cd5-a826-b24601628d1d"
 export LOCAL_EMAIL="9305523b-c74f-4f06-a0de-b2460162d05a"
+export BWS_ACCESS_TOKEN="cf956700-29ae-4b2f-a4ba-b2190178ab38"
+export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
 
-
+which chezmoi 
+if [[ $? != 0 ]]; then 
 echothis install chezmoi
 #which bws >/dev/null 2>&1
 #[[ $? = 0 ]] && bws run -- sh -c "$(curl -fsLS get.chezmoi.io)" 
@@ -319,14 +332,39 @@ if confirm_step "Install chezmoi"; then
     wget https://github.com/twpayne/chezmoi/releases/download/v2.58.0/chezmoi_2.58.0_linux_amd64.deb
     sudo apt install -y ./chezmoi_2.58.0_linux_amd64.deb
 fi
-
+fi
 
 # Install basic utilities
 echothis "Installing basic utilities"
 $MYSUDO apt update
-$MYSUDO apt install -y xdotool wmctrl xsel curl unzip age ccrypt git gh
+$MYSUDO apt install -y xdotool wmctrl xsel curl unzip ccrypt git
+
+which gh 
+if [[ $? != 0 ]]; then 
+echothis install gh
+# Add GitHub's official repository
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | $MYSUDO dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | $MYSUDO tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+
+# Update package lists and install gh
+$MYSUDO apt update
+$MYSUDO apt install gh
+fi
+
+isinstalled jq
+
+which age
+if [[ $? != 0 ]]; then 
+echothis install age
+# For Ubuntu 22.04 and newer versions, age is available in the universe repository
+$MYSUDO add-apt-repository universe
+$MYSUDO apt update
+$MYSUDO apt install age
+fi
+
 
 # Configure git
+export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
 bws run -- git config --global user.email "$MYEMAIL"
 bws run -- git config --global user.name "$GITHUB_USERNAME"
 
@@ -408,7 +446,8 @@ fi
 # Install bws if needed
 #command bws >/dev/null 2>&1 || /home/abrax/tmp/public/bws.sh
 
-mkdir -p /home/$MYUSERNAME/.config/chezmoi
+export BWS_ACCESS_TOKEN=$(cat ~/.ssh/bws.dat)
+bws run -- mkdir -p /home/$MYUSER/.config/chezmoi
 bws run -- 'echo "$chezmoi_toml"' >/home/$MYUSER/.config/chezmoi/chezmoi.toml
 bws run -- 'echo "$tailscale_setup"' >/home/$MYUSER/tmp/tailscale_setup.sh
 chmod +x /home/$MYUSER/tmp/tailscale_setup.sh
