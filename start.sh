@@ -163,8 +163,9 @@ if [[ $? != 0 ]]; then
   echothis "install thorium browser"
   URL="$($HOME/tmp/public/github_latest_release_url.sh Alex313031 thorium)"
   cd $HOME/tmp
+  echo; echothis "wget $URL"; echo
   wget $URL
-  $MYSUDO apt install $HOME/tmp/$(basename $URL)
+  $MYSUDO apt install -y $HOME/tmp/$(basename $URL)
 fi
 
 which age >/dev/null 2>&1
@@ -173,7 +174,7 @@ if [[ $? != 0 ]]; then
   URL="$($HOME/tmp/public/github_latest_release_url.sh FiloSottile age)"
   cd $HOME/tmp
   wget $URL
-  $MYSUDO apt install $HOME/tmp/$(basename $URL)
+  echo $MYSUDO apt install $HOME/tmp/$(basename $URL)
 fi
 
 
@@ -181,9 +182,11 @@ which tabby >/dev/null 2>&1
 if [[ $? != 0 ]]; then
   echothis "install tabby"
   URL="$($HOME/tmp/public/github_latest_release_url.sh Eugeny tabby)"
+  echo $URL
   cd $HOME/tmp
   wget $URL
-  $MYSUDO apt install $HOME/tmp/$(basename $URL)
+  echo $MYSUDO apt install $HOME/tmp/$(basename $URL)
+  read -p BUTTON me
 fi
 
 VAR=$(cat ~/.ssh/bws.dat)
