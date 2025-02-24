@@ -66,6 +66,11 @@ if confirm_step "Install basic dependencies"; then
     isinstalled shred
 fi
 
+echothis "edit visudo"
+[[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "$MYUSER ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "$MYUSER ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
+
+
+
 # --- Install Gum ---
 if ! command -v gum >/dev/null 2>&1; then
   wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
@@ -240,9 +245,6 @@ rm -f $HOME/tmp/del
 
 chmod 700 ~/.ssh
 chmod 600 ~/.ssh/*
-
-echothis "edit visudo"
-[[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "$MYUSER ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "$MYUSER ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
 
 #[[ ! -f /opt/Tabby/tabby ]] && /usr/bin/flashpeak-slimjet https://github.com/Eugeny/tabby/releases/tag/v1.0.219 &
 echo
