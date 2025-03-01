@@ -70,21 +70,7 @@ fi
 # Ensure curl is installed
 isinstalled curl
 
-# Change directory to the public repository
-cd "$HOME/tmp/public" || exit
-
-# Check if Tabby is installed; if not, install it from the latest GitHub release
-if ! command -v tabby >/dev/null 2>&1; then
-  echothis "Installing Tabby..."
-  # Retrieve the latest release URL for Tabby
-  URL=$( "$HOME/tmp/public/github_latest_release_url.sh" Eugeny tabby | tail -n1 )
-  cd "$HOME/tmp" || exit
-  echo "Downloading Tabby from: $URL"
-  sleep 3
-  wget "$URL"
-  $MYSUDO apt install "$HOME/tmp/$(basename "$URL")"
-fi
-
+final() {
 # Display instructions to execute the start script
 echo ""
 echo "===================================================="
@@ -99,5 +85,27 @@ if command -v tabby >/dev/null 2>&1; then
   tabby
 else
   echo "Error: Tabby is not installed."
+fi
+}
+
+
+
+# Change directory to the public repository
+cd "$HOME/tmp/public" || exit
+
+# Check if Tabby is installed; if not, install it from the latest GitHub release
+if ! command -v tabby >/dev/null 2>&1; then
+  echothis "Installing Tabby..."
+  # Retrieve the latest release URL for Tabby
+  URL=$( "$HOME/tmp/public/github_latest_release_url.sh" Eugeny tabby | tail -n1 )
+  cd "$HOME/tmp" || exit
+  echo "Downloading Tabby from: $URL"
+  sleep 3
+  wget "$URL"
+  echo
+  final; echo
+  $MYSUDO apt install "$HOME/tmp/$(basename "$URL")"
+else
+  final
 fi
 
