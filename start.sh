@@ -44,6 +44,12 @@ setup_environment() {
     export PATH="$HOME/bin:$PATH"
 }
 
+script_step() {
+  RES=$(gum confirm --show-output "  >> DO WANT TO EXECUTE $1?")
+#  echo RES $RES; sleep 5
+  [[ $RES = *"Yes"* ]] && eval "$1"
+}
+
 # Initial system setup
 initial_setup() {
     clear
@@ -91,7 +97,7 @@ setup_user() {
     MYUSER="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="$(whoami)" --header="USER:" --value="$(whoami)")"
     echo; echo "MYUSER=$MYUSER"
     sleep 0.5
-    myHEAD="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="1=head 0=headless" --header="MACHINE:")"
+basic dependenciesbasic dependencies    myHEAD="$(gum write --height=1 --prompt=">> " --no-show-help --placeholder="1=head 0=headless" --header="MACHINE:")"
     if [[ "$myHEAD" = "headless" ]]; then
         myHEAD="0"
     elif [[ "$myHEAD" = "head" ]]; then
@@ -281,6 +287,7 @@ echothis2() {
   echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
 }
 
+### START
 # --- Initial Setup ---
 clear
 cd $HOME
@@ -288,17 +295,17 @@ cd $HOME
 mkdir -p ~/.ssh ~/tmp
 
 # --- Basic Dependencies ---
-if confirm_step "Update system packages"; then
-    $MYSUDO apt update
-    [[ $? = 0 ]] && clear
-fi
+$MYSUDO apt update
+[[ $? = 0 ]] && clear
 
-if confirm_step "Install basic dependencies"; then
+basic_dependencies() {
+    echothis "basic dependencies"
     isinstalled curl
     isinstalled wget
     isinstalled unzip
     isinstalled shred
-fi
+}
+script_step basic_dependencies
 
 echothis "edit visudo"
 [[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "$MYUSER ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "$MYUSER ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
