@@ -1,89 +1,95 @@
 #!/bin/bash
 
-clear
-source gum_env.source
-cd $HOME
-[[ "$(whoami)" = "root" ]] && MYSUDO="" || MYSUDO="sudo"
-mkdir -p ~/.ssh ~/tmp
+# --- Overview of Steps ---
+# 1. Environment setup
+# 2. Confirm step function definition
+# 3. Helper functions definition (isinstalled, echothis, echothis2)
+# 4. Initial system setup (clear, sudo check, create directories)
+# 5. System package update
+# 6. Install basic dependencies (curl, wget, unzip, shred)
+# 7. Edit visudo for passwordless sudo
+# 8. Install Gum (terminal UI tool)
+# 9. User setup (prompt for username and machine type)
+# 10. Create user if doesn't exist
+# 11. Install essential tools (xsel, fzf, gron)
+# 12. Install Thorium browser
+# 13. Install age encryption tool
+# 14. Install Tabby terminal
+# 15. Bitwarden setup (bws.dat configuration)
+# 16. BWS installation and configuration
+# 17. Install chezmoi (dotfile manager)
+# 18. Install basic utilities (xdotool, wmctrl, etc.)
+# 19. Install GitHub CLI (gh)
+# 20. Install jq (JSON processor)
+# 21. Configure git with Bitwarden credentials
+# 22. Hostname configuration
+# 23. GitHub authentication
+# 24. Clone public repository
+# 25. Configure chezmoi and apply dotfiles
+# 26. Install Kopia backup system
+# 27. Install DeltaChat
+# 28. Install zsh4humans
+# 29. Install Tailscale VPN
+# 30. Install Atuin shell history
+# 31. Install Homebrew and packages
+# 32. Install Docker
+# 33. Setup NFS mounts
+# 34. SSH key setup
+# 35. Clone startsh repository
+# 36. Execute start2.sh for final setup
 
-$MYSUDO apt update
-[[ $? = 0 ]] && clear
-
-export DISPLAY=:0
-export PATH="$HOME/bin:$PATH"
-
-isinstalled() {
-  if ! command -v $1 >/dev/null 2>&1; then
-    if confirm_step "Install $1"; then
-      echo -e "\e[1;34m┌─ 󰏗 Installing $1...\e[0m"
-      gum spin --spinner="points" --title="apt update..." --spinner.foreground="33" --title.foreground="33" $MYSUDO apt-get update > /dev/null 2>&1
-      $MYSUDO apt-get install -y "$1" 
-      [[ $? = 0 ]] && clear
-      echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
-    else
-      echo -e "\e[1;31m└─ Skipping $1 installation\e[0m"
-    fi
-  else
-    echo -e "\e[1;34m└─ 󰄬 $1 is already installed\e[0m"
-  fi
-}
-
-echothis() {
-  echo;  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
-  echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
-  echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
-  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
-  for i in {1..3}; do
-     gum spin --spinner="dot" --title=".$(printf '%0.s.' $(seq 1 $i))" --spinner.foreground="33" --title.foreground="33" sleep 0.1
-  done
-}
-
-echothis2() {
-  echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
+# Environment setup
+setup_environment() {
+    export DISPLAY=:0
+    export PATH="$HOME/bin:$PATH"
 }
 
 script_step() {
   RES=$(gum confirm --show-output "  >> DO WANT TO EXECUTE $1?")
-  [[ $RES = *"Yes"* ]] && echothis "$1"
+#  echo RES $RES; sleep 5
   [[ $RES = *"Yes"* ]] && eval "$1"
 }
 
-# Install Gum
-if ! command -v gum >/dev/null 2>&1; then
-    wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
-    echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m"
-    $MYSUDO apt install -y ./gum_0.14.5_amd64.deb
-    [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m" && echo -e "\e[1;36m└─ 󰄬 gum installation completed\e[0m"
-fi
+# Initial system setup
+initial_setup() {
+    clear
+    cd $HOME
+    [[ "$(whoami)" = "root" ]] && MYSUDO="" || MYSUDO="sudo"
+    mkdir -p ~/.ssh ~/tmp
+}
 
+# System package update
+update_system() {
+    if confirm_step "Update system packages"; then
+        $MYSUDO apt update
+        [[ $? = 0 ]] && clear
+    fi
+}
+
+# Install basic dependencies
 install_basic_deps() {
+    if confirm_step "Install basic dependencies"; then
         isinstalled curl
         isinstalled wget
         isinstalled unzip
         isinstalled shred
-        isinstalled xsel
-        isinstalled fzf
-        isinstalled git
+    fi
 }
-echo; script_step install_basic_deps
-
-install_utilities() {
-        isinstalled gron
-        isinstalled xdotool
-        isinstalled wmctrl
-        isinstalled ccrypt
-}
-echo; script_step install_utilities
-
-### slimjet
-curl -L 'https://www.slimjet.com/download.php?version=lnx64&type=deb&beta=&server=' -o slimjet.deb
-$MYSUDO apt update
-$MYSUDO apt install ./slimjet.deb
 
 # Edit visudo
 edit_visudo() {
     echothis "edit visudo"
     [[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "$MYUSER ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "$MYUSER ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
+}
+
+# Install Gum
+install_gum() {
+    if ! command -v gum >/dev/null 2>&1; then
+        wget https://github.com/charmbracelet/gum/releases/download/v0.14.5/gum_0.14.5_amd64.deb
+        echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m"
+        $MYSUDO apt install -y ./gum_0.14.5_amd64.deb
+        [[ $? = 0 ]] && clear && echo -e "\e[1;34m┌─ 󰏗 Installing gum...\e[0m" && echo -e "\e[1;36m└─ 󰄬 gum installation completed\e[0m"
+    fi
 }
 
 # User setup
@@ -115,6 +121,13 @@ create_user_if_not_exists() {
             echothis "User $MYUSER already exists"
         fi
     fi
+}
+
+# Install essential tools
+install_essential_tools() {
+    isinstalled xsel
+    isinstalled fzf
+    isinstalled gron
 }
 
 # Install Thorium browser
@@ -210,6 +223,13 @@ install_chezmoi() {
     fi
 }
 
+# Install basic utilities
+install_basic_utilities() {
+    echothis "Installing basic utilities"
+    $MYSUDO apt update
+    $MYSUDO apt install -y xdotool wmctrl xsel curl unzip ccrypt git
+}
+
 # Install GitHub CLI
 install_github_cli() {
     which gh 
@@ -237,6 +257,36 @@ confirm_step() {
 }
 
 # --- Helper Functions ---
+isinstalled() {
+  if ! command -v $1 >/dev/null 2>&1; then
+    if confirm_step "Install $1"; then
+      echo -e "\e[1;34m┌─ 󰏗 Installing $1...\e[0m"
+      gum spin --spinner="points" --title="apt update..." --spinner.foreground="33" --title.foreground="33" $MYSUDO apt-get update > /dev/null 2>&1
+      $MYSUDO apt-get install -y "$1" 
+      [[ $? = 0 ]] && clear
+      echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
+    else
+      echo -e "\e[1;31m└─ Skipping $1 installation\e[0m"
+    fi
+  else
+    echo -e "\e[1;34m└─ 󰄬 $1 is already installed\e[0m"
+  fi
+}
+
+echothis() {
+  echo;  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
+  echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
+  echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
+  gum spin --spinner="pulse" --title="" --spinner.foreground="33" --title.foreground="33" sleep 1
+  for i in {1..3}; do
+     gum spin --spinner="dot" --title=".$(printf '%0.s.' $(seq 1 $i))" --spinner.foreground="33" --title.foreground="33" sleep 0.1
+  done
+}
+
+echothis2() {
+  echo -e "\e[1;36m└─ 󰄬 $1 installation completed\e[0m"
+}
+
 ### START
 # --- Initial Setup ---
 clear
