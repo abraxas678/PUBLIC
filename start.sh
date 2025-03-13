@@ -43,9 +43,13 @@ echothis2() {
 }
 
 script_step() {
+  rich -p "       󱞬 $2" -s "#444444"
   RES=$(gum confirm --show-output "  >> DO WANT TO EXECUTE $1?")
+  tput cuu1; tput el
+   gum style 
   [[ $RES = *"Yes"* ]] && echothis "$1"
   [[ $RES = *"Yes"* ]] && eval "$1"
+  [[ $RES = *"q"* ]] && exit
 }
 
 # Install Gum
@@ -65,7 +69,7 @@ install_basic_deps() {
         isinstalled fzf
         isinstalled git
 }
-echo; script_step install_basic_deps
+echo; script_step install_basic_deps "curl wget unzip shred xsel fzf git"
 
 install_utilities() {
         isinstalled gron
@@ -73,18 +77,22 @@ install_utilities() {
         isinstalled wmctrl
         isinstalled ccrypt
 }
-echo; script_step install_utilities
+echo; script_step install_utilities "gron xdotool wmctrl ccrypt"
 
 ### slimjet
-curl -L 'https://www.slimjet.com/download.php?version=lnx64&type=deb&beta=&server=' -o slimjet.deb
-$MYSUDO apt update
-$MYSUDO apt install ./slimjet.deb
+install_slimjet() {
+  curl -L 'https://www.slimjet.com/download.php?version=lnx64&type=deb&beta=&server=' -o slimjet.deb
+  $MYSUDO apt update
+  $MYSUDO apt install ./slimjet.deb
+}
+echo; script_step install_slimjet
 
 # Edit visudo
 edit_visudo() {
     echothis "edit visudo"
     [[ $($MYSUDO cat /etc/sudoers | grep -v grep | grep "$MYUSER ALL=(ALL) NOPASSWD: ALL" | wc -l) = 0 ]] && echo "$MYUSER ALL=(ALL) NOPASSWD: ALL" | $MYSUDO EDITOR=nano tee -a /etc/sudoers
 }
+echo; script_step edit_visudo
 
 # User setup
 setup_user() {
@@ -100,6 +108,7 @@ basic dependenciesbasic dependencies    myHEAD="$(gum write --height=1 --prompt=
     echo "myHEAD=$myHEAD"
     sleep 0.5
 }
+echo; script_step setup_user
 
 # Create user if doesn't exist
 create_user_if_not_exists() {
@@ -129,6 +138,7 @@ install_thorium_browser() {
         $MYSUDO apt install -y $HOME/tmp/$(basename $URL)
     fi
 }
+script_step install_thorium_browser
 
 # Install age encryption tool
 install_age() {
@@ -141,6 +151,7 @@ install_age() {
         echo $MYSUDO apt install $HOME/tmp/$(basename $URL)
     fi
 }
+echo; script_step install_age
 
 # Install Tabby terminal
 install_tabby() {
@@ -155,6 +166,7 @@ install_tabby() {
         read -p BUTTON me
     fi
 }
+echo; script_step install_tabby
 
 # Bitwarden setup
 setup_bitwarden() {
@@ -178,6 +190,7 @@ setup_bitwarden() {
         echo
     fi
 }
+echo; script_step install_bitwarden
 
 # BWS installation and configuration
 install_bws() {
