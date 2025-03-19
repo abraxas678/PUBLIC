@@ -30,10 +30,11 @@ echothis3() {
 }
 
 isinstalledcheck() {
-  if ! "command $1" -v 1>del 2>del; then echo yes; else echo no; fi
+  if ! command -v $1 1>del 2>del; then echo no; else echo yes; fi
 }
 isinstalled() {
      echothis "checking $1"
+     sleep 1
   if [[ $(isinstalledcheck "$1") = "no" ]]; then
      echothis "installing $1"
      sudo apt install "$1"
@@ -57,7 +58,6 @@ isinstalled gh
 isinstalled nano
 
 CHECK=$(isinstalledcheck chezmoi)
-echo CHECK $CHECK
 if [[ $CHECK != "yes" ]]; then 
     echothis2 "installing chezmoi"; 
     $HOME/tmp/public/github_latest_release_url.sh twpayne chezmoi >url
@@ -68,3 +68,18 @@ if [[ $CHECK != "yes" ]]; then
 else
      echothis2 "chezmoi already installed"; 
 fi
+
+#kopia.sh
+CHECK=$(isinstalledcheck chezmoi)
+if [[ $CHECK != "yes" ]]; then 
+  echothis2 "installing kopia"; 
+  curl -s https://kopia.io/signing-key | sudo gpg --dearmor -o /etc/apt/keyrings/kopia-keyring.gpg
+  echo "deb [signed-by=/etc/apt/keyrings/kopia-keyring.gpg] http://packages.kopia.io/apt/ stable main" | sudo tee /etc/apt/sources.list.d/kopia.list
+  sudo apt update
+  sudo apt install kopia
+  sudo apt install kopia-ui
+else
+     echothis2 "kopia already installed"; 
+fi
+
+chezmoi init --ssh --apply abraxas678
