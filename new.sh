@@ -82,4 +82,5 @@ else
      echothis2 "kopia already installed"; 
 fi
 
+echothis "CHEZMOI INIT"
 chezmoi init --ssh --apply abraxas678
