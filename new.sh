@@ -44,7 +44,11 @@ isinstalled() {
   fi
 }
 
+isinstalled gh
+gh auth login
+
 isinstalled thorium-browser
+
 [[ $(isinstalledcheck thorium-browser) = "yes" ]] && [[ $(isinstalledcheck firefox-esr) = "yes" ]] && sudo apt purge firefox-esr -y
 if [[ $(isinstalledcheck thorium-browser) = "yes" ]]; then
   if [[ $(isinstalledcheck gh) = "no" ]]; then

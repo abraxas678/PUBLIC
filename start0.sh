@@ -55,6 +55,9 @@ sleep 1
 mkdir -p "$HOME/tmp"
 cd "$HOME/tmp" || exit
 
+$MYSUDO apt update
+$MYSUDO apt install -y git curl wget
+
 # Clone or update the public repository
 if [[ ! -d "$HOME/tmp/public" ]]; then
   echo ""
@@ -103,8 +106,8 @@ if ! command -v tabby >/dev/null 2>&1; then
   sleep 3
   wget "$URL"
   echo
-  final; echo
   $MYSUDO apt install "$HOME/tmp/$(basename "$URL")"
+  final; echo
 else
   final
 fi
