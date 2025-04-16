@@ -4,17 +4,6 @@ HOME:='/home/abrax'
 inst-zsh4h:
   sh -c "$(curl -fsSL https://raw.githubusercontent.com/romkatv/zsh4humans/v5/install)"
 
-install-tabby:
-  # Retrieve the latest release URL for Tabby
-  @TABBY_URL := `"{{HOME}}/tmp/public/github_latest_release_url.sh" Eugeny tabby | tail -n1`
-  @cd "{{HOME}}/tmp"
-  @echo "Downloading Tabby from: {{TABBY_URL}}"
-  @sleep 3
-  @wget "{{TABBY_URL}}"
-  @echo
-  @{{MYSUDO}} apt install "{{HOME}}/tmp/`basename "{{TABBY_URL}}"`"
-
-
 inst-kopia:
   curl -s https://kopia.io/signing-key | sudo gpg --dearmor -o /etc/apt/keyrings/kopia-keyring.gpg
   echo "deb [signed-by=/etc/apt/keyrings/kopia-keyring.gpg] http://packages.kopia.io/apt/ stable main" | sudo tee /etc/apt/sources.list.d/kopia.list
@@ -138,42 +127,6 @@ create-user-if-not-exists:
 			just echothis "User $$MYUSER already exists"; \
 		fi; \
 	fi
-
-# ----------------------------
-# inst-thorium-browser:
-# Installs the Thorium browser if not already installed.
-inst-thorium-browser:
-	@if ! command -v thorium-browser >/dev/null 2>&1; then \
-		just echothis "install thorium browser"; \
-		URL=$$(/home/abrax/tmp/public/github_latest_release_url.sh Alex313031 thorium); \
-		cd /home/abrax/tmp; \
-		echo; just echothis "wget ${{URL}}"; echo; \
-		wget ${{URL}}; \
-		{{MYSUDO}} apt install -y /home/abrax/tmp/$$(basename ${{URL}}); \
-	fi
-
-# ----------------------------
-# inst-age:
-# Installs the age encryption tool.
-inst-age:
-	@if ! command -v age >/dev/null 2>&1; then \
-		just echothis "install age"; \
-		URL=$$(/home/abrax/tmp/public/github_latest_release_url.sh FiloSottile age); \
-		cd /home/abrax/tmp; \
-		wget ${{URL}}; \
-		echo {{MYSUDO}} apt install /home/abrax/tmp/$$(basename ${{URL}}); \
-	fi
-
-# ----------------------------
-# inst-tabby:
-# Installs Tabby terminal.
-inst-tabby:
-		URL=$$(/home/abrax/tmp/public/github_latest_release_url.sh Eugeny tabby); \
-		echo $$URL; \
-		cd "{{HOME}}/tmp"; \
-		wget "$$URL"; \
-		echo {{MYSUDO}} apt install "{{HOME}}/tmp/$$(basename "$$URL")"; \
-		read -p "Press enter to continue" dummy; \
 
 # ----------------------------
 # setup-bitwarden:

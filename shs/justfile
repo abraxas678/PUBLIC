@@ -1,0 +1,148 @@
+# Justfile for managing setup scripts
+
+# Default recipe: Runs the script selection menu
+default: choose_scripts
+
+# Runs the script selection menu
+choose_scripts:
+    @echo "Running script selection menu..."
+    @./00_choose_scripts.sh
+
+# Installs Thorium browser
+thorium:
+    @echo "Running Thorium installation script..."
+    @./10_thorium.sh
+
+# Show Thorium script content
+show_thorium:
+    @echo "--- Content of 10_thorium.sh ---"
+    @cat ./10_thorium.sh
+    @echo "--- End of 10_thorium.sh ---"
+
+# Performs initial system setup
+initial_setup:
+    @echo "Running initial setup script..."
+    @./11_initial_setup.sh
+
+# Show initial setup script content
+show_initial_setup:
+    @echo "--- Content of 11_initial_setup.sh ---"
+    @cat ./11_initial_setup.sh
+    @echo "--- End of 11_initial_setup.sh ---"
+
+# Creates a user if it doesn't exist
+create_user_if_not_exists:
+    @echo "Running create user script..."
+    @./12_create_user_if_not_exists.sh
+
+# Show create user script content
+show_create_user_if_not_exists:
+    @echo "--- Content of 12_create_user_if_not_exists.sh ---"
+    @cat ./12_create_user_if_not_exists.sh
+    @echo "--- End of 12_create_user_if_not_exists.sh ---"
+
+# Edits the sudoers file using visudo (requires manual interaction)
+edit_visudo:
+    @echo "Running visudo edit script (requires interaction)..."
+    @./13_edit_visudo.sh
+
+# Show edit visudo script content
+show_edit_visudo:
+    @echo "--- Content of 13_edit_visudo.sh ---"
+    @cat ./13_edit_visudo.sh
+    @echo "--- End of 13_edit_visudo.sh ---"
+
+# Installs Bitwarden Secrets Manager CLI (bws)
+install_bws:
+    @echo "Running BWS installation script..."
+    @./14_install_bws.sh
+
+# Show install bws script content
+show_install_bws:
+    @echo "--- Content of 14_install_bws.sh ---"
+    @cat ./14_install_bws.sh
+    @echo "--- End of 14_install_bws.sh ---"
+
+# Installs Chezmoi dotfile manager
+install_chezmoi:
+    @echo "Running Chezmoi installation script..."
+    @./15_install_chezmoi.sh
+
+# Show install chezmoi script content
+show_install_chezmoi:
+    @echo "--- Content of 15_install_chezmoi.sh ---"
+    @cat ./15_install_chezmoi.sh
+    @echo "--- End of 15_install_chezmoi.sh ---"
+
+# Installs GitHub CLI (gh)
+gh:
+    @echo "Running GitHub CLI installation script..."
+    @./16_gh.sh
+
+# Show gh script content
+show_gh:
+    @echo "--- Content of 16_gh.sh ---"
+    @cat ./16_gh.sh
+    @echo "--- End of 16_gh.sh ---"
+
+# Installs Gum CLI tool
+gum:
+    @echo "Running Gum installation script..."
+    @./17_gum.sh
+
+# Show gum script content
+show_gum:
+    @echo "--- Content of 17_gum.sh ---"
+    @cat ./17_gum.sh
+    @echo "--- End of 17_gum.sh ---"
+
+# Installs Tabby terminal
+tabby:
+    @echo "Running Tabby installation script..."
+    @./18_tabby.sh
+
+# Show tabby script content
+show_tabby:
+    @echo "--- Content of 18_tabby.sh ---"
+    @cat ./18_tabby.sh
+    @echo "--- End of 18_tabby.sh ---"
+
+# Installs Docker
+docker:
+    @echo "Running Docker installation script..."
+    @./19_docker.sh
+
+# Show docker script content
+show_docker:
+    @echo "--- Content of 19_docker.sh ---"
+    @cat ./19_docker.sh
+    @echo "--- End of 19_docker.sh ---"
+
+# Changes the system hostname
+change_hostname:
+    @echo "Running hostname change script..."
+    @./20_change_hostname.sh
+
+# Show change hostname script content
+show_change_hostname:
+    @echo "--- Content of 20_change_hostname.sh ---"
+    @cat ./20_change_hostname.sh
+    @echo "--- End of 20_change_hostname.sh ---"
+
+# Installs applications listed in apps.dat
+apps:
+    @echo "Running application installation script..."
+    @./apps.sh
+
+# Show apps script content
+show_apps:
+    @echo "--- Content of apps.sh ---"
+    @cat ./apps.sh
+    @echo "--- End of apps.sh ---"
+
+# Runs most setup scripts sequentially (excludes interactive ones like choose_scripts and edit_visudo)
+run_setup: thorium initial_setup create_user_if_not_exists install_bws install_chezmoi gh gum tabby docker change_hostname apps
+    @echo "All non-interactive setup scripts executed."
+
+# Alias for run_setup
+all: run_setup 
