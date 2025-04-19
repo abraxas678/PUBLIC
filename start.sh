@@ -9,6 +9,7 @@ header1() {
   export v1="$@"
   echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
   echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
+  echo
 }
 header2() {
   RES=$?
@@ -57,6 +58,13 @@ header2
 header1 "move .config/chezmoi"
  $MYSUDO mv $HOME/.config/chezmoi/$HOME/.config/chezmoi/* $HOME/.config/chezmoi/
 header2
+
+header1 "reset chezmoi"
+chezmoi state delete-bucket --bucket=entryState
+#To clear the state of run_once_ scripts, run:
+chezmoi state delete-bucket --bucket=scriptState
+header2
+
 header1 "install chezmoi"
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --ssh --apply $GITHUB_USERNAME
 header2
