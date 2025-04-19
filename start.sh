@@ -58,10 +58,11 @@ header1 "move .config/chezmoi"
  $MYSUDO mv $HOME/.config/chezmoi/$HOME/.config/chezmoi/* $HOME/.config/chezmoi/
 header2
 header1 "install chezmoi"
-sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+sh -c "$(curl -fsLS get.chezmoi.io)" -- init --ssh --apply $GITHUB_USERNAME
 header2
 
 $MYSUDO mv $HOME/.config/chezmoi/bin/chezmoi /usr/bin/
+
 
 
 
