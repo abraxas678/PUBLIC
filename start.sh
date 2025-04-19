@@ -30,26 +30,38 @@ x=1
 header1 "apt update"
 $MYSUDO apt update
 header2
+header1 "apt install curl"
+$MYSUDO apt install -y curl wget nano
+header2
 header1 "apt upgrade -y"
 $MYSUDO apt upgrade -y
 header2
 header1 "create ram folder"
-mkdir $HOME/tmp/ram -p && mount -t tmpfs -o size=100M tmpfs $HOME/tmp/ram
+mkdir $HOME/tmp/ram -p 
+$MYSUDO mount -t tmpfs -o size=100M tmpfs $HOME/tmp/ram
 header2
 header1 "snas check"
 cd $HOME/tmp/ram
 curl -L https://192.168.0.5:5443/envs -O --insecure
 header2
+
 source $HOME/tmp/ram/envs
-header1 chezmoi
+
+header1 "chezmoi.tar"
 curl -L https://192.168.0.5:5443/chezmoi.tar -O --insecure
 mkdir -p $HOME/.config/chezmoi/
-mv $HOME/tmp/ram/chezmoi.tar $HOME/.config/chezmoi/
+$MYSUDO mv $HOME/tmp/ram/chezmoi.tar $HOME/.config/chezmoi/
 cd $HOME/.config/chezmoi/
-tar xf chezmoi.tar
+$MYSUDO tar xf chezmoi.tar
+header2
+header1 "move .config/chezmoi"
+ $MYSUDO mv $HOME/.config/chezmoi/$HOME/.config/chezmoi/* $HOME/.config/chezmoi/
+header2
+header1 "install chezmoi"
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --apply $GITHUB_USERNAME
+header2
 
-
+$MYSUDO mv $HOME/.config/chezmoi/bin/chezmoi /usr/bin/
 
 
 
