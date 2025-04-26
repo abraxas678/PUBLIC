@@ -144,12 +144,12 @@ header2
 #install_docker
 #header2
 
-header1 rslsync
-./rslsync
-header2
+#header1 rslsync
+#./rslsync
+#header2
 
-re
-open http://
+#re
+#open http://
 
 
 header1 "create ram folder"
