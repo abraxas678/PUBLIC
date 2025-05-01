@@ -2,7 +2,7 @@ root@test:~# cat start.sh
 #!/bin/bash
 clear
 echo v0.1
-sleep 1
+echo 67 | grep -E "^[0-9]+$"sleep 1
 clear
 
 header1() {
@@ -163,28 +163,28 @@ header2
 
 header1 "local pc"
 echo 
-echo continue on local pc: start_local_pc.sh
+header1 "continue on local pc: start_local_pc.sh"
 echo
 read -p B me
 cd ~/.ssh
 mv id_ed25519  id_ed25519.bak
 mv id_ed25519.pub  id_ed25519.pub.bak
-curl https://pc.xxxyzzz.xyz/wh| bash
+curl https://pc.xxxyzzz.xyz/wh | bash
 header2
 
 header1 "git clone"
-mkdir $HOME/tmp/ -p
-cd $HOME/tmp/ 
+#mkdir $HOME/tmp/ -p
+cd $HOME/tmp/ram/
 GIT_SSH_COMMAND='ssh -p 222' git clone git@192.168.0.144:abraxas678/envs.git
 header2
 
-header1 "snas check"
-cd $HOME/tmp/ram
-read -p "SNAS IP: >> " SNASIP
-curl -L https://$SNASIP:5443/envs -O --insecure
-header2
+#header1 "snas check"
+#cd $HOME/tmp/ram
+#read -p "SNAS IP: >> " SNASIP
+#curl -L https://$SNASIP:5443/envs -O --insecure
+#header2
 
-source $HOME/tmp/ram/envs
+source $HOME/tmp/ram/envs/envs
 
 header1 "chezmoi.tar"
 curl -L https://$SNASIP:5443/chezmoi.tar -O --insecure

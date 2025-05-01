@@ -4,3 +4,6 @@ On the other computer, please run:
 
 wormhole receive 2-therapist-uproot
 
+ERROR:  Key confirmation failed. Either you or your correspondent
+typed the code wrong, or a would-be man-in-the-middle attacker guessed
+incorrectly. Try sending the file again.
