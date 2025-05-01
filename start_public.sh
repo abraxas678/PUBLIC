@@ -199,7 +199,7 @@ header1 "chezmoi.tar"
 mkdir -p $HOME/.config/chezmoi/
 $MYSUDO mv $HOME/tmp/ram/envs/chezmoi_config.tar $HOME/.config/chezmoi/
 cd $HOME/.config/chezmoi/
-$MYSUDO tar xf chezmoi.tar
+$MYSUDO tar xf chezmoi_config.tar
 header2
 
 header1 "move .config/chezmoi"
