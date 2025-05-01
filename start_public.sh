@@ -190,15 +190,18 @@ header2
 #curl -L https://$SNASIP:5443/envs -O --insecure
 #header2
 
+header1 "source envs"
 source $HOME/tmp/ram/envs/envs
+header2
 
 header1 "chezmoi.tar"
-curl -L https://$SNASIP:5443/chezmoi.tar -O --insecure
+#curl -L https://$SNASIP:5443/chezmoi.tar -O --insecure
 mkdir -p $HOME/.config/chezmoi/
-$MYSUDO mv $HOME/tmp/ram/chezmoi.tar $HOME/.config/chezmoi/
+$MYSUDO mv $HOME/tmp/ram/envs/chezmoi-config.tar $HOME/.config/chezmoi/
 cd $HOME/.config/chezmoi/
 $MYSUDO tar xf chezmoi.tar
 header2
+
 header1 "move .config/chezmoi"
  $MYSUDO mv $HOME/.config/chezmoi/$HOME/.config/chezmoi/* $HOME/.config/chezmoi/
 header2
