@@ -197,7 +197,7 @@ header2
 header1 "chezmoi.tar"
 #curl -L https://$SNASIP:5443/chezmoi.tar -O --insecure
 mkdir -p $HOME/.config/chezmoi/
-$MYSUDO mv $HOME/tmp/ram/envs/chezmoi-config.tar $HOME/.config/chezmoi/
+$MYSUDO mv $HOME/tmp/ram/envs/chezmoi_config.tar $HOME/.config/chezmoi/
 cd $HOME/.config/chezmoi/
 $MYSUDO tar xf chezmoi.tar
 header2
