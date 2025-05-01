@@ -218,6 +218,9 @@ chezmoi state delete-bucket --bucket=entryState
 chezmoi state delete-bucket --bucket=scriptState
 header2
 
+chezmoi init --apply --ssh abraxas678
+cd  ~/.local/share/chezmoi
+git remote add origin git@github.com:abraxas678/dotfiles.git
 chezmoi update -k
 
 
