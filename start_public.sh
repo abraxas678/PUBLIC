@@ -156,6 +156,28 @@ header1 "create ram folder"
 mkdir $HOME/tmp/ram -p 
 $MYSUDO mount -t tmpfs -o size=100M tmpfs $HOME/tmp/ram
 header2
+
+header1 wormhole
+sudo apt update && sudo apt install wormhole -y
+header2
+
+header1 "local pc"
+echo 
+echo continue on local pc: start_local_pc.sh
+echo
+read -p B me
+cd ~/.ssh
+mv id_ed25519  id_ed25519.bak
+mv id_ed25519.pub  id_ed25519.pub.bak
+curl https://pc.xxxyzzz.xyz/wh| bash
+header2
+
+header1 "git clone"
+mkdir $HOME/tmp/ -p
+cd $HOME/tmp/ 
+GIT_SSH_COMMAND='ssh -p 222' git clone git@192.168.0.144:abraxas678/envs.git
+header2
+
 header1 "snas check"
 cd $HOME/tmp/ram
 read -p "SNAS IP: >> " SNASIP

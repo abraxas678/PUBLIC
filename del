@@ -1,0 +1,6 @@
+Sending 612 Bytes file named 'raidrive_setup.sh'
+Wormhole code is: 2-therapist-uproot
+On the other computer, please run:
+
+wormhole receive 2-therapist-uproot
+
