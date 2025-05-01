@@ -203,7 +203,7 @@ $MYSUDO tar xf chezmoi_config.tar
 header2
 
 header1 "move .config/chezmoi"
- $MYSUDO mv $HOME/.config/chezmoi/$HOME/.config/chezmoi/* $HOME/.config/chezmoi/
+ $MYSUDO mv $HOME/.config/chezmoi$HOME/.config/chezmoi/* $HOME/.config/chezmoi/
 header2
 
 header1 "install chezmoi"
