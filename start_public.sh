@@ -167,9 +167,9 @@ header1 "continue on local pc: start_local_pc.sh"
 echo
 read -p B me
 cd ~/.ssh
-mv transfer transfer.old
-mv id_ed25519  id_ed25519.bak
-mv id_ed25519.pub  id_ed25519.pub.bak
+sudo mv transfer transfer.old
+sudo mv id_ed25519  id_ed25519.bak
+sudo mv id_ed25519.pub  id_ed25519.pub.bak
 echo
 curl -s https://pc.xxxyzzz.xyz/wh
 echo
@@ -177,7 +177,7 @@ sleep 2
 curl -s https://pc.xxxyzzz.xyz/wh >wh
 cd ~/.ssh
 source wh
-cp ~/.ssh/transfer/* ~/.ssh/
+sudo cp ~/.ssh/transfer/* ~/.ssh/
 header2
 
 header1 "git clone"
