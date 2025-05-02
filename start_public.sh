@@ -167,12 +167,14 @@ header1 "continue on local pc: start_local_pc.sh"
 echo
 read -p B me
 cd ~/.ssh
+mv transfer transfer.old
 mv id_ed25519  id_ed25519.bak
 mv id_ed25519.pub  id_ed25519.pub.bak
 echo
-curl https://pc.xxxyzzz.xyz/wh
+curl -s https://pc.xxxyzzz.xyz/wh
+echo
 sleep 2
-curl https://pc.xxxyzzz.xyz/wh >wh
+curl -s https://pc.xxxyzzz.xyz/wh >wh
 cd ~/.ssh
 source wh
 cp ~/.ssh/transfer/* ~/.ssh/
@@ -197,13 +199,13 @@ header2
 header1 "chezmoi.tar"
 #curl -L https://$SNASIP:5443/chezmoi.tar -O --insecure
 mkdir -p $HOME/.config/chezmoi/
-$MYSUDO mv $HOME/tmp/ram/envs/chezmoi_config.tar $HOME/.config/chezmoi/
+$MYSUDO mv $HOME/tmp/ram/envs/chezmoi_config.tar.gz $HOME/.config/chezmoi/
 cd $HOME/.config/chezmoi/
-$MYSUDO tar xf chezmoi_config.tar
+$MYSUDO tar xf chezmoi_config.tar.gz
 header2
 
 header1 "move .config/chezmoi"
- $MYSUDO mv $HOME/.config/chezmoi$HOME/.config/chezmoi/* $HOME/.config/chezmoi/
+ $MYSUDO mv $HOME/.config/chezmoi/chezmoi_config/* $HOME/.config/chezmoi/
 header2
 
 header1 "install chezmoi"
