@@ -151,6 +151,13 @@ header2
 #re
 #open http://
 
+header1 "ssh-agent"
+ssh-agent
+header2
+
+header1 "ssh-add"
+ssh-add
+header2
 
 header1 "create ram folder"
 mkdir $HOME/tmp/ram -p 
