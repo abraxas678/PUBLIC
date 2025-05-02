@@ -6,7 +6,7 @@ echo 67 | grep -E "^[0-9]+$"sleep 1
 clear
 
 header1() {
-  tput cup $x 0
+  tput cup $x 0; tput ed
   export v1="$@"
   echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
   echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
@@ -14,7 +14,7 @@ header1() {
 }
 header2() {
   RES=$?
-  sleep 3
+  sleep 2
   x=$((x+1))
   [[ $RES = 0 ]] && tput cup $x 3; tput ed
   [[ $RES = 0 ]] && echo -e "\e[1;38;5;46m󰄬 [COMPLETED]\e[0m" ||  echo -e "\e[1;38;5;196m󰅙 [FAILED]\e[0m"
