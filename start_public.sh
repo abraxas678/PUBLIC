@@ -1,20 +1,16 @@
+root@test:~# cat start.sh 
 #!/bin/bash
 clear
 echo v0.1
 echo 67 | grep -E "^[0-9]+$"sleep 1
 clear
-rm header.log 
 
 header1() {
   tput cup $x 0; tput ed
   export v1="$@"
-  echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m" >>header.log
-  echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m" >>header.log
-#  echo >>header.log
-  cat header.log
-#  echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
-#  echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
-#  echo
+  echo -e "\e[1;38;5;34m╭─ \e[1;38;5;39m$@\e[0m"
+  echo -e "\e[1;38;5;34m╰─ \e[2;38;5;245m[$(date +%H:%M:%S)]\e[0m"
+  echo
 }
 header2() {
   RES=$?
@@ -22,7 +18,6 @@ header2() {
   x=$((x+1))
   [[ $RES = 0 ]] && tput cup $x 3; tput ed
   [[ $RES = 0 ]] && echo -e "\e[1;38;5;46m󰄬 [COMPLETED]\e[0m" ||  echo -e "\e[1;38;5;196m󰅙 [FAILED]\e[0m"
-  [[ $RES = 0 ]] && tput cup $x 3; tput ed && echo -e "\e[1;38;5;46m󰄬 [COMPLETED]\e[0m" >>header.log ||  tput cup $x 3; tput ed && echo -e "\e[1;38;5;196m󰅙 [FAILED]\e[0m" >>header.log
   x=$((x+2))
 }
 
