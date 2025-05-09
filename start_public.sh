@@ -40,6 +40,8 @@ fi
 echo ">>> Updating package list and installing prerequisites..."
 apt-get update
 apt-get install -y \
+    git \
+    gh \
     ca-certificates \
     curl \
     gnupg
@@ -168,6 +170,7 @@ header1 wormhole
 sudo apt update && sudo apt install wormhole -y
 header2
 
+if [[ 1 = 2 ]]; then
 header1 "local pc"
 echo 
 header1 "continue on local pc: start_local_pc.sh"
@@ -186,6 +189,7 @@ cd ~/.ssh
 source wh
 sudo cp ~/.ssh/transfer/* ~/.ssh/
 header2
+fi
 
 header1 "git clone"
 #mkdir $HOME/tmp/ -p
@@ -216,6 +220,8 @@ header1 "move .config/chezmoi"
 header2
 
 header1 "install chezmoi"
+echo "GITHUB_USERNAME: $GITHUB_USERNAME"
+sleep 2
 sh -c "$(curl -fsLS get.chezmoi.io)" -- init --ssh --apply $GITHUB_USERNAME
 header2
 
