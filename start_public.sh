@@ -1,4 +1,3 @@
-root@test:~# cat start.sh 
 #!/bin/bash
 clear
 echo v0.1
