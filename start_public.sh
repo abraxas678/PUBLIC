@@ -134,7 +134,7 @@ sleep 3
 header1 "apt update"
 $MYSUDO apt update
 header2
-header1 "apt install curl"
+header1 "apt install curl wget nano"
 $MYSUDO apt install -y curl wget nano
 header2
 header1 "apt upgrade -y"
