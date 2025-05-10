@@ -1,0 +1,34 @@
+=== SYSTEM IDENTIFICATION ===
+Hostname: nuc
+Kernel Version: 6.8.0-59-generic
+Architecture: x86_64
+OS: Ubuntu 24.04.2 LTS
+LSB Info: Ubuntu 24.04.2 LTS
+
+=== USER CONTEXT ===
+Current User: abrax
+Sudo Access: Yes
+Groups: abrax adm cdrom sudo dip plugdev lpadmin libvirt ollama sambashare docker
+
+=== HARDWARE INFO ===
+CPU: 13th Gen Intel(R) Core(TM) i5-1340P
+Memory: 30Gi Total
+Disk: 912G Total, 111G Used
+
+=== SOFTWARE ENVIRONMENT ===
+Bash Version: 5.2.21(1)-release
+Python3: 3.12.3
+Pip3: 24.0
+PATH: /home/abrax/bin:/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/home/abrax/.local/bin:/home/abrax/anaconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/home/abrax/.cache/zsh4humans/v5/fzf/bin
+
+=== INSTALLED SOFTWARE ===
+Debian Packages: 3282
+
+=== NETWORK INFO ===
+IP Addresses: 192.168.0.14 100.95.254.127 172.17.0.1 192.168.122.1 2a02:8109:929b:6700:d2af:9aa6:ed36:9a16 2a02:8109:929b:6700:1677:d157:1f1f:fc11 fde9:9f08:2da8:0:c14a:dc27:dabd:ec8 fde9:9f08:2da8:0:4c17:d291:d7f2:7bfd fd7a:115c:a1e0::bd01:fe7f 
+DNS Servers: 127.0.0.53 
+
+=== SECURITY CONTEXT ===
+SELinux Status: Not installed
+AppArmor Status: apparmor module is loaded.
+Not installed
