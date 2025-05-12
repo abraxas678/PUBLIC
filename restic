@@ -1,1 +1,1 @@
-restic -r /mnt/my/pve2/restic15/ backup /mnt/my/pve4 --tag PVE4,seagate5 --iexclude-file=/root/restic.filter --exclude-caches
+restic -r /mnt/pve2/restic15/ backup /mnt/pve4 --tag PVE4,seagate5 --iexclude-file=/root/restic.filter --exclude-caches
