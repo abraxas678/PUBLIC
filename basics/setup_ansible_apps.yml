@@ -1,0 +1,144 @@
+---
+- hosts: localhost
+  become: true
+  connection: local
+  gather_facts: true
+  vars:
+    flyctl_version: "0.1.130"
+    pulumi_version: "v3.94.2"
+
+  tasks:
+    - name: Get my user
+      ansible.builtin.set_fact:
+        remote_regular_user: "abrax"
+
+    - name: Install packages
+      ansible.builtin.apt:
+        name:
+          - libnotify-bin    ### notify-send
+          - nfs-common
+          - git
+          - traceroute
+          - curl
+          - wget
+          - jq
+          - glances
+          - gh
+          - fzf
+          - fd-find
+          - toilet
+          - age
+          - zoxide
+          - xsel
+          - python3-pip
+          - pipx
+          - gron
+          - plocate
+          - rdfind
+          - jo
+          - suckless-tools
+          - nodejs
+          - npm
+        state: present
+
+    - name: Change shell to zsh
+      ansible.builtin.user:
+        name: "{{ remote_regular_user }}"
+        shell: /usr/bin/zsh
+
+    - name: Add Docker group
+      ansible.builtin.group:
+        name: docker
+        state: present
+
+    - name: Add user to docker group
+      ansible.builtin.user:
+        name: "{{ remote_regular_user }}"
+        groups: docker
+        append: true
+
+    - name: Ensure fonts directory
+      ansible.builtin.file:
+        path: "~{{ remote_regular_user }}/.fonts"
+        state: directory
+        mode: "0755"
+        owner: "{{ remote_regular_user }}"
+
+    - name: Check if Jetbrains Mono exists
+      ansible.builtin.shell: "ls ~{{ remote_regular_user }}/.fonts/JetBrainsMonoNerd*FontMono*"
+      register: jetbrains_mono_exists
+      ignore_errors: true
+      changed_when: false
+
+    - name: Download Jetbrains mono
+      when: jetbrains_mono_exists is failed
+      ansible.builtin.unarchive:
+        src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+        dest: "~{{ remote_regular_user }}/.fonts/"
+        remote_src: true
+        mode: "0755"
+        owner: "{{ remote_regular_user }}"
+
+    - name: Check if Termines exists
+      ansible.builtin.shell: "ls ~{{ remote_regular_user }}/.fonts/Termines*"
+      register: termines_exists
+      ignore_errors: true
+      changed_when: false
+
+    - name: Download Termines font
+      when: termines_exists is failed
+      ansible.builtin.unarchive:
+        src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/Terminus.zip
+        dest: "~{{ remote_regular_user }}/.fonts/"
+        remote_src: true
+        mode: "0755"
+        owner: "{{ remote_regular_user }}"
+
+    - name: Check if Homebrew is installed
+      ansible.builtin.stat:
+        path: /home/linuxbrew/.linuxbrew/bin/brew
+      register: brew_check
+
+    - name: Download Homebrew install script
+      when: not brew_check.stat.exists
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+        dest: /tmp/brew_install.sh
+        mode: '0755'
+
+    - name: Install Homebrew
+      when: not brew_check.stat.exists
+      ansible.builtin.shell: |
+        /bin/bash /tmp/brew_install.sh
+      become_user: "{{ remote_regular_user }}"
+
+    - name: Add Homebrew to PATH
+      when: not brew_check.stat.exists
+      ansible.builtin.lineinfile:
+        path: "/home/{{ remote_regular_user }}/.zshrc"
+        line: 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"'
+        create: yes
+        owner: "{{ remote_regular_user }}"
+
+    - name: Install Homebrew packages
+      ansible.builtin.shell: |
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+        brew install {{ item }}
+      loop:
+        - ripgrep
+        - aichat
+        - bat
+        - eza
+        - watchexec
+        - lazygit
+        - delta
+        - bottom
+        - fzf
+        - pueue
+        - atuin
+        - gum
+        - zellij
+        - just
+      become_user: "{{ remote_regular_user }}"
+      register: brew_install
+      changed_when: brew_install.stdout is search('Installing')
