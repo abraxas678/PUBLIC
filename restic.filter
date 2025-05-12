@@ -1,0 +1,19 @@
+# Restic exclude filter list
+# This list was derived from an rclone filter.
+
+# === Folder Exclusions ===
+**/cache/**
+**/.cache/**
+**/.wine/**
+**/venvs/**
+**/temp_files/**
+**/tmp/**
+**/.ssh/id**
+**/.git/**
+**/google-chrome/**
+**/microsoft-edge/**
+
+# === File Exclusions ===
+**/Thumbs.db
+**/.DS_Store
+**/~$*
