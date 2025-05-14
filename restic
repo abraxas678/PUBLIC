@@ -1,1 +1,0 @@
-restic -r /mnt/pve2/restic15/ backup /mnt/pve4 --tag PVE4,seagate5 --iexclude-file=/root/restic.filter --exclude-caches --password-command="echo 00990099"
