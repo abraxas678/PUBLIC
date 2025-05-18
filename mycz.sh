@@ -894,18 +894,17 @@ case "$COMMAND" in
       fi 
 
       if [[ "$item_basename" == *.age ]]; then 
-        local decrypted_target_item_path="${target_item_path_in_home%.age}"
-        local relative_decrypted_target_path="${relative_path%.age}"
+        decrypted_target_item_path="${target_item_path_in_home%.age}"
+        relative_decrypted_target_path="${relative_path%.age}"
         sub_item "Decrypting '$relative_path' -> '$relative_decrypted_target_path'"
         # Prepare age command arguments safely
-        local age_decrypt_cmd=("age" "-d")
+        age_decrypt_cmd=("age" "-d")
         if [ -n "$INTERNAL_AGE_IDENTITY_FILE" ]; then
           age_decrypt_cmd+=("-i" "$INTERNAL_AGE_IDENTITY_FILE")
         fi
         age_decrypt_cmd+=("-o" "$decrypted_target_item_path" "$source_item")
         # Execute and check status
         if "${age_decrypt_cmd[@]}"; then
-          # success "Decrypted '$relative_path' successfully." # Too verbose?
           : # No output on success unless needed
         else
           error "Failed to decrypt file '$source_item'."
@@ -947,9 +946,17 @@ case "$COMMAND" in
             current_branch_for_pull="$remote_default_branch"
             info "Using remote default branch for pull: '$remote_default_branch'"
         else 
-            # Fallback guess if remote default unknown
-            current_branch_for_pull="main" 
-            info "Could not determine remote default branch, attempting pull for 'main'."
+            # Fallback: check if main exists, else use master
+            if git -C "$MYCZ_DIR" show-ref --verify --quiet refs/heads/main; then
+                current_branch_for_pull="main"
+                info "Could not determine remote default branch, using local 'main'."
+            elif git -C "$MYCZ_DIR" show-ref --verify --quiet refs/heads/master; then
+                current_branch_for_pull="master"
+                info "Could not determine remote default branch, using local 'master'."
+            else
+                current_branch_for_pull="main" 
+                warning "Could not determine any branch, defaulting to 'main'."
+            fi
         fi
     else
          info "Attempting pull for current local branch: '$current_branch_for_pull'."
@@ -1038,10 +1045,10 @@ case "$COMMAND" in
       fi 
 
       if [[ "$item_basename" == *.age ]]; then 
-        local decrypted_target_item_path="${target_item_path_in_home%.age}"
-        local relative_decrypted_target_path="${relative_path%.age}"
+        decrypted_target_item_path="${target_item_path_in_home%.age}"
+        relative_decrypted_target_path="${relative_path%.age}"
         sub_item "Decrypting '$relative_path' -> '$relative_decrypted_target_path'"
-        local age_decrypt_cmd=("age" "-d")
+        age_decrypt_cmd=("age" "-d")
         if [ -n "$INTERNAL_AGE_IDENTITY_FILE" ]; then 
           age_decrypt_cmd+=("-i" "$INTERNAL_AGE_IDENTITY_FILE")
         fi
